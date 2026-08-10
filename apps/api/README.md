@@ -4,7 +4,7 @@
 
 ## 环境
 
-- Python **3.12.x**（见仓库 `docs/ENVIRONMENT.md`、根目录 `.python-version`）
+- Python **3.12.x**（见仓库 `docs/ENVIRONMENT.md`）
 - 依赖声明：`pyproject.toml`；锁定：`requirements.lock`
 
 ## 启动

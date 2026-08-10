@@ -11,8 +11,6 @@
 | npm | 随 Node 20 自带即可 | 锁定用 `package-lock.json`（有则必须提交） |
 | Docker 基础镜像 | `python:3.12-slim` / `node:20-alpine` | 与上表一致 |
 
-仓库根目录 `.python-version` 写明 `3.12`（pyenv / asdf 会读取）。
-
 ### 检查 Python 版本
 
 ```bash
