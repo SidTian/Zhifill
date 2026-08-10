@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "智填 ZhiFill",
-  description: "个人知识图谱自动填表 — 阶段 0 骨架",
+  description: "个人知识图谱自动填表 — 前端演示",
 };
 
 export default function RootLayout({
@@ -19,9 +19,10 @@ export default function RootLayout({
           <Link className="brand" href="/">
             智填 ZhiFill
           </Link>
-          <Link href="/settings">设置</Link>
+          <span className="mock-pill">演示版</span>
           <Link href="/knowledge">知识库</Link>
           <Link href="/forms">填表</Link>
+          <Link href="/settings">设置</Link>
         </nav>
         <main>{children}</main>
       </body>

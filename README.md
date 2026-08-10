@@ -59,14 +59,25 @@ uvicorn app.main:app --reload --port 8000
 - Health: `GET http://127.0.0.1:8000/api/health`
 - 业务路由当前可能返回 **501**（待各方向实现）
 
-### Web
+### Web（纯前端演示，可不启 API）
+
+详细说明见 **[apps/web/README.md](apps/web/README.md)**。
 
 ```bash
 cd apps/web
-node -v    # v20.x
+node -v          # 需要 v20.x
 npm install
-npm run dev
+npm run dev      # http://127.0.0.1:3000
 ```
+
+| 命令 | 说明 |
+|------|------|
+| `npm run dev` | 开发热更新 |
+| `npm run build` | 生产构建 |
+| `npm run start` | 生产模式启动（需先 build） |
+
+演示路径：首页 → 设置 / 知识库 / 填表 → 打开 `job-demo-001` 改值确认并导出。  
+数据在浏览器 localStorage，**不连后端**；设置页可重置演示数据。
 
 ### Docker（可选）
 
