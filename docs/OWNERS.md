@@ -18,7 +18,7 @@
 | 编号 | 方向 | 负责人（GitHub） | 负责目录 |
 |------|------|------------------|----------|
 | **1.1** | 资料统一表示（历史资料） | _待填写_ | `apps/api/app/modules/ingest/` |
-| **1.2** | 任务文档结构解析 | _待填写_ | `apps/api/app/modules/form_structure/` |
+| **1.2** | 任务文档结构解析 | _宋瑞_ | `apps/api/app/modules/form_structure/` |
 | **1.3** | 语义理解与任务需求建模 | _待填写_ | `apps/api/app/modules/task_semantics/` |
 | **2.1** | 知识抽取与知识图谱（含 Schema） | _待填写_ | `apps/api/app/modules/rag/` |
 | **2.2** | Agent 智能推理与填报生成 | _待填写_ | `apps/api/app/modules/fill/`（Agent/填写逻辑） |
