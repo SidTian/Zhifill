@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auto-form-fill.local/schemas/v0/document_bundle.schema.json",
+  "title": "DocumentBundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["doc_id", "title", "media_type", "text", "metadata", "warnings"],
+  "properties": {
+    "doc_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string" },
+    "media_type": { "type": "string" },
+    "text": { "type": "string", "minLength": 1 },
+    "chunks_hint": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["text"],
+        "properties": {
+          "text": { "type": "string" },
+          "heading": { "type": ["string", "null"] },
+          "page": { "type": ["integer", "null"] },
+          "sheet": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "tables": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["headers", "rows"],
+        "properties": {
+          "name": { "type": ["string", "null"] },
+          "headers": { "type": "array", "items": { "type": "string" } },
+          "rows": {
+            "type": "array",
+            "items": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["filename", "mime", "sha256"],
+      "properties": {
+        "filename": { "type": "string" },
+        "mime": { "type": "string" },
+        "sha256": { "type": "string" },
+        "page_count": { "type": ["integer", "null"] },
+        "sheet_names": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "created_at": { "type": ["string", "null"] }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  }
+}

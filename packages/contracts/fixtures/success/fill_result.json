@@ -1,0 +1,39 @@
+{
+  "job_id": "job_001",
+  "fields": [
+    {
+      "id": "f_name",
+      "name": "姓名",
+      "field_type": "text",
+      "value": "张三",
+      "original_value": null,
+      "required": true,
+      "confidence": 0.92,
+      "sources": [
+        {
+          "doc_id": "doc_resume_001",
+          "snippet": "张三，男，手机 13800138000。",
+          "score": 0.88
+        }
+      ],
+      "status": "suggested",
+      "layout": "label_value",
+      "row_group_id": null,
+      "row_index": null,
+      "column_key": null,
+      "locator": {
+        "kind": "excel_cell",
+        "sheet": "Sheet1",
+        "row": 2,
+        "col": 2,
+        "merged_range": null
+      },
+      "notes": null
+    }
+  ],
+  "stats": {
+    "filled": 1,
+    "empty": 0,
+    "low_confidence": 0
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "f_name",
+  "name": "姓名",
+  "field_type": "text",
+  "value": null,
+  "original_value": null,
+  "required": true,
+  "confidence": null,
+  "sources": [],
+  "status": "empty",
+  "layout": "label_value",
+  "row_group_id": null,
+  "row_index": null,
+  "column_key": null,
+  "locator": {
+    "kind": "excel_cell",
+    "sheet": "Sheet1",
+    "row": 2,
+    "col": 2,
+    "merged_range": null
+  },
+  "notes": null
+}

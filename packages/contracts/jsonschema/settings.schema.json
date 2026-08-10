@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auto-form-fill.local/schemas/v0/settings.schema.json",
+  "title": "Settings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["llm_provider", "llm_api_base", "llm_model", "embedding_model"],
+  "properties": {
+    "llm_provider": {
+      "type": "string",
+      "enum": ["openai_compatible", "ollama"]
+    },
+    "llm_api_base": { "type": "string" },
+    "llm_api_key": { "type": ["string", "null"] },
+    "llm_model": { "type": "string" },
+    "embedding_model": { "type": "string" },
+    "extract_model": { "type": ["string", "null"] },
+    "query_model": { "type": ["string", "null"] },
+    "max_table_rows": { "type": "integer", "minimum": 1, "default": 50 },
+    "summary_language": { "type": "string", "default": "Chinese" }
+  }
+}

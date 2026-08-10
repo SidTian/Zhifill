@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auto-form-fill.local/schemas/v0/form_job.schema.json",
+  "title": "FormJob",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "filename",
+    "format",
+    "status",
+    "fields",
+    "created_at",
+    "updated_at",
+    "error"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "filename": { "type": "string" },
+    "format": { "type": "string", "enum": ["xlsx", "docx", "pdf"] },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "parsing",
+        "filling",
+        "review",
+        "exporting",
+        "done",
+        "failed"
+      ]
+    },
+    "fields": {
+      "type": "array",
+      "items": { "$ref": "form_field.schema.json" }
+    },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "error": { "type": ["string", "null"] },
+    "progress": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "step": { "type": "string" },
+        "current": { "type": "integer" },
+        "total": { "type": "integer" }
+      }
+    }
+  }
+}

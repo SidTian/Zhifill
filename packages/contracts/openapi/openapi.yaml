@@ -1,0 +1,277 @@
+openapi: 3.1.0
+info:
+  title: Auto Form Fill API
+  version: 0.1.0
+  description: |
+    Phase 0 skeleton. Business endpoints return 501 until modules are implemented.
+servers:
+  - url: http://127.0.0.1:8000
+    description: local
+paths:
+  /api/health:
+    get:
+      operationId: health
+      tags: [system]
+      summary: Liveness
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  version:
+                    type: string
+
+  /api/settings:
+    get:
+      operationId: getSettings
+      tags: [settings]
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+    put:
+      operationId: putSettings
+      tags: [settings]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Settings"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/knowledge/upload:
+    post:
+      operationId: uploadKnowledge
+      tags: [knowledge]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+                doc_id:
+                  type: string
+                  description: Optional stable id for reindex
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/knowledge:
+    get:
+      operationId: listKnowledge
+      tags: [knowledge]
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/knowledge/{id}:
+    get:
+      operationId: getKnowledge
+      tags: [knowledge]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+    delete:
+      operationId: deleteKnowledge
+      tags: [knowledge]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/knowledge/{id}/status:
+    get:
+      operationId: knowledgeStatus
+      tags: [knowledge]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/knowledge/query:
+    post:
+      operationId: queryKnowledge
+      tags: [knowledge]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RagQueryRequest"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/upload:
+    post:
+      operationId: uploadForm
+      tags: [forms]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/jobs:
+    get:
+      operationId: listFormJobs
+      tags: [forms]
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/jobs/{id}:
+    get:
+      operationId: getFormJob
+      tags: [forms]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/jobs/{id}/fill:
+    post:
+      operationId: fillFormJob
+      tags: [forms]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/jobs/{id}/fields:
+    patch:
+      operationId: patchFormFields
+      tags: [forms]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [fields]
+              properties:
+                fields:
+                  type: array
+                  items:
+                    type: object
+                    required: [id]
+                    properties:
+                      id: { type: string }
+                      value: { type: ["string", "null"] }
+                      status:
+                        type: string
+                        enum: [empty, suggested, confirmed, rejected, manual]
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/jobs/{id}/export:
+    post:
+      operationId: exportFormJob
+      tags: [forms]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+  /api/forms/jobs/{id}/download:
+    get:
+      operationId: downloadFormJob
+      tags: [forms]
+      parameters:
+        - $ref: "#/components/parameters/Id"
+      responses:
+        "501":
+          $ref: "#/components/responses/NotImplemented"
+
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+  responses:
+    NotImplemented:
+      description: Module not implemented (Phase 0)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorBody"
+
+  schemas:
+    ErrorBody:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string, example: not_implemented }
+        message: { type: string }
+        detail: {}
+
+    Settings:
+      type: object
+      required: [llm_provider, llm_api_base, llm_model, embedding_model]
+      properties:
+        llm_provider:
+          type: string
+          enum: [openai_compatible, ollama]
+        llm_api_base: { type: string }
+        llm_api_key: { type: ["string", "null"] }
+        llm_model: { type: string }
+        embedding_model: { type: string }
+        extract_model: { type: ["string", "null"] }
+        query_model: { type: ["string", "null"] }
+        max_table_rows: { type: integer, default: 50 }
+        summary_language: { type: string, default: Chinese }
+
+    RagQueryRequest:
+      type: object
+      required: [query]
+      properties:
+        query: { type: string }
+        mode:
+          type: string
+          enum: [mix, hybrid, local, global, naive]
+          default: mix
+        subject_hint:
+          type: string
+          enum: [self]
+          default: self
+        response_format:
+          type: string
+          enum: [text, json_object]
+          default: text

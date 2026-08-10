@@ -1,0 +1,12 @@
+{
+  "answer": "根据知识库，姓名为张三。",
+  "contexts": [
+    {
+      "content": "张三，男，手机 13800138000。",
+      "doc_id": "doc_resume_001",
+      "score": 0.9,
+      "entities": ["张三"]
+    }
+  ],
+  "raw": null
+}

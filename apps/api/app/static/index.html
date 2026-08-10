@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>智填 ZhiFill</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f6f9;
+        --card: #fff;
+        --text: #1a1d23;
+        --muted: #5c6573;
+        --line: #e2e6ee;
+        --blue: #2563eb;
+        --blue-soft: #dbeafe;
+        --green: #059669;
+        --green-soft: #d1fae5;
+        --amber: #b45309;
+        --amber-soft: #fef3c7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "PingFang SC", "Noto Sans SC", sans-serif;
+        background: radial-gradient(1200px 600px at 10% -10%, #dbeafe 0%, transparent 50%),
+          radial-gradient(900px 500px at 100% 0%, #e0e7ff 0%, transparent 45%), var(--bg);
+        color: var(--text);
+        line-height: 1.55;
+        min-height: 100vh;
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 3rem;
+      }
+      header {
+        margin-bottom: 1.5rem;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        background: var(--amber-soft);
+        color: var(--amber);
+        margin-bottom: 0.75rem;
+      }
+      h1 {
+        margin: 0 0 0.4rem;
+        font-size: 2rem;
+        letter-spacing: -0.02em;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0;
+        font-size: 1.05rem;
+      }
+      .grid {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+      @media (min-width: 720px) {
+        .grid.two {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.15rem 1.25rem;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      }
+      .card h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1rem;
+      }
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+      .dot {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: #94a3b8;
+      }
+      .dot.ok {
+        background: var(--green);
+        box-shadow: 0 0 0 3px var(--green-soft);
+      }
+      .dot.err {
+        background: #dc2626;
+      }
+      ul {
+        margin: 0.4rem 0 0;
+        padding-left: 1.15rem;
+        color: var(--muted);
+      }
+      li {
+        margin: 0.25rem 0;
+      }
+      a {
+        color: var(--blue);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 0.75rem;
+      }
+      .btn {
+        display: inline-block;
+        padding: 0.55rem 0.9rem;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+        font-weight: 600;
+        font-size: 0.92rem;
+      }
+      .btn.primary {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+      }
+      .btn.primary:hover {
+        filter: brightness(1.05);
+        text-decoration: none;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 0.86em;
+        background: #eef2f7;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+      .flow {
+        font-size: 0.92rem;
+        color: var(--muted);
+      }
+      .roles {
+        display: grid;
+        gap: 0.45rem;
+        font-size: 0.92rem;
+      }
+      .roles div {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.4rem 0.5rem;
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+      .tag {
+        flex: 0 0 auto;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--blue);
+        background: var(--blue-soft);
+        padding: 0.1rem 0.4rem;
+        border-radius: 6px;
+        min-width: 2.4rem;
+        text-align: center;
+      }
+      footer {
+        margin-top: 1.5rem;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="badge">第一阶段 · 骨架可运行</div>
+        <h1>智填 ZhiFill</h1>
+        <p class="sub">个人知识图谱自动填表 — 历史资料 → 图谱 → Agent 填报 → 预览回填</p>
+      </header>
+
+      <div class="grid two">
+        <section class="card">
+          <h2>服务状态</h2>
+          <div class="status" id="health-status">
+            <span class="dot" id="health-dot"></span>
+            <span id="health-text">检查中…</span>
+          </div>
+          <p class="flow" id="health-detail" style="margin: 0.6rem 0 0"></p>
+        </section>
+
+        <section class="card">
+          <h2>快捷入口</h2>
+          <div class="links">
+            <a class="btn primary" href="/docs">API 文档 Swagger</a>
+            <a class="btn" href="/redoc">ReDoc</a>
+            <a class="btn" href="/api/health">健康检查 JSON</a>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" style="margin-top: 1rem">
+        <h2>系统链路（第一阶段）</h2>
+        <p class="flow">
+          <strong>1.1</strong> 资料统一表示 →
+          <strong>2.1</strong> Schema / 知识图谱 →
+          <strong>1.2</strong> 任务结构 →
+          <strong>1.3</strong> 语义 TaskSpec →
+          <strong>2.2</strong> Agent 填报 →
+          <strong>统筹</strong> 前端预览 + 回填下载
+        </p>
+        <div class="roles" style="margin-top: 0.85rem">
+          <div><span class="tag">SidTian</span> 统筹 · 前端 · 回填 · 集成</div>
+          <div><span class="tag">1.1</span> 历史资料统一表示</div>
+          <div><span class="tag">1.2</span> 任务文档结构解析</div>
+          <div><span class="tag">1.3</span> 语义理解与任务需求</div>
+          <div><span class="tag">2.1</span> 知识抽取与图谱</div>
+          <div><span class="tag">2.2</span> Agent 推理与生成</div>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 1rem">
+        <h2>说明</h2>
+        <ul>
+          <li>当前为契约优先骨架：多数业务接口返回 <code>501 Not Implemented</code> 属正常。</li>
+          <li>完整前端（Next.js）默认在 <code>http://127.0.0.1:3000</code>，需另开终端 <code>npm run dev</code>。</li>
+          <li>协作文档见仓库 <code>docs/DIVISION.md</code>。</li>
+        </ul>
+      </section>
+
+      <footer>智填 ZhiFill · 本地 API · 端口 8000</footer>
+    </div>
+
+    <script>
+      async function checkHealth() {
+        const dot = document.getElementById("health-dot");
+        const text = document.getElementById("health-text");
+        const detail = document.getElementById("health-detail");
+        try {
+          const res = await fetch("/api/health");
+          const data = await res.json();
+          if (res.ok && data.status === "ok") {
+            dot.className = "dot ok";
+            text.textContent = "API 运行正常";
+            detail.innerHTML =
+              "version: <code>" +
+              (data.version || "-") +
+              "</code> · phase: <code>" +
+              (data.phase || "-") +
+              "</code>";
+          } else {
+            throw new Error("unexpected response");
+          }
+        } catch (e) {
+          dot.className = "dot err";
+          text.textContent = "无法连接健康检查";
+          detail.textContent = String(e.message || e);
+        }
+      }
+      checkHealth();
+    </script>
+  </body>
+</html>

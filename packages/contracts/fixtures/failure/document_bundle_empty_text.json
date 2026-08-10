@@ -1,0 +1,12 @@
+{
+  "doc_id": "bad_001",
+  "title": "empty",
+  "media_type": "text/plain",
+  "text": "",
+  "metadata": {
+    "filename": "empty.txt",
+    "mime": "text/plain",
+    "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  },
+  "warnings": ["text must be non-empty — this fixture must FAIL validation"]
+}

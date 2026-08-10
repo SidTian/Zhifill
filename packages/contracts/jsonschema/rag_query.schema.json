@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auto-form-fill.local/schemas/v0/rag_query.schema.json",
+  "title": "RagIO",
+  "$defs": {
+    "UpsertDocumentRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle", "mode"],
+      "properties": {
+        "bundle": { "$ref": "document_bundle.schema.json" },
+        "mode": { "type": "string", "enum": ["insert", "reindex"] }
+      }
+    },
+    "UpsertDocumentResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc_id", "status"],
+      "properties": {
+        "doc_id": { "type": "string" },
+        "status": { "type": "string", "enum": ["ready", "failed"] },
+        "stats": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "entities_upserted": { "type": "integer" },
+            "relations_upserted": { "type": "integer" },
+            "chunks": { "type": "integer" }
+          }
+        },
+        "error": { "type": ["string", "null"] }
+      }
+    },
+    "DeleteDocumentRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["doc_id"],
+      "properties": {
+        "doc_id": { "type": "string" }
+      }
+    },
+    "RagQueryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["query"],
+      "properties": {
+        "query": { "type": "string", "minLength": 1 },
+        "mode": {
+          "type": "string",
+          "enum": ["mix", "hybrid", "local", "global", "naive"],
+          "default": "mix"
+        },
+        "subject_hint": {
+          "type": "string",
+          "enum": ["self"],
+          "default": "self"
+        },
+        "response_format": {
+          "type": "string",
+          "enum": ["text", "json_object"],
+          "default": "text"
+        }
+      }
+    },
+    "RagQueryResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["answer", "contexts"],
+      "properties": {
+        "answer": { "type": "string" },
+        "contexts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["content"],
+            "properties": {
+              "content": { "type": "string" },
+              "doc_id": { "type": ["string", "null"] },
+              "score": { "type": ["number", "null"] },
+              "entities": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "raw": {}
+      }
+    }
+  }
+}

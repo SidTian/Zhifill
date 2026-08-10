@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+
+# Node
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+npm-debug.log*
+
+# Env & secrets
+.env
+.env.local
+*.pem
+
+# Runtime data
+data/knowledge/raw/**
+!data/knowledge/raw/.gitkeep
+data/forms/raw/**
+!data/forms/raw/.gitkeep
+data/exports/**
+!data/exports/.gitkeep
+data/lightrag/**
+!data/lightrag/.gitkeep
+data/*.db
+data/*.sqlite
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Docker
+docker-compose.override.yml

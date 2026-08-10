@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auto-form-fill.local/schemas/v0/common.schema.json",
+  "title": "CommonTypes",
+  "$defs": {
+    "FileRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "filename", "mime", "sha256", "size"],
+      "properties": {
+        "path": { "type": "string" },
+        "filename": { "type": "string" },
+        "mime": { "type": "string" },
+        "sha256": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "size": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "JobStatus": {
+      "type": "string",
+      "enum": ["pending", "running", "succeeded", "failed"]
+    },
+    "Confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snippet"],
+      "properties": {
+        "doc_id": { "type": ["string", "null"] },
+        "snippet": { "type": "string" },
+        "score": { "type": ["number", "null"] }
+      }
+    },
+    "ErrorBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" },
+        "detail": {}
+      }
+    }
+  }
+}

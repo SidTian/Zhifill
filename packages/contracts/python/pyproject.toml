@@ -1,0 +1,16 @@
+[project]
+name = "aff-contracts"
+version = "0.1.0"
+description = "智填 ZhiFill 契约类型（Pydantic）"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+  "pydantic>=2.6.0,<3",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aff_contracts*"]
