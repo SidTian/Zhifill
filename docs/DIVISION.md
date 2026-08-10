@@ -84,7 +84,7 @@
 |------|------|--------|---------------------|
 | **统筹** | 规划 + 前端 + 自动回填 + 系统集成 | SidTian | `docs/`、`packages/contracts`（把关）<br>`apps/web/`<br>`apps/api/app/modules/export/`<br>`apps/api/app/api/`、`orchestrator/`、`core/`<br>`docker-compose.yml` |
 | **1.1** | 资料统一表示（历史资料输入层） | _待填写_ | `apps/api/app/modules/ingest/` |
-| **1.2** | 用户任务文档结构解析 | _待填写_ | `apps/api/app/modules/form_structure/`（新建） |
+| **1.2** | 用户任务文档结构解析 | _宋瑞_ | `apps/api/app/modules/form_structure/`（新建） |
 | **1.3** | 表格/文档语义理解与任务需求建模 | _待填写_ | `apps/api/app/modules/task_semantics/`（新建） |
 | **2.1** | 知识抽取与知识图谱构建 | _待填写_ | `apps/api/app/modules/rag/` + Schema 文档 |
 | **2.2** | Agent 智能推理与知识增强生成 | _待填写_ | `apps/api/app/modules/fill/`（填写/Agent；不含 1.2 结构解析） |
