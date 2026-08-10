@@ -42,5 +42,8 @@ data/*.sqlite
 .vscode/
 *.swp
 
+# Kilo 本机配置 / Agent Manager worktree（勿提交）
+.kilo/
+
 # Docker
 docker-compose.override.yml
