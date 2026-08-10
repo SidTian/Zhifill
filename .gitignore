@@ -22,11 +22,13 @@ npm-debug.log*
 .env.local
 *.pem
 
-# Runtime data
+# Runtime data（上传落盘与索引，勿提交）
 data/knowledge/raw/**
 !data/knowledge/raw/.gitkeep
+data/knowledge/index.json
 data/forms/raw/**
 !data/forms/raw/.gitkeep
+data/forms/index.json
 data/exports/**
 !data/exports/.gitkeep
 data/lightrag/**

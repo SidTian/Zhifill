@@ -67,12 +67,15 @@ def test_health_endpoint() -> None:
     assert r.json()["status"] == "ok"
 
 
-def test_business_routes_are_501() -> None:
+def test_unimplemented_routes_are_501() -> None:
     from fastapi.testclient import TestClient
 
     from app.main import app
 
     client = TestClient(app)
     assert client.get("/api/settings").status_code == 501
-    assert client.get("/api/knowledge").status_code == 501
-    assert client.get("/api/forms/jobs").status_code == 501
+    assert client.post("/api/knowledge/query").status_code == 501
+    # upload/list 已由统筹 storage 实现
+    assert client.get("/api/knowledge").status_code == 200
+    assert client.get("/api/forms/jobs").status_code == 200
+    assert client.post("/api/forms/jobs/x/fill").status_code == 501

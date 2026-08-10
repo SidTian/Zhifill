@@ -75,11 +75,32 @@ npx next dev -p 3001
 
 ## 数据说明
 
-- 全部走前端假数据：`src/lib/mock-data.ts` + `src/lib/mock-store.ts`
-- 持久化在浏览器 **localStorage**（键前缀 `zhifill.mock.*`）
-- 刷新页面数据仍在；换浏览器/清站点数据会丢
-- 设置页「重置演示数据」可恢复初始样例
-- **不需要**启动 `apps/api`，也不请求后端接口
+### 上传落盘（需启动 API）
+
+启动后端后，前端上传会调用真实接口，**原文件不转换**，按原始字节保存：
+
+| 类型 | 接口 | 磁盘路径 |
+|------|------|----------|
+| 知识库 | `POST /api/knowledge/upload` | `data/knowledge/raw/{id}/{filename}` |
+| 填表任务 | `POST /api/forms/upload` | `data/forms/raw/{id}/{filename}` |
+
+元数据索引：`data/knowledge/index.json`、`data/forms/index.json`。  
+列表/删除也走 API。API 不可用时前端会回退到 localStorage 演示。
+
+```bash
+# 终端 1
+cd apps/api && source .venv/bin/activate
+uvicorn app.main:app --reload --port 8000
+
+# 终端 2
+cd apps/web && npm run dev
+```
+
+### 其它演示数据
+
+- 填写建议 / 问答等仍用前端假数据：`src/lib/mock-data.ts`
+- 字段编辑状态可存 **localStorage**（`zhifill.mock.*`）
+- 设置页「重置演示数据」只清浏览器本地缓存，**不会**删服务器 `data/` 文件
 
 ## 目录结构（前端相关）
 

@@ -1,4 +1,9 @@
-export type JobStatus = "pending" | "running" | "succeeded" | "failed";
+export type JobStatus =
+  | "pending"
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "stored";
 
 export type FieldStatus =
   | "empty"
@@ -43,9 +48,13 @@ export type KnowledgeDoc = {
   title: string;
   filename: string;
   media_type: string;
-  status: JobStatus;
+  status: JobStatus | string;
   updated_at: string;
   size: number;
+  path?: string;
+  sha256?: string;
+  note?: string;
+  source?: "server" | "local";
 };
 
 export type FormJob = {
@@ -53,10 +62,15 @@ export type FormJob = {
   title: string;
   filename: string;
   format: "docx" | "xlsx" | "pdf";
-  status: JobStatus;
+  status: JobStatus | string;
   created_at: string;
   step: "uploaded" | "parsed" | "filled" | "exported";
   fields: FormField[];
+  path?: string;
+  sha256?: string;
+  size?: number;
+  note?: string;
+  source?: "server" | "local";
 };
 
 export type AppSettings = {

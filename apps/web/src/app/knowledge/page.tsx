@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { API_BASE } from "@/lib/api";
 import { Badge, Button, Empty, Spinner, StatusDot } from "@/components/ui";
 import { formatBytes, formatTime } from "@/lib/mock-data";
 import { mockApi } from "@/lib/mock-store";
@@ -15,17 +16,17 @@ export default function KnowledgePage() {
   const [toast, setToast] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const reload = useCallback(() => {
-    setDocs(mockApi.listKnowledge());
+  const reload = useCallback(async () => {
+    setDocs(await mockApi.listKnowledge());
   }, []);
 
   useEffect(() => {
-    reload();
+    void reload();
   }, [reload]);
 
   useEffect(() => {
     if (!toast) return;
-    const t = setTimeout(() => setToast(null), 2400);
+    const t = setTimeout(() => setToast(null), 2800);
     return () => clearTimeout(t);
   }, [toast]);
 
@@ -33,9 +34,15 @@ export default function KnowledgePage() {
     if (!file) return;
     setBusy(true);
     try {
-      await mockApi.uploadKnowledge(file);
-      reload();
-      setToast(`已入库：${file.name}`);
+      const doc = await mockApi.uploadKnowledge(file);
+      await reload();
+      if (doc.source === "server") {
+        setToast(`已保存到服务器: ${doc.path ?? doc.filename}`);
+      } else {
+        setToast(`API 不可用，仅本地记录: ${doc.filename}`);
+      }
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "上传失败");
     } finally {
       setBusy(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -46,7 +53,7 @@ export default function KnowledgePage() {
     setBusy(true);
     try {
       await mockApi.deleteKnowledge(id);
-      reload();
+      await reload();
       setToast("已删除");
     } finally {
       setBusy(false);
@@ -69,9 +76,12 @@ export default function KnowledgePage() {
       <div className="page-head">
         <div>
           <h1>知识库</h1>
-          <p className="lead">上传历史资料，探测个人知识问答</p>
+          <p className="lead">
+            上传历史资料；原文件保存到后端{" "}
+            <code>data/knowledge/raw/&#123;id&#125;/</code>
+          </p>
         </div>
-        <Badge tone="info">本地演示</Badge>
+        <Badge tone="info">API {API_BASE}</Badge>
       </div>
 
       <section className="card">
@@ -82,15 +92,15 @@ export default function KnowledgePage() {
             type="file"
             accept=".pdf,.docx,.doc,.md,.txt,.xlsx,.xls,.png,.jpg"
             disabled={busy}
-            onChange={(e) => onUpload(e.target.files?.[0] ?? null)}
+            onChange={(e) => void onUpload(e.target.files?.[0] ?? null)}
           />
           {busy ? (
-            <Spinner label="解析并写入知识库…" />
+            <Spinner label="上传并落盘…" />
           ) : (
             <>
-              点击选择文件，或拖拽到此处
+              点击选择文件
               <div className="list-meta" style={{ marginTop: "0.35rem" }}>
-                支持 pdf / docx / md / txt / xlsx
+                保持原始格式，不做解析转换（1.1 后续处理）
               </div>
             </>
           )}
@@ -100,20 +110,29 @@ export default function KnowledgePage() {
       <section className="card">
         <h2>已入库文档（{docs.length}）</h2>
         {docs.length === 0 ? (
-          <Empty>暂无文档，先上传一个试试</Empty>
+          <Empty>暂无文档</Empty>
         ) : (
           <div>
             {docs.map((d) => (
               <div className="list-item" key={d.id}>
                 <div>
                   <div>
-                    <StatusDot status={d.status} />
-                    <strong>{d.title}</strong>
+                    <StatusDot status={d.status === "stored" ? "succeeded" : d.status} />
+                    <strong>{d.title}</strong>{" "}
+                    {d.source === "server" ? (
+                      <Badge tone="ok">已落盘</Badge>
+                    ) : (
+                      <Badge tone="warn">本地</Badge>
+                    )}
                   </div>
                   <div className="list-meta">
-                    {d.filename} · {formatBytes(d.size)} ·{" "}
-                    {formatTime(d.updated_at)}
+                    {d.filename} · {formatBytes(d.size)} · {formatTime(d.updated_at)}
                   </div>
+                  {d.path ? (
+                    <div className="list-meta">
+                      path: <code>{d.path}</code>
+                    </div>
+                  ) : null}
                   <div className="list-meta">
                     id: <code>{d.id}</code>
                   </div>
@@ -122,7 +141,7 @@ export default function KnowledgePage() {
                   variant="danger"
                   className="btn-sm"
                   disabled={busy}
-                  onClick={() => onDelete(d.id)}
+                  onClick={() => void onDelete(d.id)}
                 >
                   删除
                 </Button>
@@ -133,7 +152,7 @@ export default function KnowledgePage() {
       </section>
 
       <section className="card">
-        <h2>知识问答</h2>
+        <h2>知识问答（演示假数据）</h2>
         <div className="row" style={{ alignItems: "stretch" }}>
           <input
             style={{ flex: 1, minWidth: 200 }}

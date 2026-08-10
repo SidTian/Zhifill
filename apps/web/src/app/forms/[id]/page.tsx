@@ -34,8 +34,8 @@ export default function FormJobPage() {
   const [toast, setToast] = useState<string | null>(null);
   const [missing, setMissing] = useState(false);
 
-  const reload = useCallback(() => {
-    const j = mockApi.getJob(id);
+  const reload = useCallback(async () => {
+    const j = await mockApi.getJobAsync(id);
     if (!j) {
       setMissing(true);
       setJob(null);
@@ -48,7 +48,7 @@ export default function FormJobPage() {
   }, [id]);
 
   useEffect(() => {
-    reload();
+    void reload();
   }, [reload]);
 
   useEffect(() => {
@@ -134,7 +134,7 @@ export default function FormJobPage() {
       a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
-      reload();
+      await reload();
       setToast(`已下载：${filename}`);
     } catch (e) {
       setToast(e instanceof Error ? e.message : "导出失败");
@@ -177,6 +177,12 @@ export default function FormJobPage() {
           <h1>{job.title}</h1>
           <p className="lead">
             {job.filename} · {formatTime(job.created_at)}
+            {job.path ? (
+              <>
+                <br />
+                存储: <code>{job.path}</code>
+              </>
+            ) : null}
           </p>
           <div className="steps">
             <span className={stepClass(job.step, "uploaded")}>上传</span>
