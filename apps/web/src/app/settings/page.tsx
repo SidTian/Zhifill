@@ -13,8 +13,22 @@ export default function SettingsPage() {
   const [msg, setMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    setForm(mockApi.getSettings());
-    setLoading(false);
+    let cancelled = false;
+    (async () => {
+      try {
+        const s = await mockApi.getSettings();
+        if (!cancelled) setForm(s);
+      } catch (e) {
+        if (!cancelled) {
+          setMsg(e instanceof Error ? e.message : "加载设置失败");
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function onSave(e: React.FormEvent) {
@@ -22,8 +36,15 @@ export default function SettingsPage() {
     setSaving(true);
     setMsg(null);
     try {
-      await mockApi.saveSettings(form);
-      setMsg("设置已保存");
+      const saved = await mockApi.saveSettings(form);
+      setForm(saved);
+      setMsg("设置已保存到服务端 data/settings.json");
+    } catch (err) {
+      setMsg(
+        err instanceof Error
+          ? `保存失败：${err.message}（请确认 API 已启动且 CORS/地址正确）`
+          : "保存失败",
+      );
     } finally {
       setSaving(false);
     }
@@ -32,7 +53,7 @@ export default function SettingsPage() {
   function onReset() {
     mockApi.resetAll();
     setForm(DEFAULT_SETTINGS);
-    setMsg("已重置演示数据（设置 / 知识库 / 任务）");
+    setMsg("已清除浏览器本地演示缓存（服务端 settings.json 未删除）");
   }
 
   if (loading) {
@@ -50,7 +71,7 @@ export default function SettingsPage() {
           <h1>设置</h1>
           <p className="lead">LLM / Embedding 与演示数据</p>
         </div>
-        <Badge tone="info">本地演示</Badge>
+        <Badge tone="info">服务端配置</Badge>
       </div>
 
       <form className="card" onSubmit={onSave}>

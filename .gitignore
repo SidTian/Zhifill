@@ -22,7 +22,8 @@ npm-debug.log*
 .env.local
 *.pem
 
-# Runtime data（上传落盘与索引，勿提交）
+# Runtime data（上传落盘与索引、本机设置，勿提交）
+data/settings.json
 data/knowledge/raw/**
 !data/knowledge/raw/.gitkeep
 data/knowledge/index.json

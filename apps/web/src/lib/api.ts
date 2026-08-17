@@ -3,6 +3,19 @@
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8000";
 
+/** 与 packages/contracts Settings 对齐 */
+export type ApiSettings = {
+  llm_provider: "openai_compatible" | "ollama";
+  llm_api_base: string;
+  llm_api_key: string | null;
+  llm_model: string;
+  embedding_model: string;
+  extract_model?: string | null;
+  query_model?: string | null;
+  max_table_rows: number;
+  summary_language?: string;
+};
+
 export type KnowledgeUploadResult = {
   id: string;
   title: string;
@@ -98,6 +111,24 @@ export async function uploadForm(file: File): Promise<FormUploadResult> {
 
 export async function listFormJobsRemote(): Promise<FormUploadResult[]> {
   const res = await fetch(`${API_BASE}/api/forms/jobs`, { cache: "no-store" });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
+export async function getSettingsRemote(): Promise<ApiSettings> {
+  const res = await fetch(`${API_BASE}/api/settings`, { cache: "no-store" });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
+export async function putSettingsRemote(
+  body: ApiSettings,
+): Promise<ApiSettings> {
+  const res = await fetch(`${API_BASE}/api/settings`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
   if (!res.ok) throw new Error(await parseError(res));
   return res.json();
 }

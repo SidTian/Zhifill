@@ -2,10 +2,13 @@
 
 import {
   deleteKnowledgeRemote,
+  getSettingsRemote,
   listFormJobsRemote,
   listKnowledgeRemote,
+  putSettingsRemote,
   uploadForm as apiUploadForm,
   uploadKnowledge as apiUploadKnowledge,
+  type ApiSettings,
 } from "./api";
 import {
   DEFAULT_SETTINGS,
@@ -66,15 +69,50 @@ function mapFormat(fmt: string | undefined, filename: string): FormJob["format"]
   return "docx";
 }
 
+function toApiSettings(s: AppSettings): ApiSettings {
+  return {
+    llm_provider: s.llm_provider,
+    llm_api_base: s.llm_api_base,
+    llm_api_key: s.llm_api_key?.trim() ? s.llm_api_key : null,
+    llm_model: s.llm_model,
+    embedding_model: s.embedding_model,
+    max_table_rows: s.max_table_rows,
+    summary_language: "Chinese",
+  };
+}
+
+function fromApiSettings(s: ApiSettings, mockMode = false): AppSettings {
+  return {
+    llm_provider: s.llm_provider,
+    llm_api_base: s.llm_api_base,
+    llm_api_key: s.llm_api_key ?? "",
+    llm_model: s.llm_model,
+    embedding_model: s.embedding_model,
+    max_table_rows: s.max_table_rows ?? 50,
+    mock_mode: mockMode,
+  };
+}
+
 export const mockApi = {
-  getSettings(): AppSettings {
-    return { ...DEFAULT_SETTINGS, ...read(KEYS.settings, {}) };
+  async getSettings(): Promise<AppSettings> {
+    const localMock = read(KEYS.settings, {} as Partial<AppSettings>).mock_mode;
+    try {
+      const remote = await getSettingsRemote();
+      return fromApiSettings(remote, Boolean(localMock));
+    } catch {
+      return { ...DEFAULT_SETTINGS, ...read(KEYS.settings, {}) };
+    }
   },
 
   async saveSettings(next: AppSettings): Promise<AppSettings> {
-    await delay(400);
-    write(KEYS.settings, next);
-    return next;
+    write(KEYS.settings, { mock_mode: next.mock_mode });
+    try {
+      const saved = await putSettingsRemote(toApiSettings(next));
+      return fromApiSettings(saved, next.mock_mode);
+    } catch (e) {
+      write(KEYS.settings, next);
+      throw e;
+    }
   },
 
   listKnowledgeLocal(): KnowledgeDoc[] {

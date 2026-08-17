@@ -32,12 +32,18 @@ paths:
     get:
       operationId: getSettings
       tags: [settings]
+      summary: Read local runtime settings
       responses:
-        "501":
-          $ref: "#/components/responses/NotImplemented"
+        "200":
+          description: Current settings (defaults from env if no file)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
     put:
       operationId: putSettings
       tags: [settings]
+      summary: Replace local runtime settings
       requestBody:
         required: true
         content:
@@ -45,8 +51,14 @@ paths:
             schema:
               $ref: "#/components/schemas/Settings"
       responses:
-        "501":
-          $ref: "#/components/responses/NotImplemented"
+        "200":
+          description: Saved settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
+        "422":
+          description: Validation error
 
   /api/knowledge/upload:
     post:
