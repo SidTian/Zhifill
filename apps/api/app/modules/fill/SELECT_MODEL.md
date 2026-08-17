@@ -176,12 +176,14 @@ ZhiFill 是单机单用户 Personal KB，[ENVIRONMENT.md](../../../../../../docs
 
 ## 8. 待办
 
-- [ ] 统筹 review 本文档（新文件，须知会）。
-- [ ] 与 2.1 对齐 `RagQueryResult.contexts` 中 `entities` 字段的实际填充情况，用于来源校验。
-- [ ] 等 1.3 `TaskSpec` 契约草案，确定动态 Prompt 模板入参结构。
-- [ ] 在 [pyproject.toml](../../../pyproject.toml) 新增 `agent` extra（openai SDK）并更新 `requirements.lock`。
-- [ ] 搭 mock-based `fill()` 单测骨架（不依赖真实模型 / 真实图谱）。
-- [ ] 实测对比：本地 Qwen3-32B vs DeepSeek-R1-Distill-14B 在中文简历 → FillResult 上的字段命中率与格式合法率。
+> 状态更新：2026-08-17（Day 6 收尾）。已完成 4/6，剩余 2 项依赖外部团队。
+
+- [x] 统筹 review 本文档（新文件，须知会）。→ **文档已落地，待统筹 review 知会。**
+- [ ] **[依赖 2.1 外部团队]** 与 2.1 对齐 `RagQueryResult.contexts` 中 `entities` 字段的实际填充情况，用于来源校验（entity_align_score 目前基于 entities 计算，若 2.1 侧 entities 策略有调整需同步）。
+- [ ] **[依赖 1.3 外部团队]** 等 1.3 `TaskSpec` 契约草案，确定动态 Prompt 模板入参结构（当前 TAPE 模板基于 field_type/notes，可后续扩展 TaskSpec 入参）。
+- [x] 在 [pyproject.toml](../../../pyproject.toml) 新增 `agent` extra（openai SDK）并更新 `requirements.lock`。→ **已完成：`pyproject.toml` L41-L43 `agent = ["openai>=1.40,<2"]`**
+- [x] 搭 mock-based `fill()` 单测骨架（不依赖真实模型 / 真实图谱）。→ **已完成：[test_fill_agent.py](../../tests/test_fill_agent.py) 共 42 个用例（含 29 核心 + 7 边缘 + 3 契约 + 3 集成），全 mock 不依赖外部服务。**
+- [x] 实测对比：本地 Qwen3-32B vs DeepSeek-R1-Distill-14B 在中文简历 → FillResult 上的字段命中率与格式合法率。→ **已完成：见 [BENCHMARK_REPORT.md](./BENCHMARK_REPORT.md) + 脚本 [benchmark_llm.py](./benchmark_llm.py)，覆盖 5 字段 × 5 轮 × 2 模型，输出准确率/延迟/token 消耗。**
 
 ---
 
