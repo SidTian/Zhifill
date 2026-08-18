@@ -1,0 +1,31 @@
+数据分类,维度,Qwen-Plus,DeepSeek-V3,备注/优势方
+===== 汇总对比 =====
+汇总对比,准确率,20% (1/1),0% (0/1),Qwen
+汇总对比,平均延迟,2177ms,0ms,DeepSeek
+汇总对比,Prompt Tokens,181,0,DeepSeek
+汇总对比,Completion Tokens,5,0,DeepSeek
+汇总对比,总 Token,186,0,DeepSeek
+===== 逐字段对比 =====
+字段,类型,期望值,Qwen 输出,Qwen 正确,DeepSeek 输出,DeepSeek 正确
+逐字段对比,技能,multi,"Python,Go,Rust","Python, Go, Rust",✅,"ERROR: Error code: 402 - {'err",❌
+===== 延迟详情（3轮平均） =====
+延迟详情,字段,Qwen 延迟(ms),DeepSeek 延迟(ms)
+延迟详情,技能,2661,0
+延迟详情,平均,2177,0
+===== 结论得分 =====
+结论,维度,Qwen 得分,DeepSeek 得分
+结论,准确率,1,0
+结论,延迟,0,1
+结论,Token 效率,0,1
+===== 字段定义（完整测试集） =====
+字段定义,字段,类型,期望值
+字段定义,姓名,text,张伟
+字段定义,入职日期,date,2015-07-01
+字段定义,年龄,number,34
+字段定义,性别,single_choice,男
+字段定义,技能,multi,"Python,Go,Rust"
+===== 知识库证据片段 =====
+证据ID,内容
+1,张伟，男，1990年5月12日出生。2015年7月入职阿里巴巴，担任高级算法工程师。
+2,2020年3月跳槽到字节跳动，任算法专家。持有P7职级。年龄34岁。
+3,张伟在字节跳动负责推荐系统，2023年晋升为算法总监。技能：Python, Go, Rust。
