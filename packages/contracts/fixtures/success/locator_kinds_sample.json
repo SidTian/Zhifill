@@ -1,0 +1,49 @@
+{
+  "_comment": "locator 五种 kind 示例（讨论用，非单一 FormField）",
+  "examples": [
+    {
+      "label": "Word 表格单元格（第一阶段优先）",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 1
+      }
+    },
+    {
+      "label": "Word 书签",
+      "locator": {
+        "kind": "word_bookmark",
+        "name": "姓名"
+      }
+    },
+    {
+      "label": "Excel 单元格",
+      "locator": {
+        "kind": "excel_cell",
+        "sheet": "Sheet1",
+        "row": 2,
+        "col": 2,
+        "merged_range": null
+      }
+    },
+    {
+      "label": "PDF 可填表单域",
+      "locator": {
+        "kind": "pdf_acroform",
+        "field_name": "Name"
+      }
+    },
+    {
+      "label": "PDF 平面坐标框（降级）",
+      "locator": {
+        "kind": "pdf_bbox",
+        "page": 0,
+        "x0": 72.0,
+        "y0": 680.0,
+        "x1": 200.0,
+        "y1": 700.0
+      }
+    }
+  ]
+}

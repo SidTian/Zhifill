@@ -1,0 +1,144 @@
+{
+  "id": "job_demo_001",
+  "filename": "入职信息登记表.docx",
+  "format": "docx",
+  "status": "review",
+  "created_at": "2026-08-18T10:00:00+08:00",
+  "updated_at": "2026-08-18T10:05:00+08:00",
+  "error": null,
+  "progress": {
+    "step": "filled",
+    "current": 4,
+    "total": 4
+  },
+  "fields": [
+    {
+      "id": "f_name",
+      "name": "姓名",
+      "field_type": "text",
+      "value": "张三",
+      "original_value": null,
+      "required": true,
+      "confidence": 0.95,
+      "sources": [
+        {
+          "doc_id": "doc_resume_001",
+          "snippet": "姓名：张三",
+          "score": 0.91
+        }
+      ],
+      "status": "confirmed",
+      "layout": "label_value",
+      "row_group_id": null,
+      "row_index": null,
+      "column_key": null,
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 1
+      },
+      "notes": "用户已在预览页确认"
+    },
+    {
+      "id": "f_phone",
+      "name": "手机",
+      "field_type": "text",
+      "value": "13911112222",
+      "original_value": null,
+      "required": true,
+      "confidence": 0.88,
+      "sources": [
+        {
+          "doc_id": "doc_resume_001",
+          "snippet": "手机 13800138000",
+          "score": 0.85
+        }
+      ],
+      "status": "manual",
+      "layout": "label_value",
+      "row_group_id": null,
+      "row_index": null,
+      "column_key": null,
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 1
+      },
+      "notes": "系统建议 13800138000，用户改成现号"
+    },
+    {
+      "id": "f_email",
+      "name": "邮箱",
+      "field_type": "text",
+      "value": null,
+      "original_value": null,
+      "required": false,
+      "confidence": null,
+      "sources": [],
+      "status": "empty",
+      "layout": "label_value",
+      "row_group_id": null,
+      "row_index": null,
+      "column_key": null,
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 1
+      },
+      "notes": "图谱未命中，留空"
+    },
+    {
+      "id": "f_exp_0_org",
+      "name": "组织",
+      "field_type": "text",
+      "value": "某某科技有限公司",
+      "original_value": null,
+      "required": false,
+      "confidence": 0.8,
+      "sources": [
+        {
+          "doc_id": "doc_resume_001",
+          "snippet": "就职于某某科技有限公司",
+          "score": 0.77
+        }
+      ],
+      "status": "suggested",
+      "layout": "header_row_table",
+      "row_group_id": "exp_table",
+      "row_index": 0,
+      "column_key": "组织",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 1,
+        "row": 1,
+        "col": 1
+      },
+      "notes": "多行经历表第 1 行"
+    },
+    {
+      "id": "f_exp_0_role",
+      "name": "角色",
+      "field_type": "text",
+      "value": "后端工程师",
+      "original_value": null,
+      "required": false,
+      "confidence": 0.78,
+      "sources": [],
+      "status": "suggested",
+      "layout": "header_row_table",
+      "row_group_id": "exp_table",
+      "row_index": 0,
+      "column_key": "角色",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 1,
+        "row": 1,
+        "col": 2
+      },
+      "notes": null
+    }
+  ]
+}

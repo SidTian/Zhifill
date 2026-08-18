@@ -1,0 +1,20 @@
+{
+  "_comment": "PATCH /api/forms/jobs/{id}/fields 请求体示例（用户预览保存）",
+  "fields": [
+    {
+      "id": "f_name",
+      "value": "张三",
+      "status": "confirmed"
+    },
+    {
+      "id": "f_phone",
+      "value": "13911112222",
+      "status": "manual"
+    },
+    {
+      "id": "f_email",
+      "value": null,
+      "status": "rejected"
+    }
+  ]
+}
