@@ -210,16 +210,21 @@ def run_benchmark() -> tuple[ModelResult, ModelResult, list[CallLog]]:
                 print(f"  [{ts}] {f['name']:6s} | {status} | {latency:6.0f}ms | pt={pt:4d} ct={ct:4d} | raw='{content[:40]}'{err_str}")
 
         # 统计
-        latencies = [c.latency_ms for c in mr.calls if not c.error]
+        # 修复：报错调用也计入延迟（402/429等失败响应也有往返耗时）
+        all_latencies = [c.latency_ms for c in mr.calls]
+        ok_latencies = [c.latency_ms for c in mr.calls if not c.error]
         first_round_calls = [c for c in mr.calls if c.round_idx == 0]
         mr.total_calls = len(mr.calls)
         mr.error_count = sum(1 for c in mr.calls if c.error)
         mr.accuracy = sum(1 for c in first_round_calls if c.correct) / len(first_round_calls) if first_round_calls else 0
-        mr.avg_latency_ms = statistics.mean(latencies) if latencies else 0
-        mr.p50_latency_ms = statistics.median(latencies) if latencies else 0
-        mr.p90_latency_ms = sorted(latencies)[int(len(latencies) * 0.9)] if len(latencies) > 5 else (max(latencies) if latencies else 0)
-        mr.total_prompt_tokens = sum(c.prompt_tokens for c in mr.calls if not c.error)
-        mr.total_completion_tokens = sum(c.completion_tokens for c in mr.calls if not c.error)
+        # 优先使用成功调用的延迟做性能统计；若全部失败，则退化为所有调用（含报错）的延迟
+        use_latencies = ok_latencies if ok_latencies else all_latencies
+        mr.avg_latency_ms = statistics.mean(use_latencies) if use_latencies else 0
+        mr.p50_latency_ms = statistics.median(use_latencies) if use_latencies else 0
+        mr.p90_latency_ms = sorted(use_latencies)[int(len(use_latencies) * 0.9)] if len(use_latencies) > 5 else (max(use_latencies) if use_latencies else 0)
+        # Token 统计：报错时 usage 不存在，保留 0，但必须计入全量调用集合（不能过滤）
+        mr.total_prompt_tokens = sum(c.prompt_tokens for c in mr.calls)
+        mr.total_completion_tokens = sum(c.completion_tokens for c in mr.calls)
 
         print(f"\n  汇总: 准确率={mr.accuracy:.0%} 平均={mr.avg_latency_ms:.0f}ms P50={mr.p50_latency_ms:.0f}ms P90={mr.p90_latency_ms:.0f}ms")
         print(f"  Token: prompt={mr.total_prompt_tokens} completion={mr.total_completion_tokens} 错误={mr.error_count}")

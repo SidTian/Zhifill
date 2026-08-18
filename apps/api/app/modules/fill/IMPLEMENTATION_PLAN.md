@@ -289,12 +289,12 @@ if confidence ≥ 0.45  →  suggested
 
 ### Buffer 2 天（Day 8-9，可选做）
 
-| 项 | 内容 |
-|----|------|
-| 实测对比 | 本地 Ollama 跑 Qwen3-32B vs DeepSeek-R1-Distill-14B，跑一组简历→FillResult 字段命中率，补充进 SELECT_MODEL.md |
-| 并行优化 | 同一字段组内的多个细检索用 `asyncio.gather` 并发（Runner 改 async 版，settings 层走 async openai SDK） |
-| Prompt 缓存 | 同 schema + 同 headers 的 multi_row_tmpl Prompt 做 LRU 缓存（避免重复构建） |
-| 1.3 TaskSpec 接入 | 等 1.3 草案出后，注入 `build_task_spec()` 的结果到 QueryPlanner；**不改 FillPort 签名**，用 fields.notes 传递（契约优先） |
+| 项 | 内容 | 状态 |
+|----|------|------|
+| 实测对比 | 本地 Ollama 跑 Qwen3-32B vs DeepSeek-R1-Distill-14B，跑一组简历→FillResult 字段命中率，补充进 SELECT_MODEL.md | ⏳ 依赖 DeepSeek API Key 充值（402 报错，详见 BENCHMARK_REPORT.md §六） |
+| 并行优化 | 同一字段组内的多个细检索用 `asyncio.gather` 并发（Runner 改 async 版，settings 层走 async openai SDK） | ✅ 已完成（2026-08-18）：`service.py fill()` 中多字段 `fine_queries` 走 `ThreadPoolExecutor(max_workers=4)` 并发，单字段保持串行避免开销 |
+| Prompt 缓存 | 同 schema + 同 headers 的 multi_row_tmpl Prompt 做 LRU 缓存（避免重复构建） | ✅ 已完成（2026-08-18）：`build_multi_row_schema` 加 `@lru_cache(maxsize=64)` |
+| 1.3 TaskSpec 接入 | 等 1.3 草案出后，注入 `build_task_spec()` 的结果到 QueryPlanner；**不改 FillPort 签名**，用 fields.notes 传递（契约优先） | ⏳ 依赖 1.3 外部团队 |
 
 ---
 
@@ -626,13 +626,22 @@ def test_fill_no_rag_upsert_called():
 
 ## 八、9 天后的交付清单（最终 check）
 
-- [ ] `FillService.fill()` 实现（service.py）
-- [ ] 4 个子模块：grouper / planner / runner / PostProc（PostProc 合并在 service.py）
-- [ ] pyproject.toml 新增 `agent` extra + requirements.lock 更新 PR
-- [ ] tests/test_fill_agent.py（8 个用例，pytest 全绿）
-- [ ] README.md 更新：Pipeline 与创新点说明 + `parse()` 未实现声明
-- [ ] SELECT_MODEL.md §待办更新
-- [ ] 本地端到端：fake RagPort + 契约 fixtures 对齐 fill_result.schema.json
-- [ ] 不回写图谱断言（rag.upsert/delete 未被调用）
+- [x] `FillService.fill()` 实现（service.py）
+- [x] 4 个子模块：grouper / planner / runner / PostProc（PostProc 合并在 service.py）
+- [x] pyproject.toml 新增 `agent` extra + requirements.lock 更新 PR
+- [x] tests/test_fill_agent.py（42 个用例，pytest 全绿）
+- [x] README.md 更新：Pipeline 与创新点说明 + `parse()` 未实现声明
+- [x] SELECT_MODEL.md §待办更新
+- [x] 本地端到端：fake RagPort + 契约 fixtures 对齐 fill_result.schema.json
+- [x] 不回写图谱断言（rag.upsert/delete 未被调用）
+
+### Buffer 优化项交付清单（2026-08-18 补充）
+
+- [x] 并行细检索优化（`ThreadPoolExecutor` max_workers=4）
+- [x] Prompt LRU 缓存（`build_multi_row_schema` @lru_cache）
+- [x] `referencing` 替代 `RefResolver`（兼容降级）
+- [x] BENCHMARK 统计 Bug 修复（报错调用不再被过滤为幽灵 0 值）
+- [x] requirements.lock 同步更新（openai==1.109.1 + 5 个传递依赖）
+- [x] 核心分支 `logger.info` 日志补全（fill 入口/分组/路径分流/打分/重试/PostProc/MSR 4 步）
 
 （完）

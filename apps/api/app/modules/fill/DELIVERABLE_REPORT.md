@@ -120,10 +120,13 @@
 
 ### 💡 可选优化（不阻塞交付）
 
-- [ ] 引入 `referencing` 库替代 `jsonschema.RefResolver`（当前 `RefResolver` 虽 deprecated 但可用，jsonschema>=4.0 全版本兼容）
+- [x] 引入 `referencing` 库替代 `jsonschema.RefResolver`（当前 `RefResolver` 虽 deprecated 但可用，jsonschema>=4.0 全版本兼容）→ **已完成（2026-08-18）：优先用 `referencing.Registry`，旧版 jsonschema 自动降级到 `RefResolver`，兼容双版本**
 - [ ] 新增 1.3 TaskSpec 入参后，扩展 `build_prompt(field, task_spec=None)` 签名
 - [ ] 若 2.1 entities 策略明确，可调整 `entity_align_score` 权重（目前 0.30，与 retrieval/type_validity 等权）
-- [ ] requirements.lock 提交（待统筹 review 确认 `pyproject.toml agent extra` 后一并更新）
+- [x] requirements.lock 提交（待统筹 review 确认 `pyproject.toml agent extra` 后一并更新）→ **已完成（2026-08-18）：requirements.lock 新增 openai==1.109.1 及 5 个传递依赖（distro/jiter/sniffio/tqdm）**
+- [x] Prompt 缓存：同 schema + 同 headers 的 `multi_row_tmpl` Prompt 做 LRU 缓存 → **已完成（2026-08-18）：`build_multi_row_schema` 加 `@lru_cache(maxsize=64)`，避免重复构造 dict**
+- [x] 并行优化：同一字段组内的多个细检索用 `ThreadPoolExecutor` 并发 → **已完成（2026-08-18）：`service.py fill()` 中 `fine_queries` 多字段时走线程池（max_workers=4），单字段保持串行避免开销**
+- [x] BENCHMARK 统计 Bug 修复 → **已完成（2026-08-18）：`benchmark_llm.py` 统计层修复（报错调用不再被 `if not c.error` 过滤为幽灵 0 值），`BENCHMARK_REPORT.md` 勘误标注**
 
 ---
 

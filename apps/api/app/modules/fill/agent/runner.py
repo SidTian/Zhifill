@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import functools
 import json
 import logging
 import re
@@ -233,8 +234,13 @@ def validate_type(field_type: str, value: str, notes: str | None = None) -> tupl
 #  Day 5: generate_multi_row() — 批量 JSON 生成（MSR 第三步）
 # ------------------------------------------------------------------ #
 
-def build_multi_row_schema(headers: list[str]) -> dict:
-    """根据 headers 构造 JSON 数组的 JSONSchema（每行 key=header）。"""
+@functools.lru_cache(maxsize=64)
+def build_multi_row_schema(headers: tuple[str, ...]) -> dict:
+    """根据 headers 构造 JSON 数组的 JSONSchema（每行 key=header）。
+
+    LRU 缓存：同 headers 的 schema 只构建一次（避免重复构造 dict）。
+    注意：入参为 tuple（hashable），调用方需 list→tuple 转换。
+    """
     item_props = {}
     required = []
     for h in headers:
@@ -300,7 +306,7 @@ def generate_multi_row(
     )
 
     # Step 2: 带 JSONSchema 约束调用 LLM
-    schema = build_multi_row_schema(headers)
+    schema = build_multi_row_schema(tuple(headers))
     try:
         raw = llm_client.complete(enhanced_prompt, schema=schema, temperature=0.0)
     except Exception as e:  # pragma: no cover

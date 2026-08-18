@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 
 from aff_contracts import FillResult, ParseFormRequest, ParseFormResult
 from aff_contracts.common import SourceRef
@@ -73,12 +74,19 @@ class FillService(FillPort):
             f.status = FieldStatus.empty
             if f.original_value is not None:
                 stats.empty += 1
+            logger.info("[PostProc] 字段[%s] → EMPTY (conf=%.4f < %.2f 或无值), raw=%r",
+                        f.name, conf, _EMPTY, raw_value[:50] if raw_value else raw_value)
         else:
             f.value = raw_value
             f.confidence = round(float(conf), 3)
             f.status = FieldStatus.suggested
             if conf < _LOW:
                 stats.low_confidence += 1
+                logger.info("[PostProc] 字段[%s] → LOW_CONFIDENCE (conf=%.4f ∈ [%.2f, %.2f)), value=%r",
+                            f.name, conf, _EMPTY, _LOW, raw_value[:50])
+            else:
+                logger.info("[PostProc] 字段[%s] → SUGGESTED (conf=%.4f ≥ %.2f), value=%r",
+                            f.name, conf, _LOW, raw_value[:50])
             stats.filled += 1
 
         # sources 去重
@@ -95,14 +103,22 @@ class FillService(FillPort):
         """label_value 分支：逐字段 score + retry（沿用 Day 2-4 逻辑）。"""
         from aff_contracts.rag import RagQueryRequest
 
+        logger.info("[label_value] 开始处理 group=%s, 字段数=%d", group.key, len(group.fields))
+
         for f in group.fields:
             ctx = fine_ctxs.get(f.id, coarse)
             raw_value, conf, align, tv, top = self._score_field(f, ctx)
+            logger.info("[label_value] 字段[%s] 首次打分: conf=%.4f align=%.4f tv=%.2f retrieval=%s raw=%r",
+                        f.name, conf, align, tv,
+                        (top.score if top else None),
+                        raw_value[:50] if raw_value else raw_value)
 
             # ---- 重试机制：align < 阈值时循环重检索，最多 MAX_RETRIES 次 ----
             for _attempt in range(_MAX_RETRIES):
                 if align >= _RETRY:
                     break
+                logger.info("[label_value] 字段[%s] 触发重试#%d: align=%.4f < %.2f",
+                            f.name, _attempt + 1, align, _RETRY)
                 retry_q = QueryPlanner.build_retry_query(f)
                 retry_ctx = rag.query(
                     RagQueryRequest(query=retry_q, mode="local")
@@ -118,9 +134,13 @@ class FillService(FillPort):
                     raw_value, conf, align, tv, top, ctx = (
                         rv2, conf2, align2, tv2, top2, retry_ctx,
                     )
+                    logger.info("[label_value] 字段[%s] 重试#%d 采纳: conf %.4f → %.4f",
+                                f.name, _attempt + 1, conf - (conf2 - conf), conf)
                     if _log_debug:
                         logger.debug("字段[%s] 重试#%d 采纳: conf → %.4f", f.name, _attempt + 1, conf)
                 else:
+                    logger.info("[label_value] 字段[%s] 重试#%d 未采纳: 首次 conf=%.4f 仍更优",
+                                f.name, _attempt + 1, conf)
                     if _log_debug:
                         logger.debug("字段[%s] 重试#%d 未采纳: 首次 conf=%.4f 仍更优", f.name, _attempt + 1, conf)
                     break
@@ -158,6 +178,7 @@ class FillService(FillPort):
 
         headers = group.headers or []
         if not headers:
+            logger.info("[MSR] group=%s: headers 为空，降级空处理 %d 字段", group.key, len(group.fields))
             if _log_debug:
                 logger.debug("group=%s: headers 为空，MSR 跳过（降级空处理）", group.key)
             # 降级：把所有字段置空
@@ -166,8 +187,11 @@ class FillService(FillPort):
                 self._apply_value_to_field(f, "", 0.0, empty_ctx, stats)
             return
 
+        logger.info("[MSR] group=%s 开始, headers=%s, 字段数=%d", group.key, headers, len(group.fields))
+
         # --- MSR Step 1: entity_type 预问 ---
         entity_type, query_hint = QueryPlanner.pre_determine_entity_type(group, self._llm)
+        logger.info("[MSR] Step1 entity_type=%r, query_hint=%r", entity_type, query_hint)
         if _log_debug:
             logger.debug("group=%s MSR Step1: entity_type=%r, query_hint=%r",
                          group.key, entity_type, query_hint)
@@ -175,6 +199,7 @@ class FillService(FillPort):
         # --- MSR Step 2: 定向检索（一次 mix 检索代替粗+细） ---
         msr_query = QueryPlanner.build_multi_row_query(entity_type, query_hint, headers)
         msr_ctx = rag.query(RagQueryRequest(query=msr_query, mode="mix", response_format="json_object"))
+        logger.info("[MSR] Step2 检索完成: contexts=%d, query=%r", len(msr_ctx.contexts), msr_query[:60])
         if _log_debug:
             logger.debug("group=%s MSR Step2: query=%r → contexts=%d",
                          group.key, msr_query[:50], len(msr_ctx.contexts))
@@ -189,6 +214,8 @@ class FillService(FillPort):
             hint=query_hint,
         )
         generated_rows = mr_result.rows
+        logger.info("[MSR] Step3 批量生成: %d 行 (max_table_rows=%d, 喂入 contexts=%d)",
+                    len(generated_rows), self._settings.max_table_rows, min(len(msr_ctx.contexts), 5))
         if _log_debug:
             logger.debug("group=%s MSR Step3: 生成 %d 行 (max_table_rows=%d)",
                          group.key, len(generated_rows), self._settings.max_table_rows)
@@ -256,7 +283,12 @@ class FillService(FillPort):
         stats = FillStats()
         _log_debug = logger.isEnabledFor(logging.DEBUG)
 
+        logger.info("[fill] 开始: job_id=%s, 字段总数=%d, 分组数=%d",
+                    request.job_id, len(request.fields), len(groups))
+
         for group in groups:
+            logger.info("[fill] 分组: key=%s, layout=%s, 字段=%d, headers=%s",
+                        group.key, group.layout.value, len(group.fields), group.headers)
             if _log_debug:
                 logger.debug("=" * 60)
                 logger.debug("处理 group: key=%s, layout=%s, fields=%d, headers=%s",
@@ -264,16 +296,36 @@ class FillService(FillPort):
 
             if group.layout == LayoutKind.header_row_table:
                 # ---- Day 5 MSR 路径：一次预问 + 一次定向检索 + 一次批量生成（3 次 round-trip，而不是 N*M 次） ----
+                logger.info("[fill] → 走 MSR 多行表路径")
                 self._fill_header_row_table(group, rag, stats, _log_debug)
             else:
                 # ---- 原有逐字段路径（label_value） ----
+                logger.info("[fill] → 走 label_value 单行路径")
                 plan = QueryPlanner.plan(group)
                 coarse = rag.query(RagQueryRequest(query=plan.coarse_query, mode="mix"))
+
+                # 并行细检索：同一字段组内的多个 fine_queries 用线程池并发
+                fine_queries = plan.fine_queries
                 fine_ctxs: dict[str, "object"] = {}
-                for fid, q in plan.fine_queries.items():
-                    fine_ctxs[fid] = rag.query(RagQueryRequest(query=q, mode="local"))
+                if len(fine_queries) <= 1:
+                    # 单字段无需线程池开销
+                    for fid, q in fine_queries.items():
+                        fine_ctxs[fid] = rag.query(RagQueryRequest(query=q, mode="local"))
+                else:
+                    logger.info("[fill] 并行细检索: %d 个 fine_queries, workers=%d",
+                                len(fine_queries), min(len(fine_queries), 4))
+                    with ThreadPoolExecutor(max_workers=min(len(fine_queries), 4)) as pool:
+                        futures = {
+                            pool.submit(rag.query, RagQueryRequest(query=q, mode="local")): fid
+                            for fid, q in fine_queries.items()
+                        }
+                        for fut in futures:
+                            fine_ctxs[futures[fut]] = fut.result()
+
                 self._fill_single_fields(group, coarse, fine_ctxs, rag, stats, _log_debug)
 
+        logger.info("[fill] 完成: job_id=%s, stats={filled=%d, empty=%d, low_confidence=%d}",
+                    request.job_id, stats.filled, stats.empty, stats.low_confidence)
         if _log_debug:
             logger.debug("=" * 60)
             logger.debug("fill() 结束: stats={filled=%d, empty=%d, low_confidence=%d}",

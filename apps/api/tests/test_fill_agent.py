@@ -695,7 +695,7 @@ def test_build_multi_row_query_with_entity_type() -> None:
 def test_build_multi_row_schema_matches_headers() -> None:
     """MSR Step 3: JSONSchema items.properties keys == headers 且 required。"""
     from app.modules.fill.agent.runner import build_multi_row_schema
-    s = build_multi_row_schema(["公司", "职位", "时间"])
+    s = build_multi_row_schema(("公司", "职位", "时间"))
     assert s["type"] == "array"
     assert set(s["items"]["properties"].keys()) == {"公司", "职位", "时间"}
     assert set(s["items"]["required"]) == {"公司", "职位", "时间"}
@@ -1251,12 +1251,24 @@ def test_fill_result_passes_jsonschema_validation() -> None:
     fill_schema = _load_json("packages/contracts/jsonschema/fill_result.schema.json")
     field_schema = _load_json("packages/contracts/jsonschema/form_field.schema.json")
 
-    # 用 RefResolver 解决 $ref（兼容 jsonschema>=4.0，不依赖 referencing）
-    resolver = jsonschema.RefResolver.from_schema(fill_schema)
-    # 手动注册 form_field schema，让 $ref 能解析
-    resolver.store["https://auto-form-fill.local/schemas/v0/form_field.schema.json"] = field_schema
+    # 用 referencing.Registry 替代已废弃的 RefResolver（jsonschema>=4.18 推荐）
+    # 兼容：若 referencing 不可用（旧版 jsonschema），降级到 RefResolver
+    try:
+        from referencing import Registry, Resource
+        from referencing.jsonschema import DRAFT202012
 
-    validator = jsonschema.Draft202012Validator(fill_schema, resolver=resolver)
+        field_resource = Resource.from_contents(field_schema, default_specification=DRAFT202012)
+        registry = Registry().with_resource(
+            "https://auto-form-fill.local/schemas/v0/form_field.schema.json",
+            field_resource,
+        )
+        validator = jsonschema.Draft202012Validator(fill_schema, registry=registry)
+    except ImportError:
+        # jsonschema < 4.18：用 RefResolver（deprecated 但可用）
+        resolver = jsonschema.RefResolver.from_schema(fill_schema)
+        resolver.store["https://auto-form-fill.local/schemas/v0/form_field.schema.json"] = field_schema
+        validator = jsonschema.Draft202012Validator(fill_schema, resolver=resolver)
+
     errors = list(validator.iter_errors(data))
     assert not errors, "FillResult JSON Schema 校验失败:\n" + "\n".join(
         f"  - {e.json_path}: {e.message}" for e in errors
