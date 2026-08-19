@@ -147,3 +147,36 @@ def test_ingest_pdf(tmp_path: Path) -> None:
     assert bundle.text == "Hello PDF"
     assert bundle.title == "sample"
     assert bundle.media_type == "application/pdf"
+
+def test_ingest_xlsx_tables(tmp_path: Path) -> None:
+    path = tmp_path / "awards.xlsx"
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "获奖情况"
+
+    sheet.append(["获奖时间", "奖项名称", "级别"])
+    sheet.append(["2023-11", "国家奖学金", "国家级"])
+    sheet.append(["2024-05", "挑战杯", "省级金奖"])
+
+    workbook.save(path)
+    workbook.close()
+
+    request = make_request(
+        path,
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+
+    bundle = IngestService().ingest(request)
+
+    assert bundle.tables is not None
+    assert len(bundle.tables) == 1
+
+    table = bundle.tables[0]
+
+    assert table.name == "获奖情况"
+    assert table.headers == ["获奖时间", "奖项名称", "级别"]
+    assert table.rows == [
+        ["2023-11", "国家奖学金", "国家级"],
+        ["2024-05", "挑战杯", "省级金奖"],
+    ]
