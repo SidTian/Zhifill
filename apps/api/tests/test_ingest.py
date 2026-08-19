@@ -2,6 +2,7 @@ from pathlib import Path
 
 from aff_contracts import FileRef, IngestRequest
 from docx import Document
+from openpyxl import Workbook
 
 from app.modules.ingest.service import IngestService
 
@@ -65,5 +66,32 @@ def test_ingest_docx(tmp_path: Path) -> None:
         "个人经历\n"
         "赵洋帆就读于湖南大学。\n"
         "负责知识图谱相关项目研究。"
+    )
+    assert bundle.title == "sample"
+
+
+def test_ingest_xlsx(tmp_path: Path) -> None:
+    path = tmp_path / "sample.xlsx"
+
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "基本信息"
+
+    sheet.append(["姓名", "学校", "专业"])
+    sheet.append(["赵洋帆", "湖南大学", "大数据管理与应用"])
+
+    workbook.save(path)
+    workbook.close()
+
+    request = make_request(
+        path,
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    bundle = IngestService().ingest(request)
+
+    assert bundle.text == (
+        "[Sheet: 基本信息]\n"
+        "姓名\t学校\t专业\n"
+        "赵洋帆\t湖南大学\t大数据管理与应用"
     )
     assert bundle.title == "sample"
