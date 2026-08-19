@@ -19,8 +19,8 @@ class IngestService(IngestPort):
 
         tables: list[TableBlock] | None = None
         chunks_hint: list[ChunkHint] | None = None
+        warnings: list[str] = []
 
-        # 所有文件都有的基础 metadata
         metadata = {
             "filename": request.file.filename,
             "mime": request.file.mime,
@@ -106,7 +106,6 @@ class IngestService(IngestPort):
                 read_only=True,
             )
 
-            # 保存 Excel Sheet 名称
             metadata["sheet_names"] = [
                 sheet.title
                 for sheet in workbook.worksheets
@@ -133,36 +132,42 @@ class IngestService(IngestPort):
                         if any(values):
                             sheet_rows.append(values)
 
-                    if sheet_rows:
-                        rows_as_text = [
-                            "\t".join(row)
-                            for row in sheet_rows
-                        ]
-
-                        sheet_body = "\n".join(rows_as_text)
-
-                        # 全文视图
-                        sheet_texts.append(
-                            f"[Sheet: {sheet.title}]\n"
-                            + sheet_body
+                    # 空 Sheet：记录 warning
+                    if not sheet_rows:
+                        warnings.append(
+                            f"Excel sheet '{sheet.title}' is empty."
                         )
+                        continue
 
-                        # 结构化表格
-                        tables.append(
-                            TableBlock(
-                                name=sheet.title,
-                                headers=sheet_rows[0],
-                                rows=sheet_rows[1:],
-                            )
-                        )
+                    rows_as_text = [
+                        "\t".join(row)
+                        for row in sheet_rows
+                    ]
 
-                        # Sheet 级 chunks_hint
-                        chunks_hint.append(
-                            ChunkHint(
-                                text=sheet_body,
-                                sheet=sheet.title,
-                            )
+                    sheet_body = "\n".join(rows_as_text)
+
+                    # 全文视图
+                    sheet_texts.append(
+                        f"[Sheet: {sheet.title}]\n"
+                        + sheet_body
+                    )
+
+                    # 结构化表格
+                    tables.append(
+                        TableBlock(
+                            name=sheet.title,
+                            headers=sheet_rows[0],
+                            rows=sheet_rows[1:],
                         )
+                    )
+
+                    # Sheet 级 chunk
+                    chunks_hint.append(
+                        ChunkHint(
+                            text=sheet_body,
+                            sheet=sheet.title,
+                        )
+                    )
 
                 text = "\n\n".join(
                     sheet_texts
@@ -175,7 +180,6 @@ class IngestService(IngestPort):
         elif suffix == ".pdf":
             reader = PdfReader(path)
 
-            # 保存 PDF 页数
             metadata["page_count"] = len(reader.pages)
 
             pages = []
@@ -190,18 +194,25 @@ class IngestService(IngestPort):
                 if page_text:
                     page_text = page_text.strip()
 
-                    if page_text:
-                        pages.append(page_text)
+                # 当前页没有可提取文字
+                if not page_text:
+                    warnings.append(
+                        f"PDF page {page_number} contains no extractable text."
+                    )
+                    continue
 
-                        chunks_hint.append(
-                            ChunkHint(
-                                text=page_text,
-                                page=page_number,
-                            )
-                        )
+                pages.append(page_text)
+
+                chunks_hint.append(
+                    ChunkHint(
+                        text=page_text,
+                        page=page_number,
+                    )
+                )
 
             text = "\n\n".join(pages).strip()
 
+        # Unsupported
         else:
             raise NotImplementedModule(
                 "ingest",
@@ -216,7 +227,7 @@ class IngestService(IngestPort):
             chunks_hint=chunks_hint,
             tables=tables,
             metadata=metadata,
-            warnings=[],
+            warnings=warnings,
         )
 
 

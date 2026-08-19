@@ -493,3 +493,131 @@ def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
         "基本信息",
         "获奖情况",
     ]
+
+def test_ingest_pdf_blank_page_warning(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "pdf_with_blank_page.pdf"
+
+    writer = PdfWriter()
+
+    font = DictionaryObject(
+        {
+            NameObject("/Type"): NameObject("/Font"),
+            NameObject("/Subtype"): NameObject("/Type1"),
+            NameObject("/BaseFont"): NameObject("/Helvetica"),
+        }
+    )
+
+    font_ref = writer._add_object(font)
+
+    # 第 1 页：有文字
+    page1 = writer.add_blank_page(
+        width=612,
+        height=792,
+    )
+
+    page1[NameObject("/Resources")] = DictionaryObject(
+        {
+            NameObject("/Font"): DictionaryObject(
+                {
+                    NameObject("/F1"): font_ref,
+                }
+            )
+        }
+    )
+
+    stream = DecodedStreamObject()
+
+    stream.set_data(
+        b"BT /F1 12 Tf 72 720 Td "
+        b"(First Page) Tj ET"
+    )
+
+    stream_ref = writer._add_object(stream)
+
+    page1[NameObject("/Contents")] = stream_ref
+
+    # 第 2 页：完全空白
+    writer.add_blank_page(
+        width=612,
+        height=792,
+    )
+
+    writer.write(path)
+
+    request = make_request(
+        path,
+        "application/pdf",
+    )
+
+    bundle = IngestService().ingest(request)
+
+    assert bundle.text == "First Page"
+
+    assert bundle.metadata["page_count"] == 2
+
+    assert bundle.chunks_hint is not None
+    assert len(bundle.chunks_hint) == 1
+
+    assert bundle.chunks_hint[0].page == 1
+
+    assert bundle.warnings == [
+        "PDF page 2 contains no extractable text."
+    ]
+
+def test_ingest_xlsx_empty_sheet_warning(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "excel_with_empty_sheet.xlsx"
+
+    workbook = Workbook()
+
+    sheet1 = workbook.active
+    sheet1.title = "基本信息"
+
+    sheet1.append(
+        [
+            "姓名",
+            "学校",
+        ]
+    )
+
+    sheet1.append(
+        [
+            "赵洋帆",
+            "湖南大学",
+        ]
+    )
+
+    # 新建一个完全空的 Sheet
+    workbook.create_sheet(
+        title="空白表"
+    )
+
+    workbook.save(path)
+    workbook.close()
+
+    request = make_request(
+        path,
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+
+    bundle = IngestService().ingest(request)
+
+    assert bundle.metadata["sheet_names"] == [
+        "基本信息",
+        "空白表",
+    ]
+
+    assert bundle.tables is not None
+    assert len(bundle.tables) == 1
+
+    assert bundle.chunks_hint is not None
+    assert len(bundle.chunks_hint) == 1
+
+    assert bundle.chunks_hint[0].sheet == "基本信息"
+
+    assert bundle.warnings == [
+        "Excel sheet '空白表' is empty."
+    ]
