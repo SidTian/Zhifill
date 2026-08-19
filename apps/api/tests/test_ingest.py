@@ -206,9 +206,13 @@ def test_ingest_pdf(tmp_path: Path) -> None:
         b"(Hello PDF) Tj ET"
     )
 
-    stream_ref = writer._add_object(stream)
+    stream_ref = writer._add_object(
+        stream
+    )
 
-    page[NameObject("/Contents")] = stream_ref
+    page[NameObject("/Contents")] = (
+        stream_ref
+    )
 
     writer.write(path)
 
@@ -391,7 +395,9 @@ def test_ingest_pdf_chunks(
         }
     )
 
-    font_ref = writer._add_object(font)
+    font_ref = writer._add_object(
+        font
+    )
 
     texts = [
         b"First Page",
@@ -574,7 +580,9 @@ def test_ingest_pdf_blank_page_warning(
         }
     )
 
-    font_ref = writer._add_object(font)
+    font_ref = writer._add_object(
+        font
+    )
 
     page1 = writer.add_blank_page(
         width=612,
@@ -600,9 +608,13 @@ def test_ingest_pdf_blank_page_warning(
         b"(First Page) Tj ET"
     )
 
-    stream_ref = writer._add_object(stream)
+    stream_ref = writer._add_object(
+        stream
+    )
 
-    page1[NameObject("/Contents")] = stream_ref
+    page1[NameObject("/Contents")] = (
+        stream_ref
+    )
 
     writer.add_blank_page(
         width=612,
@@ -757,3 +769,82 @@ def test_ingest_docx_preserves_block_order(
 
     assert bundle.tables is not None
     assert len(bundle.tables) == 1
+
+
+def test_ingest_docx_merged_cells(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "merged_cells.docx"
+
+    document = Document()
+
+    document.add_heading(
+        "个人信息",
+        level=1,
+    )
+
+    table = document.add_table(
+        rows=2,
+        cols=4,
+    )
+
+    # 第一行是普通四列表头
+    table.cell(0, 0).text = "字段"
+    table.cell(0, 1).text = "内容"
+    table.cell(0, 2).text = "备注"
+    table.cell(0, 3).text = "状态"
+
+    # 第二行后三个单元格横向合并
+    table.cell(1, 0).text = "个人简介"
+
+    merged_cell = table.cell(
+        1,
+        1,
+    ).merge(
+        table.cell(
+            1,
+            3,
+        )
+    )
+
+    merged_cell.text = (
+        "学习方向为数据分析与知识工程。"
+    )
+
+    document.save(path)
+
+    request = make_request(
+        path,
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "wordprocessingml.document"
+        ),
+    )
+
+    bundle = IngestService().ingest(request)
+
+    assert bundle.tables is not None
+    assert len(bundle.tables) == 1
+
+    table_result = bundle.tables[0]
+
+    assert table_result.headers == [
+        "字段",
+        "内容",
+        "备注",
+        "状态",
+    ]
+
+    assert table_result.rows == [
+        [
+            "个人简介",
+            "学习方向为数据分析与知识工程。",
+            "",
+            "",
+        ]
+    ]
+
+    # 合并单元格中的文字在 text 中只应出现一次
+    assert bundle.text.count(
+        "学习方向为数据分析与知识工程。"
+    ) == 1

@@ -39,6 +39,35 @@ def iter_docx_blocks(
             )
 
 
+def extract_docx_row_values(row) -> list[str]:
+    """
+    Extract one Word table row while avoiding
+    duplicated text caused by horizontally merged cells.
+
+    python-docx may expose the same underlying XML cell
+    multiple times through row.cells after cells are merged.
+    The first occurrence keeps the text, while repeated
+    positions are represented as empty strings so that
+    the original column count is preserved.
+    """
+    values: list[str] = []
+    seen_cells: set[int] = set()
+
+    for cell in row.cells:
+        cell_id = id(cell._tc)
+
+        if cell_id in seen_cells:
+            values.append("")
+            continue
+
+        seen_cells.add(cell_id)
+        values.append(
+            cell.text.strip()
+        )
+
+    return values
+
+
 class IngestService(IngestPort):
     def ingest(self, request: IngestRequest) -> DocumentBundle:
         path = Path(request.file.path)
@@ -87,13 +116,14 @@ class IngestService(IngestPort):
                     table_rows: list[list[str]] = []
 
                     for row in block.rows:
-                        values = [
-                            cell.text.strip()
-                            for cell in row.cells
-                        ]
+                        values = extract_docx_row_values(
+                            row
+                        )
 
                         if any(values):
-                            table_rows.append(values)
+                            table_rows.append(
+                                values
+                            )
 
                     if not table_rows:
                         continue
@@ -160,7 +190,9 @@ class IngestService(IngestPort):
                         ]
 
                         if any(values):
-                            sheet_rows.append(values)
+                            sheet_rows.append(
+                                values
+                            )
 
                     if not sheet_rows:
                         warnings.append(
@@ -232,7 +264,9 @@ class IngestService(IngestPort):
                     )
                     continue
 
-                pages.append(page_text)
+                pages.append(
+                    page_text
+                )
 
                 chunks_hint.append(
                     ChunkHint(
