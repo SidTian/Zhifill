@@ -4,12 +4,19 @@ from aff_contracts import FileRef, IngestRequest
 from docx import Document
 from openpyxl import Workbook
 from pypdf import PdfWriter
-from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
+from pypdf.generic import (
+    DecodedStreamObject,
+    DictionaryObject,
+    NameObject,
+)
 
 from app.modules.ingest.service import IngestService
 
 
-def make_request(path: Path, mime: str) -> IngestRequest:
+def make_request(
+    path: Path,
+    mime: str,
+) -> IngestRequest:
     return IngestRequest(
         doc_id="doc_test_001",
         file=FileRef(
@@ -42,7 +49,9 @@ def test_ingest_txt(tmp_path: Path) -> None:
     assert bundle.media_type == "text/plain"
 
 
-def test_ingest_markdown(tmp_path: Path) -> None:
+def test_ingest_markdown(
+    tmp_path: Path,
+) -> None:
     path = tmp_path / "sample.md"
 
     path.write_text(
@@ -87,7 +96,10 @@ def test_ingest_docx(tmp_path: Path) -> None:
 
     request = make_request(
         path,
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "wordprocessingml.document"
+        ),
     )
 
     bundle = IngestService().ingest(request)
@@ -130,7 +142,10 @@ def test_ingest_xlsx(tmp_path: Path) -> None:
 
     request = make_request(
         path,
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        ),
     )
 
     bundle = IngestService().ingest(request)
@@ -143,7 +158,6 @@ def test_ingest_xlsx(tmp_path: Path) -> None:
 
     assert bundle.title == "sample"
 
-    # Excel metadata
     assert bundle.metadata["sheet_names"] == [
         "基本信息",
     ]
@@ -162,21 +176,27 @@ def test_ingest_pdf(tmp_path: Path) -> None:
     font = DictionaryObject(
         {
             NameObject("/Type"): NameObject("/Font"),
-            NameObject("/Subtype"): NameObject("/Type1"),
-            NameObject("/BaseFont"): NameObject("/Helvetica"),
+            NameObject("/Subtype"): NameObject(
+                "/Type1"
+            ),
+            NameObject("/BaseFont"): NameObject(
+                "/Helvetica"
+            ),
         }
     )
 
     font_ref = writer._add_object(font)
 
-    page[NameObject("/Resources")] = DictionaryObject(
-        {
-            NameObject("/Font"): DictionaryObject(
-                {
-                    NameObject("/F1"): font_ref,
-                }
-            )
-        }
+    page[NameObject("/Resources")] = (
+        DictionaryObject(
+            {
+                NameObject("/Font"): DictionaryObject(
+                    {
+                        NameObject("/F1"): font_ref,
+                    }
+                )
+            }
+        )
     )
 
     stream = DecodedStreamObject()
@@ -203,11 +223,12 @@ def test_ingest_pdf(tmp_path: Path) -> None:
     assert bundle.title == "sample"
     assert bundle.media_type == "application/pdf"
 
-    # PDF metadata
     assert bundle.metadata["page_count"] == 1
 
 
-def test_ingest_xlsx_tables(tmp_path: Path) -> None:
+def test_ingest_xlsx_tables(
+    tmp_path: Path,
+) -> None:
     path = tmp_path / "awards.xlsx"
 
     workbook = Workbook()
@@ -244,7 +265,10 @@ def test_ingest_xlsx_tables(tmp_path: Path) -> None:
 
     request = make_request(
         path,
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        ),
     )
 
     bundle = IngestService().ingest(request)
@@ -276,7 +300,9 @@ def test_ingest_xlsx_tables(tmp_path: Path) -> None:
     ]
 
 
-def test_ingest_docx_tables(tmp_path: Path) -> None:
+def test_ingest_docx_tables(
+    tmp_path: Path,
+) -> None:
     path = tmp_path / "profile.docx"
 
     document = Document()
@@ -307,7 +333,10 @@ def test_ingest_docx_tables(tmp_path: Path) -> None:
 
     request = make_request(
         path,
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "wordprocessingml.document"
+        ),
     )
 
     bundle = IngestService().ingest(request)
@@ -343,7 +372,9 @@ def test_ingest_docx_tables(tmp_path: Path) -> None:
     assert "湖南大学" in bundle.text
 
 
-def test_ingest_pdf_chunks(tmp_path: Path) -> None:
+def test_ingest_pdf_chunks(
+    tmp_path: Path,
+) -> None:
     path = tmp_path / "chunks.pdf"
 
     writer = PdfWriter()
@@ -351,8 +382,12 @@ def test_ingest_pdf_chunks(tmp_path: Path) -> None:
     font = DictionaryObject(
         {
             NameObject("/Type"): NameObject("/Font"),
-            NameObject("/Subtype"): NameObject("/Type1"),
-            NameObject("/BaseFont"): NameObject("/Helvetica"),
+            NameObject("/Subtype"): NameObject(
+                "/Type1"
+            ),
+            NameObject("/BaseFont"): NameObject(
+                "/Helvetica"
+            ),
         }
     )
 
@@ -369,14 +404,20 @@ def test_ingest_pdf_chunks(tmp_path: Path) -> None:
             height=792,
         )
 
-        page[NameObject("/Resources")] = DictionaryObject(
-            {
-                NameObject("/Font"): DictionaryObject(
-                    {
-                        NameObject("/F1"): font_ref,
-                    }
-                )
-            }
+        page[NameObject("/Resources")] = (
+            DictionaryObject(
+                {
+                    NameObject(
+                        "/Font"
+                    ): DictionaryObject(
+                        {
+                            NameObject(
+                                "/F1"
+                            ): font_ref,
+                        }
+                    )
+                }
+            )
         )
 
         stream = DecodedStreamObject()
@@ -387,9 +428,13 @@ def test_ingest_pdf_chunks(tmp_path: Path) -> None:
             + b") Tj ET"
         )
 
-        stream_ref = writer._add_object(stream)
+        stream_ref = writer._add_object(
+            stream
+        )
 
-        page[NameObject("/Contents")] = stream_ref
+        page[
+            NameObject("/Contents")
+        ] = stream_ref
 
     writer.write(path)
 
@@ -403,21 +448,28 @@ def test_ingest_pdf_chunks(tmp_path: Path) -> None:
     assert bundle.chunks_hint is not None
     assert len(bundle.chunks_hint) == 2
 
-    assert bundle.chunks_hint[0].text == "First Page"
+    assert (
+        bundle.chunks_hint[0].text
+        == "First Page"
+    )
     assert bundle.chunks_hint[0].page == 1
 
-    assert bundle.chunks_hint[1].text == "Second Page"
+    assert (
+        bundle.chunks_hint[1].text
+        == "Second Page"
+    )
     assert bundle.chunks_hint[1].page == 2
 
     assert bundle.text == (
         "First Page\n\nSecond Page"
     )
 
-    # 两页 PDF 的 metadata
     assert bundle.metadata["page_count"] == 2
 
 
-def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
+def test_ingest_xlsx_chunks(
+    tmp_path: Path,
+) -> None:
     path = tmp_path / "multi_sheet.xlsx"
 
     workbook = Workbook()
@@ -466,7 +518,10 @@ def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
 
     request = make_request(
         path,
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        ),
     )
 
     bundle = IngestService().ingest(request)
@@ -474,25 +529,31 @@ def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
     assert bundle.chunks_hint is not None
     assert len(bundle.chunks_hint) == 2
 
-    assert bundle.chunks_hint[0].sheet == "基本信息"
+    assert (
+        bundle.chunks_hint[0].sheet
+        == "基本信息"
+    )
 
     assert bundle.chunks_hint[0].text == (
         "姓名\t学校\t专业\n"
         "赵洋帆\t湖南大学\t大数据管理与应用"
     )
 
-    assert bundle.chunks_hint[1].sheet == "获奖情况"
+    assert (
+        bundle.chunks_hint[1].sheet
+        == "获奖情况"
+    )
 
     assert bundle.chunks_hint[1].text == (
         "获奖时间\t奖项名称\t级别\n"
         "2023-11\t国家奖学金\t国家级"
     )
 
-    # 两个 Sheet 都应该出现在 metadata 中
     assert bundle.metadata["sheet_names"] == [
         "基本信息",
         "获奖情况",
     ]
+
 
 def test_ingest_pdf_blank_page_warning(
     tmp_path: Path,
@@ -504,27 +565,32 @@ def test_ingest_pdf_blank_page_warning(
     font = DictionaryObject(
         {
             NameObject("/Type"): NameObject("/Font"),
-            NameObject("/Subtype"): NameObject("/Type1"),
-            NameObject("/BaseFont"): NameObject("/Helvetica"),
+            NameObject("/Subtype"): NameObject(
+                "/Type1"
+            ),
+            NameObject("/BaseFont"): NameObject(
+                "/Helvetica"
+            ),
         }
     )
 
     font_ref = writer._add_object(font)
 
-    # 第 1 页：有文字
     page1 = writer.add_blank_page(
         width=612,
         height=792,
     )
 
-    page1[NameObject("/Resources")] = DictionaryObject(
-        {
-            NameObject("/Font"): DictionaryObject(
-                {
-                    NameObject("/F1"): font_ref,
-                }
-            )
-        }
+    page1[NameObject("/Resources")] = (
+        DictionaryObject(
+            {
+                NameObject("/Font"): DictionaryObject(
+                    {
+                        NameObject("/F1"): font_ref,
+                    }
+                )
+            }
+        )
     )
 
     stream = DecodedStreamObject()
@@ -538,7 +604,6 @@ def test_ingest_pdf_blank_page_warning(
 
     page1[NameObject("/Contents")] = stream_ref
 
-    # 第 2 页：完全空白
     writer.add_blank_page(
         width=612,
         height=792,
@@ -563,8 +628,12 @@ def test_ingest_pdf_blank_page_warning(
     assert bundle.chunks_hint[0].page == 1
 
     assert bundle.warnings == [
-        "PDF page 2 contains no extractable text."
+        (
+            "PDF page 2 contains no "
+            "extractable text."
+        )
     ]
+
 
 def test_ingest_xlsx_empty_sheet_warning(
     tmp_path: Path,
@@ -590,7 +659,6 @@ def test_ingest_xlsx_empty_sheet_warning(
         ]
     )
 
-    # 新建一个完全空的 Sheet
     workbook.create_sheet(
         title="空白表"
     )
@@ -600,7 +668,10 @@ def test_ingest_xlsx_empty_sheet_warning(
 
     request = make_request(
         path,
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        ),
     )
 
     bundle = IngestService().ingest(request)
@@ -616,8 +687,73 @@ def test_ingest_xlsx_empty_sheet_warning(
     assert bundle.chunks_hint is not None
     assert len(bundle.chunks_hint) == 1
 
-    assert bundle.chunks_hint[0].sheet == "基本信息"
+    assert (
+        bundle.chunks_hint[0].sheet
+        == "基本信息"
+    )
 
     assert bundle.warnings == [
         "Excel sheet '空白表' is empty."
     ]
+
+
+def test_ingest_docx_preserves_block_order(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "ordered.docx"
+
+    document = Document()
+
+    document.add_heading(
+        "一、基本情况",
+        level=1,
+    )
+
+    document.add_paragraph(
+        "下面是基本信息。"
+    )
+
+    table = document.add_table(
+        rows=2,
+        cols=2,
+    )
+
+    table.cell(0, 0).text = "姓名"
+    table.cell(0, 1).text = "学校"
+
+    table.cell(1, 0).text = "张三"
+    table.cell(1, 1).text = "湖南大学"
+
+    document.add_heading(
+        "二、补充说明",
+        level=1,
+    )
+
+    document.add_paragraph(
+        "这是表格后面的说明。"
+    )
+
+    document.save(path)
+
+    request = make_request(
+        path,
+        (
+            "application/vnd.openxmlformats-officedocument."
+            "wordprocessingml.document"
+        ),
+    )
+
+    bundle = IngestService().ingest(request)
+
+    assert bundle.text == (
+        "一、基本情况\n"
+        "下面是基本信息。\n"
+        "[Table: Table 1]\n"
+        "姓名\t学校\n"
+        "张三\t湖南大学\n"
+        "二、补充说明\n"
+        "这是表格后面的说明。"
+    )
+
+    assert bundle.tables is not None
+    assert len(bundle.tables) == 1
