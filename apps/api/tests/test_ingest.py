@@ -24,6 +24,7 @@ def make_request(path: Path, mime: str) -> IngestRequest:
 
 def test_ingest_txt(tmp_path: Path) -> None:
     path = tmp_path / "sample.txt"
+
     path.write_text(
         "这是 TXT 测试。",
         encoding="utf-8",
@@ -68,16 +69,20 @@ def test_ingest_docx(tmp_path: Path) -> None:
     path = tmp_path / "sample.docx"
 
     document = Document()
+
     document.add_heading(
         "个人经历",
         level=1,
     )
+
     document.add_paragraph(
         "赵洋帆就读于湖南大学。"
     )
+
     document.add_paragraph(
         "负责知识图谱相关项目研究。"
     )
+
     document.save(path)
 
     request = make_request(
@@ -105,7 +110,11 @@ def test_ingest_xlsx(tmp_path: Path) -> None:
     sheet.title = "基本信息"
 
     sheet.append(
-        ["姓名", "学校", "专业"]
+        [
+            "姓名",
+            "学校",
+            "专业",
+        ]
     )
 
     sheet.append(
@@ -133,6 +142,11 @@ def test_ingest_xlsx(tmp_path: Path) -> None:
     )
 
     assert bundle.title == "sample"
+
+    # Excel metadata
+    assert bundle.metadata["sheet_names"] == [
+        "基本信息",
+    ]
 
 
 def test_ingest_pdf(tmp_path: Path) -> None:
@@ -189,6 +203,9 @@ def test_ingest_pdf(tmp_path: Path) -> None:
     assert bundle.title == "sample"
     assert bundle.media_type == "application/pdf"
 
+    # PDF metadata
+    assert bundle.metadata["page_count"] == 1
+
 
 def test_ingest_xlsx_tables(tmp_path: Path) -> None:
     path = tmp_path / "awards.xlsx"
@@ -199,15 +216,27 @@ def test_ingest_xlsx_tables(tmp_path: Path) -> None:
     sheet.title = "获奖情况"
 
     sheet.append(
-        ["获奖时间", "奖项名称", "级别"]
+        [
+            "获奖时间",
+            "奖项名称",
+            "级别",
+        ]
     )
 
     sheet.append(
-        ["2023-11", "国家奖学金", "国家级"]
+        [
+            "2023-11",
+            "国家奖学金",
+            "国家级",
+        ]
     )
 
     sheet.append(
-        ["2024-05", "挑战杯", "省级金奖"]
+        [
+            "2024-05",
+            "挑战杯",
+            "省级金奖",
+        ]
     )
 
     workbook.save(path)
@@ -384,6 +413,10 @@ def test_ingest_pdf_chunks(tmp_path: Path) -> None:
         "First Page\n\nSecond Page"
     )
 
+    # 两页 PDF 的 metadata
+    assert bundle.metadata["page_count"] == 2
+
+
 def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
     path = tmp_path / "multi_sheet.xlsx"
 
@@ -393,8 +426,13 @@ def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
     sheet1.title = "基本信息"
 
     sheet1.append(
-        ["姓名", "学校", "专业"]
+        [
+            "姓名",
+            "学校",
+            "专业",
+        ]
     )
+
     sheet1.append(
         [
             "赵洋帆",
@@ -408,8 +446,13 @@ def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
     )
 
     sheet2.append(
-        ["获奖时间", "奖项名称", "级别"]
+        [
+            "获奖时间",
+            "奖项名称",
+            "级别",
+        ]
     )
+
     sheet2.append(
         [
             "2023-11",
@@ -432,13 +475,21 @@ def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
     assert len(bundle.chunks_hint) == 2
 
     assert bundle.chunks_hint[0].sheet == "基本信息"
+
     assert bundle.chunks_hint[0].text == (
         "姓名\t学校\t专业\n"
         "赵洋帆\t湖南大学\t大数据管理与应用"
     )
 
     assert bundle.chunks_hint[1].sheet == "获奖情况"
+
     assert bundle.chunks_hint[1].text == (
         "获奖时间\t奖项名称\t级别\n"
         "2023-11\t国家奖学金\t国家级"
     )
+
+    # 两个 Sheet 都应该出现在 metadata 中
+    assert bundle.metadata["sheet_names"] == [
+        "基本信息",
+        "获奖情况",
+    ]

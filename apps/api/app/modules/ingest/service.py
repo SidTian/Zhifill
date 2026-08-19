@@ -20,6 +20,14 @@ class IngestService(IngestPort):
         tables: list[TableBlock] | None = None
         chunks_hint: list[ChunkHint] | None = None
 
+        # 所有文件都有的基础 metadata
+        metadata = {
+            "filename": request.file.filename,
+            "mime": request.file.mime,
+            "sha256": request.file.sha256,
+            "size": request.file.size,
+        }
+
         # TXT / Markdown
         if suffix in {".txt", ".md"}:
             text = path.read_text(
@@ -98,6 +106,12 @@ class IngestService(IngestPort):
                 read_only=True,
             )
 
+            # 保存 Excel Sheet 名称
+            metadata["sheet_names"] = [
+                sheet.title
+                for sheet in workbook.worksheets
+            ]
+
             sheet_texts = []
             tables = []
             chunks_hint = []
@@ -142,7 +156,7 @@ class IngestService(IngestPort):
                             )
                         )
 
-                        # Sheet 级 chunk
+                        # Sheet 级 chunks_hint
                         chunks_hint.append(
                             ChunkHint(
                                 text=sheet_body,
@@ -160,6 +174,9 @@ class IngestService(IngestPort):
         # PDF
         elif suffix == ".pdf":
             reader = PdfReader(path)
+
+            # 保存 PDF 页数
+            metadata["page_count"] = len(reader.pages)
 
             pages = []
             chunks_hint = []
@@ -185,7 +202,6 @@ class IngestService(IngestPort):
 
             text = "\n\n".join(pages).strip()
 
-        # Unsupported
         else:
             raise NotImplementedModule(
                 "ingest",
@@ -199,12 +215,7 @@ class IngestService(IngestPort):
             text=text,
             chunks_hint=chunks_hint,
             tables=tables,
-            metadata={
-                "filename": request.file.filename,
-                "mime": request.file.mime,
-                "sha256": request.file.sha256,
-                "size": request.file.size,
-            },
+            metadata=metadata,
             warnings=[],
         )
 
