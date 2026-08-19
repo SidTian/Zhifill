@@ -3,6 +3,8 @@ from pathlib import Path
 from aff_contracts import FileRef, IngestRequest
 from docx import Document
 from openpyxl import Workbook
+from pypdf import PdfWriter
+from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
 
 from app.modules.ingest.service import IngestService
 
@@ -95,3 +97,53 @@ def test_ingest_xlsx(tmp_path: Path) -> None:
         "赵洋帆\t湖南大学\t大数据管理与应用"
     )
     assert bundle.title == "sample"
+
+
+def test_ingest_pdf(tmp_path: Path) -> None:
+    path = tmp_path / "sample.pdf"
+
+    writer = PdfWriter()
+    page = writer.add_blank_page(
+        width=612,
+        height=792,
+    )
+
+    font = DictionaryObject(
+        {
+            NameObject("/Type"): NameObject("/Font"),
+            NameObject("/Subtype"): NameObject("/Type1"),
+            NameObject("/BaseFont"): NameObject("/Helvetica"),
+        }
+    )
+
+    font_ref = writer._add_object(font)
+
+    page[NameObject("/Resources")] = DictionaryObject(
+        {
+            NameObject("/Font"): DictionaryObject(
+                {
+                    NameObject("/F1"): font_ref,
+                }
+            )
+        }
+    )
+
+    stream = DecodedStreamObject()
+    stream.set_data(
+        b"BT /F1 12 Tf 72 720 Td (Hello PDF) Tj ET"
+    )
+
+    stream_ref = writer._add_object(stream)
+    page[NameObject("/Contents")] = stream_ref
+
+    writer.write(path)
+
+    request = make_request(
+        path,
+        "application/pdf",
+    )
+    bundle = IngestService().ingest(request)
+
+    assert bundle.text == "Hello PDF"
+    assert bundle.title == "sample"
+    assert bundle.media_type == "application/pdf"

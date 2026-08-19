@@ -4,6 +4,7 @@ from pathlib import Path
 
 from docx import Document
 from openpyxl import load_workbook
+from pypdf import PdfReader
 
 from aff_contracts import DocumentBundle, IngestRequest
 from app.core.errors import NotImplementedModule
@@ -61,6 +62,23 @@ class IngestService(IngestPort):
             text = "\n\n".join(sheet_texts).strip()
 
             workbook.close()
+
+        # PDF
+        elif suffix == ".pdf":
+            reader = PdfReader(path)
+
+            pages = []
+
+            for page in reader.pages:
+                page_text = page.extract_text()
+
+                if page_text:
+                    page_text = page_text.strip()
+
+                    if page_text:
+                        pages.append(page_text)
+
+            text = "\n\n".join(pages).strip()
 
         # 暂未支持的文件类型
         else:
