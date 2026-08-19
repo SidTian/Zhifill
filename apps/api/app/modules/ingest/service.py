@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 from pypdf import PdfReader
 
 from aff_contracts import DocumentBundle, IngestRequest
-from aff_contracts.ingest import TableBlock
+from aff_contracts.ingest import ChunkHint, TableBlock
 from app.core.errors import NotImplementedModule
 from app.modules.ingest.port import IngestPort
 
@@ -18,12 +18,15 @@ class IngestService(IngestPort):
         suffix = path.suffix.lower()
 
         tables: list[TableBlock] | None = None
+        chunks_hint: list[ChunkHint] | None = None
 
         # TXT / Markdown
         if suffix in {".txt", ".md"}:
-            text = path.read_text(encoding="utf-8").strip()
+            text = path.read_text(
+                encoding="utf-8",
+            ).strip()
 
-                # Word
+        # Word
         elif suffix == ".docx":
             document = Document(path)
 
@@ -38,7 +41,10 @@ class IngestService(IngestPort):
             tables = []
             table_texts = []
 
-            for index, table in enumerate(document.tables, start=1):
+            for index, table in enumerate(
+                document.tables,
+                start=1,
+            ):
                 table_rows: list[list[str]] = []
 
                 for row in table.rows:
@@ -77,11 +83,12 @@ class IngestService(IngestPort):
                     + "\n\n"
                     + "\n\n".join(table_texts)
                 )
+
             elif paragraph_text:
                 text = paragraph_text
+
             else:
                 text = "\n\n".join(table_texts).strip()
-
 
         # Excel
         elif suffix == ".xlsx":
@@ -98,9 +105,13 @@ class IngestService(IngestPort):
                 for sheet in workbook.worksheets:
                     sheet_rows: list[list[str]] = []
 
-                    for row in sheet.iter_rows(values_only=True):
+                    for row in sheet.iter_rows(
+                        values_only=True,
+                    ):
                         values = [
-                            str(value).strip() if value is not None else ""
+                            str(value).strip()
+                            if value is not None
+                            else ""
                             for value in row
                         ]
 
@@ -126,7 +137,9 @@ class IngestService(IngestPort):
                             )
                         )
 
-                text = "\n\n".join(sheet_texts).strip()
+                text = "\n\n".join(
+                    sheet_texts
+                ).strip()
 
             finally:
                 workbook.close()
@@ -136,8 +149,12 @@ class IngestService(IngestPort):
             reader = PdfReader(path)
 
             pages = []
+            chunks_hint = []
 
-            for page in reader.pages:
+            for page_number, page in enumerate(
+                reader.pages,
+                start=1,
+            ):
                 page_text = page.extract_text()
 
                 if page_text:
@@ -146,8 +163,16 @@ class IngestService(IngestPort):
                     if page_text:
                         pages.append(page_text)
 
+                        chunks_hint.append(
+                            ChunkHint(
+                                text=page_text,
+                                page=page_number,
+                            )
+                        )
+
             text = "\n\n".join(pages).strip()
 
+        # Unsupported
         else:
             raise NotImplementedModule(
                 "ingest",
@@ -159,6 +184,7 @@ class IngestService(IngestPort):
             title=path.stem,
             media_type=request.file.mime,
             text=text,
+            chunks_hint=chunks_hint,
             tables=tables,
             metadata={
                 "filename": request.file.filename,
