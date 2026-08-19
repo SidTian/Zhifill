@@ -11,7 +11,7 @@ class IngestService(IngestPort):
     def ingest(self, request: IngestRequest) -> DocumentBundle:
         path = Path(request.file.path)
 
-        if path.suffix.lower() != ".txt":
+        if path.suffix.lower() not in {".txt", ".md"}:
             raise NotImplementedModule("ingest", f"unsupported file type: {path.suffix}")
 
         text = path.read_text(encoding="utf-8").strip()
