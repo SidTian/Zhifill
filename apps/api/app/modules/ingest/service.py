@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+from docx import Document
+
+
 
 from aff_contracts import DocumentBundle, IngestRequest
 from app.core.errors import NotImplementedModule
@@ -11,10 +14,28 @@ class IngestService(IngestPort):
     def ingest(self, request: IngestRequest) -> DocumentBundle:
         path = Path(request.file.path)
 
-        if path.suffix.lower() not in {".txt", ".md"}:
-            raise NotImplementedModule("ingest", f"unsupported file type: {path.suffix}")
+        suffix = path.suffix.lower()
 
-        text = path.read_text(encoding="utf-8").strip()
+        if suffix in {".txt", ".md"}:
+            text = path.read_text(encoding="utf-8").strip()
+
+        elif suffix == ".docx":
+            document = Document(path)
+
+            paragraphs = [
+                paragraph.text.strip()
+                for paragraph in document.paragraphs
+                if paragraph.text.strip()
+            ]
+
+            text = "\n".join(paragraphs).strip()
+
+        else:
+            raise NotImplementedModule(
+                "ingest",
+                f"unsupported file type: {path.suffix}",
+            )
+
 
         return DocumentBundle(
             doc_id=request.doc_id,
