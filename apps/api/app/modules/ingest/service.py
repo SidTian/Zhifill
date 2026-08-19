@@ -17,14 +17,13 @@ class IngestService(IngestPort):
         path = Path(request.file.path)
         suffix = path.suffix.lower()
 
-        # 默认情况下没有结构化表格
         tables: list[TableBlock] | None = None
 
         # TXT / Markdown
         if suffix in {".txt", ".md"}:
             text = path.read_text(encoding="utf-8").strip()
 
-        # Word
+                # Word
         elif suffix == ".docx":
             document = Document(path)
 
@@ -34,7 +33,55 @@ class IngestService(IngestPort):
                 if paragraph.text.strip()
             ]
 
-            text = "\n".join(paragraphs).strip()
+            paragraph_text = "\n".join(paragraphs).strip()
+
+            tables = []
+            table_texts = []
+
+            for index, table in enumerate(document.tables, start=1):
+                table_rows: list[list[str]] = []
+
+                for row in table.rows:
+                    values = [
+                        cell.text.strip()
+                        for cell in row.cells
+                    ]
+
+                    if any(values):
+                        table_rows.append(values)
+
+                if table_rows:
+                    table_name = f"Table {index}"
+
+                    tables.append(
+                        TableBlock(
+                            name=table_name,
+                            headers=table_rows[0],
+                            rows=table_rows[1:],
+                        )
+                    )
+
+                    rows_as_text = [
+                        "\t".join(row)
+                        for row in table_rows
+                    ]
+
+                    table_texts.append(
+                        f"[Table: {table_name}]\n"
+                        + "\n".join(rows_as_text)
+                    )
+
+            if paragraph_text and table_texts:
+                text = (
+                    paragraph_text
+                    + "\n\n"
+                    + "\n\n".join(table_texts)
+                )
+            elif paragraph_text:
+                text = paragraph_text
+            else:
+                text = "\n\n".join(table_texts).strip()
+
 
         # Excel
         elif suffix == ".xlsx":
@@ -61,7 +108,6 @@ class IngestService(IngestPort):
                             sheet_rows.append(values)
 
                     if sheet_rows:
-                        # 生成文本视图
                         rows_as_text = [
                             "\t".join(row)
                             for row in sheet_rows
@@ -72,7 +118,6 @@ class IngestService(IngestPort):
                             + "\n".join(rows_as_text)
                         )
 
-                        # 生成结构化表格
                         tables.append(
                             TableBlock(
                                 name=sheet.title,
@@ -103,7 +148,6 @@ class IngestService(IngestPort):
 
             text = "\n\n".join(pages).strip()
 
-        # 暂未支持的文件类型
         else:
             raise NotImplementedModule(
                 "ingest",
