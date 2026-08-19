@@ -383,3 +383,62 @@ def test_ingest_pdf_chunks(tmp_path: Path) -> None:
     assert bundle.text == (
         "First Page\n\nSecond Page"
     )
+
+def test_ingest_xlsx_chunks(tmp_path: Path) -> None:
+    path = tmp_path / "multi_sheet.xlsx"
+
+    workbook = Workbook()
+
+    sheet1 = workbook.active
+    sheet1.title = "基本信息"
+
+    sheet1.append(
+        ["姓名", "学校", "专业"]
+    )
+    sheet1.append(
+        [
+            "赵洋帆",
+            "湖南大学",
+            "大数据管理与应用",
+        ]
+    )
+
+    sheet2 = workbook.create_sheet(
+        title="获奖情况"
+    )
+
+    sheet2.append(
+        ["获奖时间", "奖项名称", "级别"]
+    )
+    sheet2.append(
+        [
+            "2023-11",
+            "国家奖学金",
+            "国家级",
+        ]
+    )
+
+    workbook.save(path)
+    workbook.close()
+
+    request = make_request(
+        path,
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+
+    bundle = IngestService().ingest(request)
+
+    assert bundle.chunks_hint is not None
+    assert len(bundle.chunks_hint) == 2
+
+    assert bundle.chunks_hint[0].sheet == "基本信息"
+    assert bundle.chunks_hint[0].text == (
+        "姓名\t学校\t专业\n"
+        "赵洋帆\t湖南大学\t大数据管理与应用"
+    )
+
+    assert bundle.chunks_hint[1].sheet == "获奖情况"
+    assert bundle.chunks_hint[1].text == (
+        "获奖时间\t奖项名称\t级别\n"
+        "2023-11\t国家奖学金\t国家级"
+    )

@@ -100,6 +100,7 @@ class IngestService(IngestPort):
 
             sheet_texts = []
             tables = []
+            chunks_hint = []
 
             try:
                 for sheet in workbook.worksheets:
@@ -124,16 +125,28 @@ class IngestService(IngestPort):
                             for row in sheet_rows
                         ]
 
+                        sheet_body = "\n".join(rows_as_text)
+
+                        # 全文视图
                         sheet_texts.append(
                             f"[Sheet: {sheet.title}]\n"
-                            + "\n".join(rows_as_text)
+                            + sheet_body
                         )
 
+                        # 结构化表格
                         tables.append(
                             TableBlock(
                                 name=sheet.title,
                                 headers=sheet_rows[0],
                                 rows=sheet_rows[1:],
+                            )
+                        )
+
+                        # Sheet 级 chunk
+                        chunks_hint.append(
+                            ChunkHint(
+                                text=sheet_body,
+                                sheet=sheet.title,
                             )
                         )
 
