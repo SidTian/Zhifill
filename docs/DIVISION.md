@@ -83,7 +83,7 @@
 | 编号      | 方向                    | 负责人     | 仓库目录（实现落点）                                                                                                                         |
 | ------- | --------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | **统筹**  | 规划 + 前端 + 自动回填 + 系统集成 | SidTian | `docs/`、`packages/contracts`（把关）`apps/web/apps/api/app/modules/export/apps/api/app/api/`、`orchestrator/`、`core/docker-compose.yml` |
-| **1.1** | 资料统一表示（历史资料输入层）       | _待填写_   | `apps/api/app/modules/ingest/`                                                                                                     |
+| **1.1** | 资料统一表示（历史资料输入层）       | _赵晋_   | `apps/api/app/modules/ingest/`                                                                                                     |
 | **1.2** | 用户任务文档结构解析            | _宋瑞_    | `apps/api/app/modules/form_structure/`（新建）                                                                                         |
 | **1.3** | 表格/文档语义理解与任务需求建模      | _向鑫雨_   | `apps/api/app/modules/task_semantics/`（新建）                                                                                         |
 | **2.1** | 知识抽取与知识图谱构建           | _赵洋帆_   | `apps/api/app/modules/rag/` + Schema 文档                                                                                            |
@@ -237,7 +237,7 @@
 | 编号  | 模块                | 姓名      | GitHub     | 日期     |
 | --- | ----------------- | ------- | ---------- | ------ |
 | 统筹  | 规划 + 前端 + 回填 + 集成 | SidTian | SidTian    | <br /> |
-| 1.1 | 资料统一表示            | <br />  | <br />     | <br /> |
+| 1.1 | 资料统一表示            | 赵晋  | ZhaoJin192     | <br /> |
 | 1.2 | 任务文档结构解析          | 宋瑞      | SongLierre | <br /> |
 | 1.3 | 语义理解与任务需求         | <br />  | <br />     | <br /> |
 | 2.1 | 知识抽取与图谱           | 赵洋帆     | FionaZhao  | <br /> |
