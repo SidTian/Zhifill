@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://auto-form-fill.local/schemas/v0/form_structure.schema.json",
+  "title": "FormStructureResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "filename",
+    "title",
+    "headings",
+    "paragraphs",
+    "tables",
+    "fields",
+    "structure_notes"
+  ],
+  "properties": {
+    "format": { "type": "string", "enum": ["docx", "pdf", "xlsx"] },
+    "filename": { "type": "string" },
+    "title": { "type": "string" },
+    "headings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "level", "text", "style"],
+        "properties": {
+          "index": { "type": "integer", "minimum": 0 },
+          "level": { "type": "integer", "minimum": 1 },
+          "text": { "type": "string", "minLength": 1 },
+          "style": { "type": "string" }
+        }
+      }
+    },
+    "paragraphs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "text", "style"],
+        "properties": {
+          "index": { "type": "integer", "minimum": 0 },
+          "text": { "type": "string" },
+          "style": { "type": "string" }
+        }
+      }
+    },
+    "tables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["index", "rows", "cols", "header_rows", "cells", "merged_ranges"],
+        "properties": {
+          "index": { "type": "integer", "minimum": 0 },
+          "rows": { "type": "integer", "minimum": 0 },
+          "cols": { "type": "integer", "minimum": 0 },
+          "header_rows": { "type": "integer", "minimum": 0, "default": 0 },
+          "cells": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["row", "col", "text", "merged"],
+              "properties": {
+                "row": { "type": "integer", "minimum": 0 },
+                "col": { "type": "integer", "minimum": 0 },
+                "text": { "type": "string" },
+                "merged": { "type": "boolean" },
+                "rowspan": { "type": ["integer", "null"], "minimum": 1 },
+                "colspan": { "type": ["integer", "null"], "minimum": 1 }
+              }
+            }
+          },
+          "merged_ranges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["min_row", "min_col", "max_row", "max_col"],
+              "properties": {
+                "min_row": { "type": "integer", "minimum": 0 },
+                "min_col": { "type": "integer", "minimum": 0 },
+                "max_row": { "type": "integer", "minimum": 0 },
+                "max_col": { "type": "integer", "minimum": 0 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "fill_kind", "locator"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "name": { "type": "string" },
+          "fill_kind": { "type": "string", "enum": ["empty", "template"], "default": "empty" },
+          "locator": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind", "sheet", "row", "col"],
+                "properties": {
+                  "kind": { "const": "excel_cell" },
+                  "sheet": { "type": "string" },
+                  "row": { "type": "integer", "minimum": 1 },
+                  "col": { "type": "integer", "minimum": 1 },
+                  "merged_range": { "type": ["string", "null"] }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind", "table_index", "row", "col"],
+                "properties": {
+                  "kind": { "const": "word_cell" },
+                  "table_index": { "type": "integer", "minimum": 0 },
+                  "row": { "type": "integer", "minimum": 0 },
+                  "col": { "type": "integer", "minimum": 0 }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind", "name"],
+                "properties": {
+                  "kind": { "const": "word_bookmark" },
+                  "name": { "type": "string" }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind", "field_name"],
+                "properties": {
+                  "kind": { "const": "pdf_acroform" },
+                  "field_name": { "type": "string" }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind", "page", "x0", "y0", "x1", "y1"],
+                "properties": {
+                  "kind": { "const": "pdf_bbox" },
+                  "page": { "type": "integer", "minimum": 0 },
+                  "x0": { "type": "number" },
+                  "y0": { "type": "number" },
+                  "x1": { "type": "number" },
+                  "y1": { "type": "number" }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "structure_notes": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -10,6 +10,15 @@ from aff_contracts.fill import (
     ParseFormRequest,
     ParseFormResult,
 )
+from aff_contracts.form_structure import (
+    FormStructureField,
+    FormStructureResult,
+    Heading,
+    MergedRange,
+    Paragraph,
+    TableCell,
+    TableStructure,
+)
 from aff_contracts.ingest import DocumentBundle, IngestRequest
 from aff_contracts.rag import (
     DeleteDocumentRequest,
@@ -31,16 +40,23 @@ __all__ = [
     "FillResult",
     "FormField",
     "FormJob",
+    "FormStructureField",
+    "FormStructureResult",
+    "Heading",
     "IngestRequest",
     "JobStatus",
+    "MergedRange",
+    "Paragraph",
     "ParseFormRequest",
     "ParseFormResult",
     "RagQueryRequest",
     "RagQueryResult",
     "Settings",
     "SourceRef",
+    "TableCell",
+    "TableStructure",
     "UpsertDocumentRequest",
     "UpsertDocumentResult",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

@@ -56,6 +56,28 @@ def test_pydantic_form_field() -> None:
     assert field.locator.kind == "excel_cell"
 
 
+def test_success_form_structure(validator_cls) -> None:
+    schema = _load(SCHEMAS / "form_structure.schema.json")
+    data = _load(FIXTURES / "success" / "form_structure.json")
+    validator_cls(schema).validate(data)
+
+
+def test_pydantic_form_structure() -> None:
+    from aff_contracts import FormStructureResult
+
+    data = _load(FIXTURES / "success" / "form_structure.json")
+    result = FormStructureResult.model_validate(data)
+    assert result.format == "docx"
+    assert result.title == "暑期社会实践活动项目申报表"
+    assert len(result.fields) == 8
+    assert result.fields[0].locator.kind == "word_cell"
+    # 验证 fill_kind 字段
+    template_fields = [f for f in result.fields if f.fill_kind == "template"]
+    empty_fields = [f for f in result.fields if f.fill_kind == "empty"]
+    assert len(template_fields) == 3  # 活动时间 + 实践基地 + 辅导员意见
+    assert len(empty_fields) == 5     # 项目名称 + 姓名/性别/政治面貌/联系方式
+
+
 def test_health_endpoint() -> None:
     from fastapi.testclient import TestClient
 
