@@ -1,0 +1,553 @@
+{
+  "format": "docx",
+  "filename": "湖南大学学生劳动实践教育考核表 - 单页.docx",
+  "title": "湖南大学学生劳动实践教育考核表 - 单页",
+  "headings": [],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "湖南大学学生劳动实践教育考核表",
+      "style": "Normal"
+    },
+    {
+      "index": 1,
+      "text": "注：学生参与劳动实践教育项目多于4个时可自行添加相应栏目进行记录。",
+      "style": "Normal"
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 9,
+      "cols": 8,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "text": "姓名",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "text": "性别",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "text": "学号",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "text": "专业\n班级",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "text": "项目一",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 8
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "text": "项目名称",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "text": "劳动实践教育模块",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "text": "生产性劳动实践项目",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "text": "日期",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "text": "地点",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "text": "时长",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "text": "4课时",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "text": "组织单位",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "text": "现代工程训练中心",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "text": "学生参与项目记录",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "text": "该生已完成生产性劳动实践项目课程，成绩          。\n                 \n年  月  日",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "text": "项目二",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 8
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "text": "项目名称",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "text": "劳动实践教育模块",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "text": "日期",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "text": "地点",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "text": "时长",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "text": "组织单位",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "text": "学生参与项目记录",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "text": "该生已完成生产性劳动实践项目课程，成绩          。\n                    \n年    月     日",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        }
+      ],
+      "merged_ranges": [
+        {
+          "min_row": 1,
+          "min_col": 0,
+          "max_row": 1,
+          "max_col": 7
+        },
+        {
+          "min_row": 2,
+          "min_col": 1,
+          "max_row": 2,
+          "max_col": 3
+        },
+        {
+          "min_row": 2,
+          "min_col": 5,
+          "max_row": 2,
+          "max_col": 7
+        },
+        {
+          "min_row": 4,
+          "min_col": 1,
+          "max_row": 4,
+          "max_col": 7
+        },
+        {
+          "min_row": 5,
+          "min_col": 0,
+          "max_row": 5,
+          "max_col": 7
+        },
+        {
+          "min_row": 6,
+          "min_col": 1,
+          "max_row": 6,
+          "max_col": 3
+        },
+        {
+          "min_row": 6,
+          "min_col": 5,
+          "max_row": 6,
+          "max_col": 7
+        },
+        {
+          "min_row": 8,
+          "min_col": 1,
+          "max_row": 8,
+          "max_col": 7
+        }
+      ],
+      "header_rows": 0
+    }
+  ],
+  "fields": [
+    {
+      "id": "word_t0_r0_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r0_c3",
+      "name": "性别",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r0_c5",
+      "name": "学号",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 5
+      }
+    },
+    {
+      "id": "word_t0_r0_c7",
+      "name": "专业班级",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 7
+      }
+    },
+    {
+      "id": "word_t0_r2_c1",
+      "name": "项目名称",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r3_c1",
+      "name": "日期",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r3_c3",
+      "name": "地点",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r4_c1",
+      "name": "学生参与项目记录",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 4,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r6_c1",
+      "name": "项目名称",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r6_c5",
+      "name": "劳动实践教育模块",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 5
+      }
+    },
+    {
+      "id": "word_t0_r7_c1",
+      "name": "日期",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r7_c3",
+      "name": "地点",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r7_c5",
+      "name": "时长",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 5
+      }
+    },
+    {
+      "id": "word_t0_r7_c7",
+      "name": "组织单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 7
+      }
+    },
+    {
+      "id": "word_t0_r8_c1",
+      "name": "学生参与项目记录",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 1
+      }
+    }
+  ],
+  "structure_notes": [
+    "未检测到标题段落（可能使用了自定义样式）",
+    "共解析 1 个表格，识别 15 个可填写位置"
+  ]
+}

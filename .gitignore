@@ -47,3 +47,7 @@ data/*.sqlite
 
 # Docker
 docker-compose.override.yml
+
+# 1.2 本地开发工具（勿提交）
+apps/api/parse_form.py
+apps/api/convert_doc.py
