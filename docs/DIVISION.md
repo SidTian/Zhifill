@@ -239,7 +239,7 @@
 | 统筹  | 规划 + 前端 + 回填 + 集成 | SidTian | SidTian    | <br /> |
 | 1.1 | 资料统一表示            | 赵晋  | ZhaoJin192     | <br /> |
 | 1.2 | 任务文档结构解析          | 宋瑞      | SongLierre | <br /> |
-| 1.3 | 语义理解与任务需求         | <br />  | <br />     | <br /> |
+| 1.3 | 语义理解与任务需求         | 向鑫雨  | ylxc-xxy     | <br /> |
 | 2.1 | 知识抽取与图谱           | 赵洋帆     | FionaZhao  | <br /> |
 | 2.2 | Agent 推理与生成       | 裴思爽  | PeiSishuang     | <br /> |
 
