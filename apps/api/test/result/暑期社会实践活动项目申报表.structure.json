@@ -1,0 +1,1058 @@
+{
+  "format": "docx",
+  "filename": "暑期社会实践活动项目申报表.docx",
+  "title": "暑期社会实践活动项目申报表",
+  "headings": [],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "湖南大学2026年暑期“三下乡”社会实践活动院级项目申报表",
+      "style": "Normal"
+    },
+    {
+      "index": 1,
+      "text": "注：表格需双面打印。",
+      "style": "Normal"
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 19,
+      "cols": 8,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "text": "项目名称",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "text": "团队名称",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "text": "指导单位",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "text": "团队拟定人数",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 2,
+          "col": 7,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "text": "活动时间",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "text": "年  月  日—    年  月  日",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "text": "实践基地",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "text": "省    市    县（区）   镇    村",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "text": "团队负责人基本情况",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 8
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "text": "姓名",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "text": "性别",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "text": "政治面貌",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "text": "学院年级专业",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "text": "联系方式",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 8,
+          "col": 6,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "text": "指导教师基本情况",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 8
+        },
+        {
+          "row": 10,
+          "col": 0,
+          "text": "姓名",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "text": "职称",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "text": "学历",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "text": "所在单位",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 10,
+          "col": 6,
+          "text": "联系方式",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 11,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 11,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 11,
+          "col": 6,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 12,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 12,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 12,
+          "col": 6,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "text": "项目简介",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 14,
+          "col": 0,
+          "text": "项目目标与可行性",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 14,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 15,
+          "col": 0,
+          "text": "实施计划安排",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 15,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 16,
+          "col": 0,
+          "text": "项目预期成果",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 16,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 17,
+          "col": 0,
+          "text": "年级辅导员推荐意见",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 17,
+          "col": 1,
+          "text": "盖章：\n                           年    月    日",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 18,
+          "col": 0,
+          "text": "院团委\n意见",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 18,
+          "col": 1,
+          "text": "盖章：\n                           年    月    日",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        }
+      ],
+      "merged_ranges": [
+        {
+          "min_row": 0,
+          "min_col": 0,
+          "max_row": 0,
+          "max_col": 1
+        },
+        {
+          "min_row": 0,
+          "min_col": 2,
+          "max_row": 0,
+          "max_col": 7
+        },
+        {
+          "min_row": 1,
+          "min_col": 0,
+          "max_row": 1,
+          "max_col": 1
+        },
+        {
+          "min_row": 1,
+          "min_col": 2,
+          "max_row": 1,
+          "max_col": 7
+        },
+        {
+          "min_row": 2,
+          "min_col": 0,
+          "max_row": 2,
+          "max_col": 1
+        },
+        {
+          "min_row": 2,
+          "min_col": 2,
+          "max_row": 2,
+          "max_col": 4
+        },
+        {
+          "min_row": 2,
+          "min_col": 5,
+          "max_row": 2,
+          "max_col": 6
+        },
+        {
+          "min_row": 3,
+          "min_col": 0,
+          "max_row": 3,
+          "max_col": 1
+        },
+        {
+          "min_row": 3,
+          "min_col": 2,
+          "max_row": 3,
+          "max_col": 7
+        },
+        {
+          "min_row": 4,
+          "min_col": 0,
+          "max_row": 4,
+          "max_col": 1
+        },
+        {
+          "min_row": 4,
+          "min_col": 2,
+          "max_row": 4,
+          "max_col": 7
+        },
+        {
+          "min_row": 5,
+          "min_col": 0,
+          "max_row": 5,
+          "max_col": 7
+        },
+        {
+          "min_row": 6,
+          "min_col": 1,
+          "max_row": 6,
+          "max_col": 2
+        },
+        {
+          "min_row": 6,
+          "min_col": 4,
+          "max_row": 6,
+          "max_col": 5
+        },
+        {
+          "min_row": 6,
+          "min_col": 6,
+          "max_row": 6,
+          "max_col": 7
+        },
+        {
+          "min_row": 7,
+          "min_col": 1,
+          "max_row": 7,
+          "max_col": 2
+        },
+        {
+          "min_row": 7,
+          "min_col": 4,
+          "max_row": 7,
+          "max_col": 5
+        },
+        {
+          "min_row": 7,
+          "min_col": 6,
+          "max_row": 7,
+          "max_col": 7
+        },
+        {
+          "min_row": 8,
+          "min_col": 1,
+          "max_row": 8,
+          "max_col": 2
+        },
+        {
+          "min_row": 8,
+          "min_col": 4,
+          "max_row": 8,
+          "max_col": 5
+        },
+        {
+          "min_row": 8,
+          "min_col": 6,
+          "max_row": 8,
+          "max_col": 7
+        },
+        {
+          "min_row": 9,
+          "min_col": 0,
+          "max_row": 9,
+          "max_col": 7
+        },
+        {
+          "min_row": 10,
+          "min_col": 1,
+          "max_row": 10,
+          "max_col": 2
+        },
+        {
+          "min_row": 10,
+          "min_col": 4,
+          "max_row": 10,
+          "max_col": 5
+        },
+        {
+          "min_row": 10,
+          "min_col": 6,
+          "max_row": 10,
+          "max_col": 7
+        },
+        {
+          "min_row": 11,
+          "min_col": 1,
+          "max_row": 11,
+          "max_col": 2
+        },
+        {
+          "min_row": 11,
+          "min_col": 4,
+          "max_row": 11,
+          "max_col": 5
+        },
+        {
+          "min_row": 11,
+          "min_col": 6,
+          "max_row": 11,
+          "max_col": 7
+        },
+        {
+          "min_row": 12,
+          "min_col": 1,
+          "max_row": 12,
+          "max_col": 2
+        },
+        {
+          "min_row": 12,
+          "min_col": 4,
+          "max_row": 12,
+          "max_col": 5
+        },
+        {
+          "min_row": 12,
+          "min_col": 6,
+          "max_row": 12,
+          "max_col": 7
+        },
+        {
+          "min_row": 13,
+          "min_col": 1,
+          "max_row": 13,
+          "max_col": 7
+        },
+        {
+          "min_row": 14,
+          "min_col": 1,
+          "max_row": 14,
+          "max_col": 7
+        },
+        {
+          "min_row": 15,
+          "min_col": 1,
+          "max_row": 15,
+          "max_col": 7
+        },
+        {
+          "min_row": 16,
+          "min_col": 1,
+          "max_row": 16,
+          "max_col": 7
+        },
+        {
+          "min_row": 17,
+          "min_col": 1,
+          "max_row": 17,
+          "max_col": 7
+        },
+        {
+          "min_row": 18,
+          "min_col": 1,
+          "max_row": 18,
+          "max_col": 7
+        }
+      ],
+      "header_rows": 0
+    }
+  ],
+  "fields": [
+    {
+      "id": "word_t0_r0_c2",
+      "name": "项目名称",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r1_c2",
+      "name": "团队名称",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r2_c2",
+      "name": "指导单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r2_c7",
+      "name": "团队拟定人数",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 7
+      }
+    },
+    {
+      "id": "word_t0_r3_c2",
+      "name": "活动时间",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r4_c2",
+      "name": "实践基地",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 4,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r7_c0",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 0
+      }
+    },
+    {
+      "id": "word_t0_r7_c1",
+      "name": "性别",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r7_c3",
+      "name": "政治面貌",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r7_c4",
+      "name": "学院年级专业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r7_c6",
+      "name": "联系方式",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 6
+      }
+    },
+    {
+      "id": "word_t0_r8_c0",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 0
+      }
+    },
+    {
+      "id": "word_t0_r8_c1",
+      "name": "性别",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r8_c3",
+      "name": "政治面貌",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r8_c4",
+      "name": "学院年级专业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r8_c6",
+      "name": "联系方式",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 6
+      }
+    },
+    {
+      "id": "word_t0_r11_c0",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 11,
+        "col": 0
+      }
+    },
+    {
+      "id": "word_t0_r11_c1",
+      "name": "职称",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 11,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r11_c3",
+      "name": "学历",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 11,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r11_c4",
+      "name": "所在单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 11,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r11_c6",
+      "name": "联系方式",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 11,
+        "col": 6
+      }
+    },
+    {
+      "id": "word_t0_r12_c0",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 12,
+        "col": 0
+      }
+    },
+    {
+      "id": "word_t0_r12_c1",
+      "name": "职称",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 12,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r12_c3",
+      "name": "学历",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 12,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r12_c4",
+      "name": "所在单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 12,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r12_c6",
+      "name": "联系方式",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 12,
+        "col": 6
+      }
+    },
+    {
+      "id": "word_t0_r13_c1",
+      "name": "项目简介",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 13,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r14_c1",
+      "name": "项目目标与可行性",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 14,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r15_c1",
+      "name": "实施计划安排",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 15,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r16_c1",
+      "name": "项目预期成果",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 16,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r17_c1",
+      "name": "年级辅导员推荐意见",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 17,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r18_c1",
+      "name": "院团委意见",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 18,
+        "col": 1
+      }
+    }
+  ],
+  "structure_notes": [
+    "未检测到标题段落（可能使用了自定义样式）",
+    "共解析 1 个表格，识别 32 个可填写位置"
+  ]
+}
