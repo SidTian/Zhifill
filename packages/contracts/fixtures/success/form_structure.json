@@ -1,0 +1,96 @@
+{
+  "format": "docx",
+  "filename": "暑期社会实践活动项目申报表.docx",
+  "title": "暑期社会实践活动项目申报表",
+  "headings": [],
+  "paragraphs": [
+    { "index": 0, "text": "暑期社会实践活动项目申报表", "style": "Normal" },
+    { "index": 1, "text": "请如实填写以下内容。", "style": "Normal" }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 6,
+      "cols": 4,
+      "header_rows": 0,
+      "cells": [
+        { "row": 0, "col": 0, "text": "项目名称", "merged": false },
+        { "row": 0, "col": 1, "text": "", "merged": true, "rowspan": 1, "colspan": 3 },
+        { "row": 1, "col": 0, "text": "活动时间", "merged": false },
+        { "row": 1, "col": 1, "text": "年  月  日—年  月  日", "merged": true, "rowspan": 1, "colspan": 3 },
+        { "row": 2, "col": 0, "text": "实践基地", "merged": false },
+        { "row": 2, "col": 1, "text": "省    市    县（区）   镇    村", "merged": true, "rowspan": 1, "colspan": 3 },
+        { "row": 3, "col": 0, "text": "姓名", "merged": false },
+        { "row": 3, "col": 1, "text": "性别", "merged": false },
+        { "row": 3, "col": 2, "text": "政治面貌", "merged": false },
+        { "row": 3, "col": 3, "text": "联系方式", "merged": false },
+        { "row": 4, "col": 0, "text": "", "merged": false },
+        { "row": 4, "col": 1, "text": "", "merged": false },
+        { "row": 4, "col": 2, "text": "", "merged": false },
+        { "row": 4, "col": 3, "text": "", "merged": false },
+        { "row": 5, "col": 0, "text": "年级辅导员推荐意见", "merged": false },
+        { "row": 5, "col": 1, "text": "盖章：\n年  月  日", "merged": true, "rowspan": 1, "colspan": 3 }
+      ],
+      "merged_ranges": [
+        { "min_row": 0, "min_col": 1, "max_row": 0, "max_col": 3 },
+        { "min_row": 1, "min_col": 1, "max_row": 1, "max_col": 3 },
+        { "min_row": 2, "min_col": 1, "max_row": 2, "max_col": 3 },
+        { "min_row": 5, "min_col": 1, "max_row": 5, "max_col": 3 }
+      ]
+    }
+  ],
+  "fields": [
+    {
+      "id": "word_t0_r0_c1",
+      "name": "项目名称",
+      "fill_kind": "empty",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 0, "col": 1 }
+    },
+    {
+      "id": "word_t0_r1_c1",
+      "name": "活动时间",
+      "fill_kind": "template",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 1, "col": 1 }
+    },
+    {
+      "id": "word_t0_r2_c1",
+      "name": "实践基地",
+      "fill_kind": "template",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 2, "col": 1 }
+    },
+    {
+      "id": "word_t0_r4_c0",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 4, "col": 0 }
+    },
+    {
+      "id": "word_t0_r4_c1",
+      "name": "性别",
+      "fill_kind": "empty",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 4, "col": 1 }
+    },
+    {
+      "id": "word_t0_r4_c2",
+      "name": "政治面貌",
+      "fill_kind": "empty",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 4, "col": 2 }
+    },
+    {
+      "id": "word_t0_r4_c3",
+      "name": "联系方式",
+      "fill_kind": "empty",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 4, "col": 3 }
+    },
+    {
+      "id": "word_t0_r5_c1",
+      "name": "年级辅导员推荐意见",
+      "fill_kind": "template",
+      "locator": { "kind": "word_cell", "table_index": 0, "row": 5, "col": 1 }
+    }
+  ],
+  "structure_notes": [
+    "未检测到标题段落（可能使用了自定义样式）",
+    "共解析 1 个表格，识别 8 个可填写位置"
+  ]
+}
