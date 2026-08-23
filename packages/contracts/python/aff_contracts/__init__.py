@@ -10,6 +10,7 @@ from aff_contracts.fill import (
     ParseFormRequest,
     ParseFormResult,
 )
+from aff_contracts.form_structure import FormStructureResult
 from aff_contracts.ingest import DocumentBundle, IngestRequest
 from aff_contracts.rag import (
     DeleteDocumentRequest,
@@ -31,6 +32,7 @@ __all__ = [
     "FillResult",
     "FormField",
     "FormJob",
+    "FormStructureResult",
     "IngestRequest",
     "JobStatus",
     "ParseFormRequest",
@@ -43,4 +45,4 @@ __all__ = [
     "UpsertDocumentResult",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

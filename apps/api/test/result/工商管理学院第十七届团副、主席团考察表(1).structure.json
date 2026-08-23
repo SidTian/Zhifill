@@ -1,0 +1,523 @@
+{
+  "format": "docx",
+  "filename": "工商管理学院第十七届团副、主席团考察表(1).docx",
+  "title": "工商管理学院第十七届团副、主席团考察表(1)",
+  "headings": [],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "工商管理学院第十六届团副、主席团考察表",
+      "style": "Normal"
+    },
+    {
+      "index": 1,
+      "text": "",
+      "style": "Normal"
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 10,
+      "cols": 7,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "text": "姓名",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "text": "学号",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "text": "证\n件\n照",
+          "merged": true,
+          "rowspan": 4,
+          "colspan": 1
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "text": "性别",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "text": "专业班级",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "text": "全称",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "text": "政治面貌",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "text": "专业排名",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "text": "2/50（4%）",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "text": "电话",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "text": "邮箱",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "text": "竞选\n岗位",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "text": "团副 主席团",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "text": "意向\n部门",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "text": "学习部 调研部 权益部 活动部组织部 办公室 实践部 宣传部 青志协 （至少选择两个意向部门）",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "text": "曾\n获\n奖\n项",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "text": "大学期间获得的校级及以上奖励，如果无校级及以上，则院级也可以",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "text": "学\n生\n工\n作\n经\n历",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "text": "时间段＋具体岗位",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "text": "对学生工作的感悟和体会",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 8,
+          "col": 0,
+          "text": "对于意向岗位和意向部门的留任后想法和建议",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "text": "如果留任成功，对于分管部门对应重点工作、特色工作的规划和创新想法，以及在部门工作中体会到的不足和建议",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 9,
+          "col": 0,
+          "text": "年级推荐意见",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "text": "辅导员签字：",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        }
+      ],
+      "merged_ranges": [
+        {
+          "min_row": 0,
+          "min_col": 1,
+          "max_row": 0,
+          "max_col": 2
+        },
+        {
+          "min_row": 0,
+          "min_col": 4,
+          "max_row": 0,
+          "max_col": 5
+        },
+        {
+          "min_row": 0,
+          "min_col": 6,
+          "max_row": 3,
+          "max_col": 6
+        },
+        {
+          "min_row": 1,
+          "min_col": 0,
+          "max_row": 1,
+          "max_col": 1
+        },
+        {
+          "min_row": 1,
+          "min_col": 3,
+          "max_row": 1,
+          "max_col": 4
+        },
+        {
+          "min_row": 2,
+          "min_col": 0,
+          "max_row": 2,
+          "max_col": 1
+        },
+        {
+          "min_row": 2,
+          "min_col": 3,
+          "max_row": 2,
+          "max_col": 4
+        },
+        {
+          "min_row": 3,
+          "min_col": 1,
+          "max_row": 3,
+          "max_col": 2
+        },
+        {
+          "min_row": 3,
+          "min_col": 4,
+          "max_row": 3,
+          "max_col": 5
+        },
+        {
+          "min_row": 4,
+          "min_col": 1,
+          "max_row": 4,
+          "max_col": 2
+        },
+        {
+          "min_row": 4,
+          "min_col": 4,
+          "max_row": 4,
+          "max_col": 6
+        },
+        {
+          "min_row": 5,
+          "min_col": 1,
+          "max_row": 5,
+          "max_col": 6
+        },
+        {
+          "min_row": 6,
+          "min_col": 1,
+          "max_row": 6,
+          "max_col": 6
+        },
+        {
+          "min_row": 7,
+          "min_col": 1,
+          "max_row": 7,
+          "max_col": 6
+        },
+        {
+          "min_row": 8,
+          "min_col": 1,
+          "max_row": 8,
+          "max_col": 6
+        },
+        {
+          "min_row": 9,
+          "min_col": 1,
+          "max_row": 9,
+          "max_col": 6
+        }
+      ],
+      "header_rows": 0
+    }
+  ],
+  "fields": [
+    {
+      "id": "word_t0_r0_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r0_c4",
+      "name": "学号",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r1_c2",
+      "name": "性别",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r1_c5",
+      "name": "专业班级",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 5
+      }
+    },
+    {
+      "id": "word_t0_r2_c2",
+      "name": "政治面貌",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r2_c5",
+      "name": "专业排名",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 5
+      }
+    },
+    {
+      "id": "word_t0_r3_c1",
+      "name": "电话",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r3_c4",
+      "name": "邮箱",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r5_c1",
+      "name": "曾获奖项",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r6_c1",
+      "name": "学生工作经历",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r7_c1",
+      "name": "对学生工作的感悟和体会",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r8_c1",
+      "name": "对于意向岗位和意向部门的留任后想法和建议",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r9_c1",
+      "name": "年级推荐意见",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 1
+      }
+    }
+  ],
+  "structure_notes": [
+    "未检测到标题段落（可能使用了自定义样式）",
+    "共解析 1 个表格，识别 13 个可填写位置"
+  ]
+}

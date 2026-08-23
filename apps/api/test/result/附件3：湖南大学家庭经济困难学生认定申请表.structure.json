@@ -1,0 +1,1575 @@
+{
+  "format": "docx",
+  "filename": "附件3：湖南大学家庭经济困难学生认定申请表.docx",
+  "title": "附件3：湖南大学家庭经济困难学生认定申请表",
+  "headings": [],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "附件2",
+      "style": "Normal"
+    },
+    {
+      "index": 1,
+      "text": "湖南大学家庭经济困难学生认定申请表（样表）",
+      "style": "Normal"
+    },
+    {
+      "index": 2,
+      "text": "",
+      "style": "Normal"
+    },
+    {
+      "index": 3,
+      "text": "学校：            院系：       专业：         年级：         班级：",
+      "style": "Normal"
+    },
+    {
+      "index": 4,
+      "text": "注：1.本表用于家庭经济困难学生认定，可复印。",
+      "style": "Normal"
+    },
+    {
+      "index": 5,
+      "text": "2.学校、院系、专业、年级、班级可根据实际情况选择性填写。",
+      "style": "Normal"
+    },
+    {
+      "index": 6,
+      "text": "3.承诺内容需本人手工填写“本人承诺以上所填写资料真实，如有虚假，愿承担相应责任。”",
+      "style": "Normal"
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 14,
+      "cols": 16,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "text": "基本情况",
+          "merged": true,
+          "rowspan": 2,
+          "colspan": 1
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "text": "姓 名",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "text": "性 别",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "text": "出生年月",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 0,
+          "col": 9,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 4
+        },
+        {
+          "row": 0,
+          "col": 13,
+          "text": "籍  贯",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 0,
+          "col": 15,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "text": "身份证号  码",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "text": "家庭人口",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 1,
+          "col": 9,
+          "text": "手机号码",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 4
+        },
+        {
+          "row": 1,
+          "col": 13,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "text": "家庭通讯信息",
+          "merged": true,
+          "rowspan": 2,
+          "colspan": 1
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "text": "详细通讯地址",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 13
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "text": "邮政编码",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "text": "家长手机号码",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 9
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "text": "家庭成员情况",
+          "merged": true,
+          "rowspan": 7,
+          "colspan": 1
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "text": "姓名",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "text": "年龄",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "text": "与学生\n关系",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "text": "工作（学习）单位",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 4,
+          "col": 10,
+          "text": "职业",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 4,
+          "col": 11,
+          "text": "年收入（元）",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 4,
+          "col": 14,
+          "text": "健康状况",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 5,
+          "col": 10,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 5,
+          "col": 11,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 5,
+          "col": 14,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 6,
+          "col": 10,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 6,
+          "col": 11,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 6,
+          "col": 14,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 7,
+          "col": 10,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 7,
+          "col": 11,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 7,
+          "col": 14,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 8,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 8,
+          "col": 10,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 8,
+          "col": 11,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 8,
+          "col": 14,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 9,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 9,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 9,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 9,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 9,
+          "col": 10,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 9,
+          "col": 11,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 9,
+          "col": 14,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 10,
+          "col": 1,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 10,
+          "col": 2,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 10,
+          "col": 3,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 10,
+          "col": 4,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 6
+        },
+        {
+          "row": 10,
+          "col": 10,
+          "text": "",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 10,
+          "col": 11,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 3
+        },
+        {
+          "row": 10,
+          "col": 14,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 2
+        },
+        {
+          "row": 11,
+          "col": 0,
+          "text": "特殊群体类型",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 11,
+          "col": 1,
+          "text": "脱贫家庭学生：□是 否；脱贫不稳定家庭学生：□是 否；边缘易致贫家庭学生：□是 □否；\n突发严重困难家庭学生：□是 □否；低保家庭学生：□是 □否；低保边缘家庭学生：是 □否；\n特困救助供养学生：□是 □否；刚性支出困难家庭学生：□是 否；其他低收入学生：□是 □否；\n孤儿：□是 否；事实无人抚养儿童：□是 □否；残疾学生：□是 □否；残疾人子女：□是□否；烈士子女：□是 □否。",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 15
+        },
+        {
+          "row": 12,
+          "col": 0,
+          "text": "影响家庭经济\n状况有关信息",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 12,
+          "col": 1,
+          "text": "家庭人均年收入        元。\n家庭遭受自然灾害情况：                 。家庭遭受突发意外事件：                   。\n家庭成员因残疾、年迈而劳动能力弱情况：                                            。\n家庭成员失业情况：                    。家庭欠债情况：                            。\n其他情况：                                                              。",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 15
+        },
+        {
+          "row": 13,
+          "col": 0,
+          "text": "个人承诺",
+          "merged": false,
+          "rowspan": null,
+          "colspan": null
+        },
+        {
+          "row": 13,
+          "col": 1,
+          "text": "承诺内容：",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 7
+        },
+        {
+          "row": 13,
+          "col": 8,
+          "text": "学生本人(或监护人)签字",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 4
+        },
+        {
+          "row": 13,
+          "col": 12,
+          "text": "",
+          "merged": true,
+          "rowspan": 1,
+          "colspan": 4
+        }
+      ],
+      "merged_ranges": [
+        {
+          "min_row": 0,
+          "min_col": 0,
+          "max_row": 1,
+          "max_col": 0
+        },
+        {
+          "min_row": 0,
+          "min_col": 2,
+          "max_row": 0,
+          "max_col": 3
+        },
+        {
+          "min_row": 0,
+          "min_col": 6,
+          "max_row": 0,
+          "max_col": 8
+        },
+        {
+          "min_row": 0,
+          "min_col": 9,
+          "max_row": 0,
+          "max_col": 12
+        },
+        {
+          "min_row": 0,
+          "min_col": 13,
+          "max_row": 0,
+          "max_col": 14
+        },
+        {
+          "min_row": 1,
+          "min_col": 2,
+          "max_row": 1,
+          "max_col": 4
+        },
+        {
+          "min_row": 1,
+          "min_col": 6,
+          "max_row": 1,
+          "max_col": 8
+        },
+        {
+          "min_row": 1,
+          "min_col": 9,
+          "max_row": 1,
+          "max_col": 12
+        },
+        {
+          "min_row": 1,
+          "min_col": 13,
+          "max_row": 1,
+          "max_col": 15
+        },
+        {
+          "min_row": 2,
+          "min_col": 0,
+          "max_row": 3,
+          "max_col": 0
+        },
+        {
+          "min_row": 2,
+          "min_col": 1,
+          "max_row": 2,
+          "max_col": 2
+        },
+        {
+          "min_row": 2,
+          "min_col": 3,
+          "max_row": 2,
+          "max_col": 15
+        },
+        {
+          "min_row": 3,
+          "min_col": 1,
+          "max_row": 3,
+          "max_col": 2
+        },
+        {
+          "min_row": 3,
+          "min_col": 3,
+          "max_row": 3,
+          "max_col": 4
+        },
+        {
+          "min_row": 3,
+          "min_col": 5,
+          "max_row": 3,
+          "max_col": 6
+        },
+        {
+          "min_row": 3,
+          "min_col": 7,
+          "max_row": 3,
+          "max_col": 15
+        },
+        {
+          "min_row": 4,
+          "min_col": 0,
+          "max_row": 10,
+          "max_col": 0
+        },
+        {
+          "min_row": 4,
+          "min_col": 4,
+          "max_row": 4,
+          "max_col": 9
+        },
+        {
+          "min_row": 4,
+          "min_col": 11,
+          "max_row": 4,
+          "max_col": 13
+        },
+        {
+          "min_row": 4,
+          "min_col": 14,
+          "max_row": 4,
+          "max_col": 15
+        },
+        {
+          "min_row": 5,
+          "min_col": 4,
+          "max_row": 5,
+          "max_col": 9
+        },
+        {
+          "min_row": 5,
+          "min_col": 11,
+          "max_row": 5,
+          "max_col": 13
+        },
+        {
+          "min_row": 5,
+          "min_col": 14,
+          "max_row": 5,
+          "max_col": 15
+        },
+        {
+          "min_row": 6,
+          "min_col": 4,
+          "max_row": 6,
+          "max_col": 9
+        },
+        {
+          "min_row": 6,
+          "min_col": 11,
+          "max_row": 6,
+          "max_col": 13
+        },
+        {
+          "min_row": 6,
+          "min_col": 14,
+          "max_row": 6,
+          "max_col": 15
+        },
+        {
+          "min_row": 7,
+          "min_col": 4,
+          "max_row": 7,
+          "max_col": 9
+        },
+        {
+          "min_row": 7,
+          "min_col": 11,
+          "max_row": 7,
+          "max_col": 13
+        },
+        {
+          "min_row": 7,
+          "min_col": 14,
+          "max_row": 7,
+          "max_col": 15
+        },
+        {
+          "min_row": 8,
+          "min_col": 4,
+          "max_row": 8,
+          "max_col": 9
+        },
+        {
+          "min_row": 8,
+          "min_col": 11,
+          "max_row": 8,
+          "max_col": 13
+        },
+        {
+          "min_row": 8,
+          "min_col": 14,
+          "max_row": 8,
+          "max_col": 15
+        },
+        {
+          "min_row": 9,
+          "min_col": 4,
+          "max_row": 9,
+          "max_col": 9
+        },
+        {
+          "min_row": 9,
+          "min_col": 11,
+          "max_row": 9,
+          "max_col": 13
+        },
+        {
+          "min_row": 9,
+          "min_col": 14,
+          "max_row": 9,
+          "max_col": 15
+        },
+        {
+          "min_row": 10,
+          "min_col": 4,
+          "max_row": 10,
+          "max_col": 9
+        },
+        {
+          "min_row": 10,
+          "min_col": 11,
+          "max_row": 10,
+          "max_col": 13
+        },
+        {
+          "min_row": 10,
+          "min_col": 14,
+          "max_row": 10,
+          "max_col": 15
+        },
+        {
+          "min_row": 11,
+          "min_col": 1,
+          "max_row": 11,
+          "max_col": 15
+        },
+        {
+          "min_row": 12,
+          "min_col": 1,
+          "max_row": 12,
+          "max_col": 15
+        },
+        {
+          "min_row": 13,
+          "min_col": 1,
+          "max_row": 13,
+          "max_col": 7
+        },
+        {
+          "min_row": 13,
+          "min_col": 8,
+          "max_row": 13,
+          "max_col": 11
+        },
+        {
+          "min_row": 13,
+          "min_col": 12,
+          "max_row": 13,
+          "max_col": 15
+        }
+      ],
+      "header_rows": 0
+    }
+  ],
+  "fields": [
+    {
+      "id": "word_t0_r0_c2",
+      "name": "姓 名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r0_c5",
+      "name": "性 别",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 5
+      }
+    },
+    {
+      "id": "word_t0_r0_c9",
+      "name": "出生年月",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 9
+      }
+    },
+    {
+      "id": "word_t0_r0_c15",
+      "name": "籍  贯",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 15
+      }
+    },
+    {
+      "id": "word_t0_r1_c2",
+      "name": "身份证号  码",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r1_c6",
+      "name": "家庭人口",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 6
+      }
+    },
+    {
+      "id": "word_t0_r1_c13",
+      "name": "手机号码",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 13
+      }
+    },
+    {
+      "id": "word_t0_r2_c3",
+      "name": "详细通讯地址",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r3_c3",
+      "name": "邮政编码",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r3_c7",
+      "name": "家长手机号码",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 3,
+        "col": 7
+      }
+    },
+    {
+      "id": "word_t0_r5_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r5_c2",
+      "name": "年龄",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r5_c3",
+      "name": "与学生关系",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r5_c4",
+      "name": "工作（学习）单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r5_c10",
+      "name": "职业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 10
+      }
+    },
+    {
+      "id": "word_t0_r5_c11",
+      "name": "年收入（元）",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 11
+      }
+    },
+    {
+      "id": "word_t0_r5_c14",
+      "name": "健康状况",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 5,
+        "col": 14
+      }
+    },
+    {
+      "id": "word_t0_r6_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r6_c2",
+      "name": "年龄",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r6_c3",
+      "name": "与学生关系",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r6_c4",
+      "name": "工作（学习）单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r6_c10",
+      "name": "职业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 10
+      }
+    },
+    {
+      "id": "word_t0_r6_c11",
+      "name": "年收入（元）",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 11
+      }
+    },
+    {
+      "id": "word_t0_r6_c14",
+      "name": "健康状况",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 6,
+        "col": 14
+      }
+    },
+    {
+      "id": "word_t0_r7_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r7_c2",
+      "name": "年龄",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r7_c3",
+      "name": "与学生关系",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r7_c4",
+      "name": "工作（学习）单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r7_c10",
+      "name": "职业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 10
+      }
+    },
+    {
+      "id": "word_t0_r7_c11",
+      "name": "年收入（元）",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 11
+      }
+    },
+    {
+      "id": "word_t0_r7_c14",
+      "name": "健康状况",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 7,
+        "col": 14
+      }
+    },
+    {
+      "id": "word_t0_r8_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r8_c2",
+      "name": "年龄",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r8_c3",
+      "name": "与学生关系",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r8_c4",
+      "name": "工作（学习）单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r8_c10",
+      "name": "职业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 10
+      }
+    },
+    {
+      "id": "word_t0_r8_c11",
+      "name": "年收入（元）",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 11
+      }
+    },
+    {
+      "id": "word_t0_r8_c14",
+      "name": "健康状况",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 8,
+        "col": 14
+      }
+    },
+    {
+      "id": "word_t0_r9_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r9_c2",
+      "name": "年龄",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r9_c3",
+      "name": "与学生关系",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r9_c4",
+      "name": "工作（学习）单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r9_c10",
+      "name": "职业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 10
+      }
+    },
+    {
+      "id": "word_t0_r9_c11",
+      "name": "年收入（元）",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 11
+      }
+    },
+    {
+      "id": "word_t0_r9_c14",
+      "name": "健康状况",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 9,
+        "col": 14
+      }
+    },
+    {
+      "id": "word_t0_r10_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r10_c2",
+      "name": "年龄",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 2
+      }
+    },
+    {
+      "id": "word_t0_r10_c3",
+      "name": "与学生关系",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 3
+      }
+    },
+    {
+      "id": "word_t0_r10_c4",
+      "name": "工作（学习）单位",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 4
+      }
+    },
+    {
+      "id": "word_t0_r10_c10",
+      "name": "职业",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 10
+      }
+    },
+    {
+      "id": "word_t0_r10_c11",
+      "name": "年收入（元）",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 11
+      }
+    },
+    {
+      "id": "word_t0_r10_c14",
+      "name": "健康状况",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 10,
+        "col": 14
+      }
+    },
+    {
+      "id": "word_t0_r11_c1",
+      "name": "特殊群体类型",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 11,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r12_c1",
+      "name": "影响家庭经济状况有关信息",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 12,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r13_c8",
+      "name": "承诺内容：",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 13,
+        "col": 8
+      }
+    },
+    {
+      "id": "word_t0_r13_c12",
+      "name": "承诺内容：",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 13,
+        "col": 12
+      }
+    }
+  ],
+  "structure_notes": [
+    "未检测到标题段落（可能使用了自定义样式）",
+    "共解析 1 个表格，识别 56 个可填写位置"
+  ]
+}
