@@ -1,0 +1,188 @@
+{
+  "format": "docx",
+  "filename": "demo_structure_tree.docx",
+  "title": "1. 封面",
+  "headings": [
+    {
+      "index": 0,
+      "level": 1,
+      "text": "1. 封面",
+      "style": "Heading 1"
+    },
+    {
+      "index": 1,
+      "level": 2,
+      "text": "1.1 基本信息",
+      "style": "Heading 2"
+    },
+    {
+      "index": 3,
+      "level": 2,
+      "text": "1.2 联系方式",
+      "style": "Heading 2"
+    }
+  ],
+  "paragraphs": [
+    {
+      "index": 0,
+      "text": "1. 封面",
+      "style": "Heading 1"
+    },
+    {
+      "index": 1,
+      "text": "1.1 基本信息",
+      "style": "Heading 2"
+    },
+    {
+      "index": 2,
+      "text": "请如实填写以下信息。",
+      "style": "Normal"
+    },
+    {
+      "index": 3,
+      "text": "1.2 联系方式",
+      "style": "Heading 2"
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "rows": 3,
+      "cols": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "text": "姓名",
+          "merged": false
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "text": "",
+          "merged": false
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "text": "性别",
+          "merged": false
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "text": "",
+          "merged": false
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "text": "备注",
+          "merged": false
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "text": "",
+          "merged": false
+        }
+      ],
+      "merged_ranges": [],
+      "header_rows": 0
+    },
+    {
+      "index": 1,
+      "rows": 2,
+      "cols": 2,
+      "cells": [
+        {
+          "row": 0,
+          "col": 0,
+          "text": "电话",
+          "merged": false
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "text": "",
+          "merged": false
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "text": "地址",
+          "merged": false
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "text": "省  市  县  镇  村",
+          "merged": false
+        }
+      ],
+      "merged_ranges": [],
+      "header_rows": 0
+    }
+  ],
+  "sheets": [],
+  "fields": [
+    {
+      "id": "word_t0_r0_c1",
+      "name": "姓名",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 0,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r1_c1",
+      "name": "性别",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 1,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t0_r2_c1",
+      "name": "备注",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 0,
+        "row": 2,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t1_r0_c1",
+      "name": "电话",
+      "fill_kind": "empty",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 1,
+        "row": 0,
+        "col": 1
+      }
+    },
+    {
+      "id": "word_t1_r1_c1",
+      "name": "地址",
+      "fill_kind": "template",
+      "locator": {
+        "kind": "word_cell",
+        "table_index": 1,
+        "row": 1,
+        "col": 1
+      }
+    }
+  ],
+  "structure_notes": [
+    "共解析 2 个表格，识别 5 个可填写位置"
+  ]
+}
