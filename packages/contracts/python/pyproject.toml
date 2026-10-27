@@ -1,6 +1,6 @@
 [project]
 name = "aff-contracts"
-version = "0.2.0"
+version = "0.3.0"
 description = "智填 ZhiFill 契约类型（Pydantic）"
 requires-python = ">=3.12,<3.14"
 dependencies = [

@@ -47,6 +47,63 @@ def test_knowledge_upload_list_delete(client: TestClient, tmp_path: Path) -> Non
     assert client.get(f"/api/knowledge/{doc_id}").status_code == 404
 
 
+def test_knowledge_upload_ingests_and_writes_graph(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from aff_contracts import UpsertDocumentResult
+
+    class FakeRag:
+        def __init__(self) -> None:
+            self.modes: list[str] = []
+
+        async def aupsert(self, request):
+            self.modes.append(request.mode)
+            assert request.bundle.text == "姓名：张三"
+            return UpsertDocumentResult(
+                doc_id=request.bundle.doc_id,
+                status="ready",
+                stats={"mode": request.mode},
+            )
+
+    fake = FakeRag()
+    monkeypatch.setattr(
+        "app.api.knowledge.get_rag_service",
+        lambda: fake,
+    )
+    files = {"file": ("简介.txt", "姓名：张三".encode("utf-8"), "text/plain")}
+    res = client.post("/api/knowledge/upload", files=files)
+    assert res.status_code == 201, res.text
+    body = res.json()
+    assert body["ingest_status"] == "ready"
+    assert body["graph_status"] == "ready"
+    assert body["bundle"]["text"] == "姓名：张三"
+    assert body["bundle"]["doc_id"] == body["id"]
+    assert body["note"] == "已写入图谱"
+    assert fake.modes == ["insert"]
+
+
+def test_knowledge_query_uses_graph(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from aff_contracts import RagContext, RagQueryResult
+
+    class FakeRag:
+        async def aquery(self, request):
+            assert request.query == "张三的手机号"
+            assert request.mode == "mix"
+            return RagQueryResult(
+                answer="13800138000",
+                contexts=[RagContext(content="手机号码 13800138000", doc_id="简介.txt", score=0.8)],
+            )
+
+    monkeypatch.setattr("app.api.knowledge.get_rag_service", lambda: FakeRag())
+    res = client.post("/api/knowledge/query", json={"query": "张三的手机号"})
+    assert res.status_code == 200, res.text
+    body = res.json()
+    assert body["answer"] == "13800138000"
+    assert body["contexts"][0]["doc_id"] == "简介.txt"
+
+
 def test_forms_upload_keeps_original_bytes(client: TestClient, tmp_path: Path) -> None:
     payload = b"PK\x03\x04 fake-docx-bytes"
     files = {
@@ -69,6 +126,40 @@ def test_forms_upload_keeps_original_bytes(client: TestClient, tmp_path: Path) -
 
     jobs = client.get("/api/forms/jobs")
     assert any(j["id"] == job_id for j in jobs.json())
+
+    deleted = client.delete(f"/api/forms/jobs/{job_id}")
+    assert deleted.status_code == 200
+    assert not saved.exists()
+    assert client.get(f"/api/forms/jobs/{job_id}").status_code == 404
+
+
+def test_forms_upload_parses_docx_fields(client: TestClient) -> None:
+    from io import BytesIO
+
+    from docx import Document
+
+    doc = Document()
+    table = doc.add_table(rows=1, cols=2)
+    table.cell(0, 0).text = "姓名"
+    table.cell(0, 1).text = ""
+    buf = BytesIO()
+    doc.save(buf)
+    files = {
+        "file": (
+            "登记表.docx",
+            buf.getvalue(),
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+    }
+    res = client.post("/api/forms/upload", files=files)
+    assert res.status_code == 201, res.text
+    body = res.json()
+    assert body["step"] == "parsed"
+    names = [field["name"] for field in body["fields"]]
+    assert "姓名" in names
+    assert body["fields"][0]["status"] == "empty"
+    assert body["fields"][0]["value"] is None
+    assert body["structure_notes"]
 
 
 def test_reject_empty_file(client: TestClient) -> None:

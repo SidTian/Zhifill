@@ -54,6 +54,8 @@ export type KnowledgeDoc = {
   path?: string;
   sha256?: string;
   note?: string;
+  ingest_status?: string;
+  graph_status?: string;
   source?: "server" | "local";
 };
 
@@ -70,6 +72,19 @@ export type FormJob = {
   sha256?: string;
   size?: number;
   note?: string;
+  structure_notes?: string[];
+  task_spec?: {
+    schema_ref: string;
+    fields: {
+      field_id: string;
+      label: string;
+      entity: string | null;
+      attribute: string | null;
+      query: string | null;
+      status: "aligned" | "unaligned";
+      row_index: number | null;
+    }[];
+  };
   source?: "server" | "local";
 };
 

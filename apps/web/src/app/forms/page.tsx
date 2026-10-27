@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { API_BASE } from "@/lib/api";
-import { Badge, Empty, Spinner, StatusDot } from "@/components/ui";
+import { Badge, Button, Empty, Spinner, StatusDot } from "@/components/ui";
 import { formatTime } from "@/lib/mock-data";
 import { mockApi } from "@/lib/mock-store";
 import type { FormJob } from "@/lib/types";
@@ -37,6 +37,19 @@ export default function FormsPage() {
     return () => clearTimeout(t);
   }, [toast]);
 
+  async function onDelete(id: string, source: "server" | "local" | undefined) {
+    setBusy(true);
+    try {
+      await mockApi.deleteJob(id, source);
+      await reload();
+      setToast("已删除");
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "删除失败");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function onUpload(file: File | null) {
     if (!file) return;
     setBusy(true);
@@ -44,9 +57,9 @@ export default function FormsPage() {
       const job = await mockApi.uploadForm(file);
       await reload();
       if (job.source === "server") {
-        setToast(`已保存: ${job.path ?? job.filename}`);
+        setToast("已解析。编辑字段和值后，点保存才会写入本地");
       } else {
-        setToast("API 不可用，仅本地演示记录");
+        setToast("API 不可用。这是临时页面，点保存才会写入本地");
       }
       router.push(`/forms/${job.id}`);
     } catch (e) {
@@ -81,12 +94,12 @@ export default function FormsPage() {
             onChange={(e) => void onUpload(e.target.files?.[0] ?? null)}
           />
           {busy ? (
-            <Spinner label="上传并落盘…" />
+            <Spinner label="上传并解析…" />
           ) : (
             <>
               上传 Word / Excel / PDF
               <div className="list-meta" style={{ marginTop: "0.35rem" }}>
-                保持原始字节，不做格式转换（1.2 后续解析）
+                .docx / .xlsx 会识别空格和填空栏；PDF 与旧版 .doc / .xls 只保存
               </div>
             </>
           )}
@@ -128,9 +141,19 @@ export default function FormsPage() {
                     id: <code>{j.id}</code>
                   </div>
                 </div>
-                <Link className="btn btn-secondary btn-sm" href={`/forms/${j.id}`}>
-                  打开
-                </Link>
+                <div style={{ display: "flex", gap: "0.4rem" }}>
+                  <Link className="btn btn-secondary btn-sm" href={`/forms/${j.id}`}>
+                    打开
+                  </Link>
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    disabled={busy}
+                    onClick={() => void onDelete(j.id, j.source)}
+                  >
+                    删除
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

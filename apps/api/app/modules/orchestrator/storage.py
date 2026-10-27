@@ -171,6 +171,21 @@ def get_record(kind: str, record_id: str) -> dict[str, Any] | None:
     return None
 
 
+def update_record(kind: str, record_id: str, patch: dict[str, Any]) -> dict[str, Any] | None:
+    items = _load_index(kind)
+    for index, item in enumerate(items):
+        if item.get("id") != record_id:
+            continue
+        updated = dict(item)
+        updated.update(patch)
+        updated["id"] = record_id
+        updated["updated_at"] = _now()
+        items[index] = updated
+        _save_index(kind, items)
+        return updated
+    return None
+
+
 def delete_record(kind: str, record_id: str) -> bool:
     items = _load_index(kind)
     found = [x for x in items if x.get("id") == record_id]

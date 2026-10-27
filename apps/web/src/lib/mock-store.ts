@@ -1,9 +1,14 @@
 "use client";
 
 import {
+  deleteFormJobRemote,
+  downloadFilledForm,
+  fillFormFieldRemote,
+  patchFormFieldsRemote,
   deleteKnowledgeRemote,
   getSettingsRemote,
   listFormJobsRemote,
+  queryKnowledgeRemote,
   listKnowledgeRemote,
   putSettingsRemote,
   uploadForm as apiUploadForm,
@@ -15,7 +20,6 @@ import {
   MOCK_FIELDS_FILLED,
   MOCK_JOBS,
   MOCK_KNOWLEDGE,
-  MOCK_QUERY_ANSWERS,
   delay,
 } from "./mock-data";
 import type {
@@ -32,6 +36,8 @@ const KEYS = {
   jobs: "zhifill.mock.jobs",
 } as const;
 
+const DRAFT_KEY = "zhifill.draft.job";
+
 function read<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
   try {
@@ -46,6 +52,23 @@ function read<T>(key: string, fallback: T): T {
 function write<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function readDraft(): FormJob | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(DRAFT_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as FormJob;
+  } catch {
+    return null;
+  }
+}
+
+function writeDraft(job: FormJob | null): void {
+  if (typeof window === "undefined") return;
+  if (!job) sessionStorage.removeItem(DRAFT_KEY);
+  else sessionStorage.setItem(DRAFT_KEY, JSON.stringify(job));
 }
 
 function uid(prefix: string): string {
@@ -133,6 +156,8 @@ export const mockApi = {
         path: d.path,
         sha256: d.sha256,
         note: d.note,
+        ingest_status: d.ingest_status,
+        graph_status: d.graph_status,
         source: "server" as const,
       }));
     } catch {
@@ -154,6 +179,8 @@ export const mockApi = {
         path: d.path,
         sha256: d.sha256,
         note: d.note,
+        ingest_status: d.ingest_status,
+        graph_status: d.graph_status,
         source: "server",
       };
     } catch (e) {
@@ -176,6 +203,16 @@ export const mockApi = {
     }
   },
 
+  async deleteJob(id: string, source?: "server" | "local"): Promise<void> {
+    if (source !== "local") {
+      await deleteFormJobRemote(id);
+    }
+    write(
+      KEYS.jobs,
+      this.listJobsLocal().filter((j) => j.id !== id),
+    );
+  },
+
   async deleteKnowledge(id: string): Promise<void> {
     try {
       await deleteKnowledgeRemote(id);
@@ -190,14 +227,17 @@ export const mockApi = {
   },
 
   async queryKnowledge(q: string): Promise<{ answer: string; hits: QueryHit[] }> {
-    await delay(700);
-    const base = MOCK_QUERY_ANSWERS.default;
     if (!q.trim()) {
       return { answer: "请输入问题。", hits: [] };
     }
+    const res = await queryKnowledgeRemote(q.trim());
     return {
-      answer: `问题：「${q.trim()}」\n${base.answer}`,
-      hits: base.hits,
+      answer: res.answer,
+      hits: (res.contexts ?? []).map((item) => ({
+        snippet: item.content,
+        doc_id: item.doc_id ?? "",
+        score: item.score ?? 0,
+      })),
     };
   },
 
@@ -219,12 +259,14 @@ export const mockApi = {
           format: mapFormat(j.format, j.filename),
           status: j.status,
           created_at: j.created_at || new Date().toISOString(),
-          step: (prev?.step as FormJob["step"]) || "uploaded",
-          fields: prev?.fields ?? emptyFieldsFromTemplate(),
+          step: prev?.step || (j.step as FormJob["step"]) || "uploaded",
+          fields: prev?.fields ?? (Array.isArray(j.fields) ? (j.fields as FormJob["fields"]) : []),
           path: j.path,
           sha256: j.sha256,
           size: j.size,
           note: j.note,
+          structure_notes: j.structure_notes ?? prev?.structure_notes,
+          task_spec: j.task_spec ?? prev?.task_spec,
           source: "server",
         };
       });
@@ -245,7 +287,10 @@ export const mockApi = {
 
   async getJobAsync(id: string): Promise<FormJob | null> {
     const jobs = await this.listJobs();
-    return jobs.find((j) => j.id === id) ?? null;
+    const found = jobs.find((j) => j.id === id);
+    if (found) return found;
+    const draft = readDraft();
+    return draft?.id === id ? draft : null;
   },
 
   async uploadForm(file: File): Promise<FormJob> {
@@ -258,20 +303,20 @@ export const mockApi = {
         format: mapFormat(j.format, j.filename),
         status: j.status,
         created_at: j.created_at || new Date().toISOString(),
-        step: "uploaded",
-        fields: emptyFieldsFromTemplate(),
+        step: (j.step as FormJob["step"]) || "uploaded",
+        fields: Array.isArray(j.fields) ? (j.fields as FormJob["fields"]) : [],
         path: j.path,
         sha256: j.sha256,
         size: j.size,
         note: j.note,
+        structure_notes: j.structure_notes,
+        task_spec: j.task_spec,
         source: "server",
       };
-      const jobs = this.listJobsLocal().filter((x) => x.id !== job.id);
-      write(KEYS.jobs, [job, ...jobs]);
+      writeDraft(null);
       return job;
     } catch (e) {
       await delay(400);
-      const jobs = this.listJobsLocal();
       const ext = file.name.split(".").pop()?.toLowerCase();
       const format = ext === "xlsx" || ext === "xls" ? "xlsx" : ext === "pdf" ? "pdf" : "docx";
       const job: FormJob = {
@@ -286,51 +331,65 @@ export const mockApi = {
         source: "local",
         note: e instanceof Error ? `本地回退: ${e.message}` : "本地回退",
       };
-      write(KEYS.jobs, [job, ...jobs]);
+      writeDraft(job);
       return job;
     }
   },
 
-  async runFill(jobId: string): Promise<FormJob> {
-    await delay(1200);
-    const jobs = this.listJobsLocal();
-    let idx = jobs.findIndex((j) => j.id === jobId);
-    if (idx < 0) {
-      // job only on server index — seed local
-      const remote = await this.getJobAsync(jobId);
-      if (!remote) throw new Error("任务不存在");
-      jobs.unshift(remote);
-      idx = 0;
-    }
-    const filled: FormJob = {
-      ...jobs[idx],
-      status: "succeeded",
-      step: "filled",
-      fields: structuredClone(MOCK_FIELDS_FILLED),
-    };
-    jobs[idx] = filled;
-    write(KEYS.jobs, jobs);
-    return filled;
+  async fillField(jobId: string, fieldId: string): Promise<FormField> {
+    return fillFormFieldRemote(jobId, fieldId);
   },
 
   async saveFields(jobId: string, fields: FormField[]): Promise<FormJob> {
-    await delay(350);
+    try {
+      const saved = await patchFormFieldsRemote(jobId, fields);
+      const job: FormJob = {
+        id: saved.id,
+        title: saved.title,
+        filename: saved.filename,
+        format: mapFormat(saved.format, saved.filename),
+        status: saved.status,
+        created_at: saved.created_at || new Date().toISOString(),
+        step: (saved.step as FormJob["step"]) || "parsed",
+        fields: Array.isArray(saved.fields) ? (saved.fields as FormField[]) : fields,
+        path: saved.path,
+        sha256: saved.sha256,
+        size: saved.size,
+        note: saved.note,
+        structure_notes: saved.structure_notes,
+        task_spec: saved.task_spec,
+        source: "server",
+      };
+      const stored = this.listJobsLocal().filter((item) => item.id !== job.id);
+      write(KEYS.jobs, [job, ...stored]);
+      if (readDraft()?.id === jobId) writeDraft(null);
+      return job;
+    } catch {
+      // 后端不可用时仍保留本地修改
+    }
     const jobs = this.listJobsLocal();
     const idx = jobs.findIndex((j) => j.id === jobId);
     if (idx < 0) {
       const remote = await this.getJobAsync(jobId);
       if (!remote) throw new Error("任务不存在");
       const next = { ...remote, fields };
-      write(KEYS.jobs, [next, ...jobs]);
+      const stored = read(KEYS.jobs, [] as FormJob[]);
+      write(KEYS.jobs, [next, ...stored.filter((j) => j.id !== jobId)]);
+      if (readDraft()?.id === jobId) writeDraft(null);
       return next;
     }
     jobs[idx] = { ...jobs[idx], fields };
     write(KEYS.jobs, jobs);
+    if (readDraft()?.id === jobId) writeDraft(null);
     return jobs[idx];
   },
 
   async exportJob(jobId: string): Promise<{ filename: string; blob: Blob }> {
-    await delay(800);
+    try {
+      return await downloadFilledForm(jobId);
+    } catch (e) {
+      if (e instanceof Error && !e.message.includes("Failed to fetch")) throw e;
+    }
     let job = this.getJob(jobId);
     if (!job) {
       job = await this.getJobAsync(jobId);

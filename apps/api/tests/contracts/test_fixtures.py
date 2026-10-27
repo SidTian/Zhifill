@@ -73,9 +73,9 @@ def test_unimplemented_routes_are_501() -> None:
     from app.main import app
 
     client = TestClient(app)
-    assert client.get("/api/settings").status_code == 501
-    assert client.post("/api/knowledge/query").status_code == 501
+    assert client.get("/api/settings").status_code == 200
+    assert client.post("/api/knowledge/query").status_code == 422
     # upload/list 已由统筹 storage 实现
     assert client.get("/api/knowledge").status_code == 200
     assert client.get("/api/forms/jobs").status_code == 200
-    assert client.post("/api/forms/jobs/x/fill").status_code == 501
+    assert client.post("/api/forms/jobs/missing/fill?field_id=x").status_code == 404

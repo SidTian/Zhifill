@@ -14,12 +14,14 @@ from aff_contracts.form_structure import FormStructureResult
 from aff_contracts.ingest import DocumentBundle, IngestRequest
 from aff_contracts.rag import (
     DeleteDocumentRequest,
+    RagContext,
     RagQueryRequest,
     RagQueryResult,
     UpsertDocumentRequest,
     UpsertDocumentResult,
 )
 from aff_contracts.settings import Settings
+from aff_contracts.task_spec import TaskField, TaskSpec
 
 __all__ = [
     "DeleteDocumentRequest",
@@ -37,12 +39,15 @@ __all__ = [
     "JobStatus",
     "ParseFormRequest",
     "ParseFormResult",
+    "RagContext",
     "RagQueryRequest",
     "RagQueryResult",
     "Settings",
     "SourceRef",
+    "TaskField",
+    "TaskSpec",
     "UpsertDocumentRequest",
     "UpsertDocumentResult",
 ]
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"

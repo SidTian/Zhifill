@@ -23,6 +23,7 @@ iniconfig==2.3.0
 jiter==0.16.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
+lightrag-hku==1.5.7
 openai==1.109.1
 packaging==26.3
 pluggy==1.6.0

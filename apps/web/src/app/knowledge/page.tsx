@@ -14,6 +14,7 @@ export default function KnowledgePage() {
   const [answer, setAnswer] = useState<string | null>(null);
   const [hits, setHits] = useState<QueryHit[]>([]);
   const [toast, setToast] = useState<string | null>(null);
+  const [progress, setProgress] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const reload = useCallback(async () => {
@@ -30,21 +31,38 @@ export default function KnowledgePage() {
     return () => clearTimeout(t);
   }, [toast]);
 
-  async function onUpload(file: File | null) {
-    if (!file) return;
+  async function onUpload(list: FileList | File[] | null) {
+    const files = list ? Array.from(list) : [];
+    if (!files.length) return;
     setBusy(true);
+    let saved = 0;
+    let failed = 0;
+    let localOnly = 0;
     try {
-      const doc = await mockApi.uploadKnowledge(file);
-      await reload();
-      if (doc.source === "server") {
-        setToast(`已保存到服务器: ${doc.path ?? doc.filename}`);
-      } else {
-        setToast(`API 不可用，仅本地记录: ${doc.filename}`);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        setProgress(`上传并解析 ${i + 1}/${files.length}：${file.name}`);
+        try {
+          const doc = await mockApi.uploadKnowledge(file);
+          saved += 1;
+          if (doc.source !== "server") localOnly += 1;
+        } catch {
+          failed += 1;
+        }
       }
-    } catch (e) {
-      setToast(e instanceof Error ? e.message : "上传失败");
+      await reload();
+      if (failed === 0 && localOnly === 0) {
+        setToast(`已上传 ${saved} 个文件`);
+      } else if (saved === 0) {
+        setToast("上传失败");
+      } else {
+        setToast(
+          `完成 ${saved} 个${failed ? `，失败 ${failed} 个` : ""}${localOnly ? `，${localOnly} 个仅本地` : ""}`,
+        );
+      }
     } finally {
       setBusy(false);
+      setProgress(null);
       if (inputRef.current) inputRef.current.value = "";
     }
   }
@@ -66,6 +84,10 @@ export default function KnowledgePage() {
       const res = await mockApi.queryKnowledge(q);
       setAnswer(res.answer);
       setHits(res.hits);
+    } catch (e) {
+      setAnswer(null);
+      setHits([]);
+      setToast(e instanceof Error ? e.message : "查询失败");
     } finally {
       setBusy(false);
     }
@@ -86,21 +108,29 @@ export default function KnowledgePage() {
 
       <section className="card">
         <h2>上传历史资料</h2>
-        <label className={`dropzone ${busy ? "drag" : ""}`}>
+        <label
+          className={`dropzone ${busy ? "drag" : ""}`}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            e.preventDefault();
+            if (!busy) void onUpload(e.dataTransfer.files);
+          }}
+        >
           <input
             ref={inputRef}
             type="file"
+            multiple
             accept=".pdf,.docx,.doc,.md,.txt,.xlsx,.xls,.png,.jpg"
             disabled={busy}
-            onChange={(e) => void onUpload(e.target.files?.[0] ?? null)}
+            onChange={(e) => void onUpload(e.target.files)}
           />
           {busy ? (
-            <Spinner label="上传并落盘…" />
+            <Spinner label={progress ?? "上传并解析…"} />
           ) : (
             <>
-              点击选择文件
+              点击选择文件，可多选或拖入多个
               <div className="list-meta" style={{ marginTop: "0.35rem" }}>
-                保持原始格式，不做解析转换（1.1 后续处理）
+                .docx / .xlsx / .pdf / .txt / .md 会按顺序解析并写入个人图谱
               </div>
             </>
           )}
@@ -123,7 +153,16 @@ export default function KnowledgePage() {
                       <Badge tone="ok">已落盘</Badge>
                     ) : (
                       <Badge tone="warn">本地</Badge>
-                    )}
+                    )}{" "}
+                    {d.graph_status === "ready" ? (
+                      <Badge tone="ok">已入图</Badge>
+                    ) : d.graph_status === "failed" ? (
+                      <Badge tone="warn">入图失败</Badge>
+                    ) : d.ingest_status === "ready" ? (
+                      <Badge tone="info">已解析</Badge>
+                    ) : d.ingest_status === "failed" ? (
+                      <Badge tone="warn">解析失败</Badge>
+                    ) : null}
                   </div>
                   <div className="list-meta">
                     {d.filename} · {formatBytes(d.size)} · {formatTime(d.updated_at)}
@@ -136,6 +175,7 @@ export default function KnowledgePage() {
                   <div className="list-meta">
                     id: <code>{d.id}</code>
                   </div>
+                  {d.note ? <div className="list-meta">{d.note}</div> : null}
                 </div>
                 <Button
                   variant="danger"
@@ -152,7 +192,7 @@ export default function KnowledgePage() {
       </section>
 
       <section className="card">
-        <h2>知识问答（演示假数据）</h2>
+        <h2>知识问答</h2>
         <div className="row" style={{ alignItems: "stretch" }}>
           <input
             style={{ flex: 1, minWidth: 200 }}

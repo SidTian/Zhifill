@@ -31,6 +31,8 @@ export default function FormJobPage() {
   const [job, setJob] = useState<FormJob | null>(null);
   const [fields, setFields] = useState<FormField[]>([]);
   const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState<string | null>(null);
+  const [selected, setSelected] = useState<Record<string, boolean>>({});
   const [toast, setToast] = useState<string | null>(null);
   const [missing, setMissing] = useState(false);
 
@@ -50,6 +52,27 @@ export default function FormJobPage() {
   useEffect(() => {
     void reload();
   }, [reload]);
+
+  useEffect(() => {
+    setSelected((prev) => {
+      const ids = new Set(fields.map((item) => item.id));
+      const next = { ...prev };
+      let changed = false;
+      for (const item of fields) {
+        if (!(item.id in next)) {
+          next[item.id] = true;
+          changed = true;
+        }
+      }
+      for (const key of Object.keys(next)) {
+        if (!ids.has(key)) {
+          delete next[key];
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [fields]);
 
   useEffect(() => {
     if (!toast) return;
@@ -91,17 +114,75 @@ export default function FormJobPage() {
   }
 
   async function onFill() {
+    const targets = fields.filter(
+      (item) => item.layout === "label_value" && item.name.trim() && selected[item.id] !== false,
+    );
+    if (!targets.length) {
+      setToast("请先勾选要填写的字段");
+      return;
+    }
+    setBusy(true);
+    let filled = 0;
+    let failed = 0;
+    try {
+      for (let i = 0; i < targets.length; i++) {
+        const current = targets[i];
+        setProgress(`正在填写 ${i + 1}/${targets.length}：${current.name}`);
+        try {
+          const field = await mockApi.fillField(id, current.id);
+          setFields((prev) => prev.map((item) => (item.id === field.id ? { ...item, ...field } : item)));
+          if (field.value) filled += 1;
+        } catch {
+          failed += 1;
+        }
+      }
+      setJob((prev) => (prev ? { ...prev, step: "filled" } : prev));
+      setToast(failed ? `已填写 ${filled} 个，失败 ${failed} 个` : `已填写 ${filled} 个字段`);
+    } finally {
+      setBusy(false);
+      setProgress(null);
+    }
+  }
+
+  function blankField(): FormField {
+    return {
+      id: `manual_${crypto.randomUUID()}`,
+      name: "新字段",
+      field_type: "text",
+      value: null,
+      original_value: null,
+      required: false,
+      confidence: null,
+      sources: [],
+      status: "empty",
+      layout: "label_value",
+      row_group_id: null,
+      row_index: null,
+      column_key: null,
+      locator: { kind: "word_bookmark", name: "manual" },
+      notes: "未对齐",
+    };
+  }
+
+  async function persistFields(next: FormField[]) {
     setBusy(true);
     try {
-      const j = await mockApi.runFill(id);
+      const j = await mockApi.saveFields(id, next);
       setJob(j);
       setFields(structuredClone(j.fields));
-      setToast("已生成填写建议");
     } catch (e) {
-      setToast(e instanceof Error ? e.message : "填写失败");
+      setToast(e instanceof Error ? e.message : "保存字段失败");
     } finally {
       setBusy(false);
     }
+  }
+
+  async function addField() {
+    await persistFields([...fields, blankField()]);
+  }
+
+  async function removeField(fieldId: string) {
+    await persistFields(fields.filter((item) => item.id !== fieldId));
   }
 
   async function onSave() {
@@ -109,7 +190,8 @@ export default function FormJobPage() {
     try {
       const j = await mockApi.saveFields(id, fields);
       setJob(j);
-      setToast("修改已保存");
+      setFields(structuredClone(j.fields));
+      setToast("已保存");
     } finally {
       setBusy(false);
     }
@@ -164,8 +246,8 @@ export default function FormJobPage() {
     );
   }
 
-  const needFill =
-    job.step === "parsed" || fields.every((f) => f.status === "empty");
+  const visible = fields.filter((item) => item.layout === "label_value");
+  const allChecked = visible.length > 0 && visible.every((item) => selected[item.id] !== false);
 
   return (
     <div>
@@ -192,11 +274,9 @@ export default function FormJobPage() {
           </div>
         </div>
         <div className="actions">
-          {needFill ? (
-            <Button onClick={() => void onFill()} disabled={busy}>
-              {busy ? "填写中…" : "生成填写建议"}
-            </Button>
-          ) : null}
+          <Button onClick={() => void onFill()} disabled={busy}>
+            {busy ? progress ?? "填写中…" : "生成填写建议"}
+          </Button>
           <Button
             variant="secondary"
             onClick={confirmAllSuggested}
@@ -214,32 +294,86 @@ export default function FormJobPage() {
       </div>
 
       <section className="card">
-        <h2>字段预览</h2>
+        <h2>字段与值</h2>
+        <p className="list-meta">
+          可添加、删除字段，也可直接改字段名和值。添加和删除会立即保存。
+        </p>
+        <div className="actions" style={{ marginBottom: "0.75rem" }}>
+          <Button variant="secondary" disabled={busy} onClick={() => void addField()}>
+            添加字段
+          </Button>
+        </div>
+        {job.structure_notes?.length ? (
+          <ul className="list-meta">
+            {job.structure_notes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        ) : job.note ? (
+          <p className="list-meta">{job.note}</p>
+        ) : null}
         {singles.length === 0 ? (
-          <Empty>无字段</Empty>
+          <Empty>还没有字段，可以添加</Empty>
         ) : (
           <div className="table-wrap">
             <table className="data">
               <thead>
                 <tr>
+                  <th className="pick-cell" title="全选或取消。只有勾选的字段会生成填写建议">
+                    <label className="pick">
+                      <input
+                        type="checkbox"
+                        checked={allChecked}
+                        aria-label="全选字段"
+                        onChange={(e) => {
+                          const on = e.target.checked;
+                          setSelected((prev) => {
+                            const next = { ...prev };
+                            for (const item of visible) next[item.id] = on;
+                            return next;
+                          });
+                        }}
+                      />
+                      <span />
+                    </label>
+                  </th>
                   <th style={{ width: "16%" }}>字段</th>
                   <th style={{ width: "26%" }}>值</th>
                   <th>置信度</th>
                   <th>状态</th>
                   <th>来源</th>
-                  <th>操作</th>
+                  <th className="ops-cell">操作</th>
                 </tr>
               </thead>
               <tbody>
                 {singles.map((f) => (
                   <tr key={f.id}>
-                    <td>
-                      <strong>{f.name}</strong>
-                      {f.required ? <span className="muted"> *</span> : null}
+                    <td className="pick-cell">
+                      <label className="pick" title="勾选后，点「生成填写建议」才会填写这一行">
+                        <input
+                          type="checkbox"
+                          checked={selected[f.id] !== false}
+                          aria-label={`选择 ${f.name || "字段"}`}
+                          onChange={(e) =>
+                            setSelected((prev) => ({ ...prev, [f.id]: e.target.checked }))
+                          }
+                        />
+                        <span />
+                      </label>
                     </td>
                     <td>
                       <input
                         type="text"
+                        value={f.name}
+                        onChange={(e) => updateField(f.id, { name: e.target.value })}
+                      />
+                      {f.notes ? (
+                        <div className="list-meta">{f.notes}</div>
+                      ) : null}
+                    </td>
+                    <td>
+                      <textarea
+                        className="value-box"
                         value={f.value ?? ""}
                         placeholder="(空)"
                         onChange={(e) => setValue(f.id, e.target.value)}
@@ -269,21 +403,25 @@ export default function FormJobPage() {
                       </Badge>
                     </td>
                     <td>
-                      {f.sources.map((s, i) => (
-                        <div className="source" key={i}>
-                          {s.doc_id ? <code>{s.doc_id}</code> : null} {s.snippet}
+                      {f.sources.length || f.notes ? (
+                        <div className="source-box">
+                          {f.sources.map((s, i) => (
+                            <div className="source" key={i}>
+                              {s.doc_id ? <code>{s.doc_id}</code> : null} {s.snippet}
+                            </div>
+                          ))}
+                          {f.notes ? <div className="source">{f.notes}</div> : null}
                         </div>
-                      ))}
-                      {f.notes ? <div className="source">{f.notes}</div> : null}
-                      {!f.sources.length && !f.notes ? (
+                      ) : (
                         <span className="muted">—</span>
-                      ) : null}
+                      )}
                     </td>
-                    <td>
-                      <div className="stack">
+                    <td className="ops-cell">
+                      <div className="row-actions">
                         <Button
                           className="btn-sm"
                           variant="secondary"
+                          title="确认这个建议值"
                           onClick={() => setStatus(f.id, "confirmed")}
                         >
                           确认
@@ -291,12 +429,22 @@ export default function FormJobPage() {
                         <Button
                           className="btn-sm"
                           variant="ghost"
+                          title="清空这一格的值"
                           onClick={() => {
                             setValue(f.id, "");
                             setStatus(f.id, "rejected");
                           }}
                         >
                           清空
+                        </Button>
+                        <Button
+                          className="btn-sm"
+                          variant="danger"
+                          title="从表格中删除这个字段"
+                          disabled={busy}
+                          onClick={() => void removeField(f.id)}
+                        >
+                          删除
                         </Button>
                       </div>
                     </td>

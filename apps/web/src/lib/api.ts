@@ -1,5 +1,7 @@
 /** 后端 API 客户端（上传落盘等） */
 
+import type { FormField, FormJob } from "./types";
+
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8000";
 
@@ -29,6 +31,8 @@ export type KnowledgeUploadResult = {
   created_at?: string;
   updated_at?: string;
   note?: string;
+  ingest_status?: string;
+  graph_status?: string;
 };
 
 export type FormUploadResult = {
@@ -45,6 +49,8 @@ export type FormUploadResult = {
   created_at?: string;
   updated_at?: string;
   fields?: unknown[];
+  structure_notes?: string[];
+  task_spec?: FormJob["task_spec"];
   note?: string;
 };
 
@@ -85,6 +91,23 @@ export async function uploadKnowledge(
   return res.json();
 }
 
+export async function queryKnowledgeRemote(query: string): Promise<{
+  answer: string;
+  contexts: {
+    content: string;
+    doc_id: string | null;
+    score: number | null;
+  }[];
+}> {
+  const res = await fetch(`${API_BASE}/api/knowledge/query`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
 export async function listKnowledgeRemote(): Promise<KnowledgeUploadResult[]> {
   const res = await fetch(`${API_BASE}/api/knowledge`, { cache: "no-store" });
   if (!res.ok) throw new Error(await parseError(res));
@@ -96,6 +119,44 @@ export async function deleteKnowledgeRemote(id: string): Promise<void> {
     method: "DELETE",
   });
   if (!res.ok) throw new Error(await parseError(res));
+}
+
+export async function fillFormFieldRemote(
+  id: string,
+  fieldId: string,
+): Promise<FormField> {
+  const res = await fetch(
+    `${API_BASE}/api/forms/jobs/${encodeURIComponent(id)}/fill?field_id=${encodeURIComponent(fieldId)}`,
+    { method: "POST" },
+  );
+  if (!res.ok) throw new Error(await parseError(res));
+  const body = await res.json();
+  return (body.field ?? body) as FormField;
+}
+
+export async function patchFormFieldsRemote(
+  id: string,
+  fields: FormField[],
+): Promise<FormUploadResult> {
+  const res = await fetch(`${API_BASE}/api/forms/jobs/${encodeURIComponent(id)}/fields`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fields }),
+  });
+  if (!res.ok) throw new Error(await parseError(res));
+  return res.json();
+}
+
+export async function downloadFilledForm(id: string): Promise<{ filename: string; blob: Blob }> {
+  const exported = await fetch(`${API_BASE}/api/forms/jobs/${encodeURIComponent(id)}/export`, {
+    method: "POST",
+  });
+  if (!exported.ok) throw new Error(await parseError(exported));
+  const meta = await exported.json();
+  const res = await fetch(`${API_BASE}/api/forms/jobs/${encodeURIComponent(id)}/download`);
+  if (!res.ok) throw new Error(await parseError(res));
+  const blob = await res.blob();
+  return { filename: String(meta.download_name || "form.filled"), blob };
 }
 
 export async function uploadForm(file: File): Promise<FormUploadResult> {
@@ -113,6 +174,14 @@ export async function listFormJobsRemote(): Promise<FormUploadResult[]> {
   const res = await fetch(`${API_BASE}/api/forms/jobs`, { cache: "no-store" });
   if (!res.ok) throw new Error(await parseError(res));
   return res.json();
+}
+
+export async function deleteFormJobRemote(id: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/forms/jobs/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+  if (res.status === 404) return;
+  if (!res.ok) throw new Error(await parseError(res));
 }
 
 export async function getSettingsRemote(): Promise<ApiSettings> {
