@@ -378,3 +378,46 @@ def test_parse_structure_unsupported_format(tmp_path: Path) -> None:
     svc = FormStructureService()
     with pytest.raises(ValueError):
         svc.parse_structure(str(f), filename="not_a_doc.txt")
+
+
+# ---------------------------------------------------------------------------
+# Bug 修复回归测试
+# ---------------------------------------------------------------------------
+
+
+def test_b2_word_colon_label_not_fillable(tmp_path: Path) -> None:
+    """B2: Word 中「负责人签字：」标签右侧有填写格时，不当填写位输出。"""
+    doc = Document()
+    t = doc.add_table(rows=1, cols=2)
+    t.cell(0, 0).text = "负责人签字："
+    t.cell(0, 1).text = ""  # 右侧空填写格
+    p = tmp_path / "b2_word.docx"
+    doc.save(str(p))
+    result = FormStructureService().parse_structure(str(p), filename="b2_word.docx")
+    fields = result["fields"]
+    # 只有右侧空格是填写位
+    assert len(fields) == 1
+    assert fields[0]["locator"]["col"] == 1
+
+
+def test_b5_word_field_type_output(tmp_path: Path) -> None:
+    """B5: Word 字段输出 field_type，备注列 → textarea，其余 → text。"""
+    doc = Document()
+    t = doc.add_table(rows=2, cols=2)
+    # 表头
+    t.cell(0, 0).text = "姓名"
+    t.cell(0, 1).text = "备注"
+    # 数据行空格
+    t.cell(1, 0).text = ""
+    t.cell(1, 1).text = ""
+    p = tmp_path / "b5_word.docx"
+    doc.save(str(p))
+    result = FormStructureService().parse_structure(str(p), filename="b5_word.docx")
+    fields = result["fields"]
+    by_col = {f["locator"]["col"]: f for f in fields}
+    # 所有字段都应有 field_type
+    assert all("field_type" in f for f in fields)
+    # 姓名列 → text
+    assert by_col[0]["field_type"] == "text"
+    # 备注列 → textarea
+    assert by_col[1]["field_type"] == "textarea"
