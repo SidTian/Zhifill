@@ -572,3 +572,117 @@ def test_parse_xlsx_real_files() -> None:
             ExcelLocator(**f["locator"])
         # 可序列化
         json.dumps(result, ensure_ascii=False)
+
+
+# ---------------------------------------------------------------------------
+# Bug 修复回归测试
+# ---------------------------------------------------------------------------
+
+
+def test_b1_vmerge_multi_level_header_name(tmp_path: Path) -> None:
+    """B1: 纵向合并多级表头字段名取正确列头，不取父级表头。
+
+    行0：| (vmerge r0-r1) 分类 | (hmerge c1-c2) 指标 |
+    行1：| (merged)            | 数量 | 金额 |
+    行2：| 项目A | (fill) | (fill) |
+
+    行2 列1 的 name 应为「数量」（行1子表头），而非「指标」（行0父表头）。
+    行2 列2 的 name 应为「金额」。
+    """
+    wb = Workbook(); ws = wb.active
+    # 行0：分类纵向合并 + 指标横向合并
+    ws.cell(1, 1, "分类")
+    ws.merge_cells(start_row=1, start_column=1, end_row=2, end_column=1)  # A1:A2
+    ws.cell(1, 2, "指标")
+    ws.merge_cells(start_row=1, start_column=2, end_row=1, end_column=3)  # B1:C1
+    # 行1：子表头
+    ws.cell(2, 2, "数量"); ws.cell(2, 3, "金额")
+    # 行2：数据行，列0有值，列1-2空
+    ws.cell(3, 1, "项目A")
+    ws.cell(3, 2, ""); ws.cell(3, 3, "")
+    p = _save(wb, tmp_path / "b1.xlsx")
+    result = FormStructureService().parse_structure(str(p), filename="b1.xlsx")
+    fields = result["fields"]
+    by_col = {f["locator"]["col"]: f for f in fields}
+    assert by_col[2]["name"] == "数量"
+    assert by_col[3]["name"] == "金额"
+    # 不应取到父表头「指标」
+    assert "指标" not in {f["name"] for f in fields}
+
+
+def test_b2_colon_label_not_fillable(tmp_path: Path) -> None:
+    """B2: 「负责人签字：」标签右侧有填写格时，不当填写位输出。
+
+    行1：| 负责人签字： | (空填写格) |
+    「负责人签字：」是标签，不应作为填写位；右侧空格才是填写位。
+    """
+    wb = Workbook(); ws = wb.active
+    ws.cell(1, 1, "负责人签字：")
+    ws.cell(1, 2, "")  # 右侧空填写格
+    p = _save(wb, tmp_path / "b2.xlsx")
+    result = FormStructureService().parse_structure(str(p), filename="b2.xlsx")
+    fields = result["fields"]
+    # 只有右侧空格是填写位，「负责人签字：」不是
+    assert len(fields) == 1
+    assert fields[0]["locator"]["col"] == 2
+    assert fields[0]["fill_kind"] == "empty"
+
+
+def test_b3_data_row_single_value_not_header(tmp_path: Path) -> None:
+    """B3: 数据行只填1个值时被正确识别为数据行（非表头）。
+
+    3 列表，表头行全有值，数据行仅列0有值、列1-2空。
+    修复前阈值 num_cols//2=1，数据行 value_count=1 不 < 1 → 误判为表头；
+    修复后阈值 (num_cols+1)//2=2，1 < 2 → 正确识别为数据行。
+    """
+    wb = Workbook(); ws = wb.active
+    # 表头行
+    ws.cell(1, 1, "姓名"); ws.cell(1, 2, "年龄"); ws.cell(1, 3, "城市")
+    # 数据行：仅列0有值
+    ws.cell(2, 1, "张三")
+    ws.cell(2, 2, ""); ws.cell(2, 3, "")
+    p = _save(wb, tmp_path / "b3.xlsx")
+    result = FormStructureService().parse_structure(str(p), filename="b3.xlsx")
+    sheet = result["sheets"][0]
+    # header_rows 应为 1（仅行0是表头），行1是数据行
+    assert sheet["header_rows"] == 1
+    fields = result["fields"]
+    # 行2 列2、列3 是填写位
+    cols = {f["locator"]["col"] for f in fields}
+    assert 2 in cols
+    assert 3 in cols
+
+
+def test_b4_formula_cell_not_fillable(tmp_path: Path) -> None:
+    """B4: 公式单元格（=SUM）不当填写位，避免写回覆盖公式。"""
+    wb = Workbook(); ws = wb.active
+    ws.cell(1, 1, "项目"); ws.cell(1, 2, "金额")
+    ws.cell(2, 1, "A"); ws.cell(2, 2, 100)
+    ws.cell(3, 1, "B"); ws.cell(3, 2, 200)
+    # 合计行：列0有标签，列1是 =SUM 公式（无缓存值时 data_only 读为 None）
+    ws.cell(4, 1, "合计")
+    ws.cell(4, 2, "=SUM(B2:B3)")
+    p = _save(wb, tmp_path / "b4.xlsx")
+    result = FormStructureService().parse_structure(str(p), filename="b4.xlsx")
+    fields = result["fields"]
+    # 公式单元格 B4 不应出现在填写位中
+    formula_locs = {(f["locator"]["row"], f["locator"]["col"]) for f in fields}
+    assert (4, 2) not in formula_locs
+
+
+def test_b6_hidden_column_not_fillable(tmp_path: Path) -> None:
+    """B6: 隐藏列不当填写位。"""
+    wb = Workbook(); ws = wb.active
+    ws.cell(1, 1, "姓名"); ws.cell(1, 2, "年龄"); ws.cell(1, 3, "城市")
+    ws.cell(2, 1, ""); ws.cell(2, 2, ""); ws.cell(2, 3, "")
+    # 隐藏列 B（列2）
+    ws.column_dimensions["B"].hidden = True
+    p = _save(wb, tmp_path / "b6.xlsx")
+    result = FormStructureService().parse_structure(str(p), filename="b6.xlsx")
+    fields = result["fields"]
+    cols = {f["locator"]["col"] for f in fields}
+    # 隐藏列 B(col=2) 不应有填写位
+    assert 2 not in cols
+    # 非隐藏列仍有填写位
+    assert 1 in cols
+    assert 3 in cols

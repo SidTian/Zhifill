@@ -354,13 +354,26 @@ def _extract_fields_from_tables(
                 # 空格 → 可填写；模板文字 → 可填写；纯标签 → 跳过
                 if text and not _is_fillable_template(text):
                     continue  # 纯标签，不是可填写位
+                # 「标签：」形式（如「负责人签字：」）且右侧有可填写格 → 是标签不是填写位
+                if text and _is_fillable_template(text):
+                    right_text = (
+                        grid[r][c + 1]["text"] if c + 1 < num_cols else None
+                    )
+                    if _is_colon_label(text, right_text):
+                        continue
                 name = _scan_for_label(grid, r, c, num_cols)
                 fill_kind = "template" if text else "empty"
+                # 字段类型：备注类长文本 → textarea，其余 → text（与 Excel 对齐）
+                if "备注" in name:
+                    field_type = "textarea"
+                else:
+                    field_type = "text"
                 fields.append(
                     {
                         "id": f"word_t{t_idx}_r{r}_c{c}",
                         "name": name,
                         "fill_kind": fill_kind,
+                        "field_type": field_type,
                         "locator": {
                             "kind": "word_cell",
                             "table_index": t_idx,
@@ -379,12 +392,15 @@ def _extract_fields_from_tables(
 
 def _build_excel_grid(
     ws: Worksheet,
+    ws_formulas: Worksheet | None = None,
 ) -> tuple[list[list[dict[str, Any]]], int, int]:
-    """构建 0-based 网格：grid[r][c] = {"text": str, "origin": (or, oc) | None}。
+    """构建 0-based 网格：grid[r][c] = {"text", "origin", "is_formula"}。
 
     origin 是合并块左上角的 0-based 坐标；非合并格为 None。
     合并块内除左上角外的位置 value 在 openpyxl 中为 None，但 origin 指向源头，
     便于扫描时跳过延续格并向左溯源标签。
+    is_formula 通过 ws_formulas（data_only=False 加载的同表）检测，
+    公式单元格（含 =SUM 等）不当填写位，避免写回覆盖公式。
     """
     num_rows = ws.max_row or 0
     num_cols = ws.max_column or 0
@@ -401,9 +417,50 @@ def _build_excel_grid(
         for c in range(num_cols):
             val = ws.cell(row=r + 1, column=c + 1).value
             text = "" if val is None else str(val).strip()
-            row.append({"text": text, "origin": merge_map.get((r, c))})
+            is_formula = False
+            if ws_formulas is not None:
+                try:
+                    is_formula = (
+                        ws_formulas.cell(row=r + 1, column=c + 1).data_type == "f"
+                    )
+                except Exception:
+                    is_formula = False
+            row.append(
+                {"text": text, "origin": merge_map.get((r, c)), "is_formula": is_formula}
+            )
         grid.append(row)
     return grid, num_rows, num_cols
+
+
+def _get_hidden_cols(ws: Worksheet, num_cols: int) -> set[int]:
+    """返回被隐藏的列（0-based）。隐藏列不当填写位。"""
+    hidden: set[int] = set()
+    for c in range(num_cols):
+        col_letter = get_column_letter(c + 1)
+        dim = ws.column_dimensions.get(col_letter)
+        if dim is not None and dim.hidden:
+            hidden.add(c)
+    return hidden
+
+
+def _is_colon_label(text: str, right_text: str | None) -> bool:
+    """判断单元格是否是「标签：」形式的标签行（如「负责人签字：」）。
+
+    以全角/半角冒号结尾，且右侧紧邻可填写格（空或模板填空栏）→ 是标签，
+    不应作为填写位输出（真正的填写位在右侧空格）。右侧无单元格或右侧为
+    非填写值时返回 False（如「辅导员签字：」独占一格无右侧填写格，仍按
+    template 填写位处理）。
+    """
+    if not text:
+        return False
+    stripped = text.strip()
+    if not (stripped.endswith("：") or stripped.endswith(":")):
+        return False
+    if right_text is None:
+        return False
+    if not right_text.strip() or _is_fillable_template(right_text):
+        return True
+    return False
 
 
 def _try_int(text: str) -> int | None:
@@ -558,6 +615,24 @@ def _find_excel_hmerge_origin_text(
     return ""
 
 
+def _resolve_excel_cell_text(
+    grid: list[list[dict[str, Any]]], row: int, col: int
+) -> str:
+    """解析单元格的实际文本：跟随合并 origin 取源头格文字。
+
+    纵向合并的延续格 text 为空，需溯源到 origin 取实际表头文本，
+    避免多级表头扫描时跳过延续格后误取父级表头。
+    """
+    info = grid[row][col]
+    text = info["text"]
+    if text:
+        return text
+    origin = info["origin"]
+    if origin is not None and origin != (row, col):
+        return grid[origin[0]][origin[1]]["text"]
+    return ""
+
+
 def _scan_excel_label(
     grid: list[list[dict[str, Any]]],
     row: int,
@@ -594,10 +669,12 @@ def _scan_excel_label(
                 continue
             return _clean_label(text)
     # 2. 同列向上：只取表头行列名，跳过数据行与示例行的已填值
+    #    使用 _resolve_excel_cell_text 跟随合并 origin 取实际文本，
+    #    确保纵向合并的多级表头取到正确列头而非父级表头
     for r in range(row - 1, -1, -1):
         if r not in header_rows or r in example_rows:
             continue  # 数据行/示例行的值是已填数据/样板值，不是列名
-        text = grid[r][col]["text"]
+        text = _resolve_excel_cell_text(grid, r, col)
         if col in serial_cols and _try_int(text) is not None:
             continue  # 序号列的数字不是字段名
         if text and not _is_fillable_template(text):
@@ -676,13 +753,17 @@ def _detect_excel_header_rows(
     - 无可填写格 → 返回 1（约定首行为表头）
     - 空表 → 返回 0
 
+    纵向合并的表头延续格（如多级表头跨多行）溯源取 origin 文本计入 value_count，
+    避免因合并延续格 text 为空导致表头行有效值被低估、数据行误判为表头。
+    阈值取 (num_cols+1)//2（向上取整），确保数据行仅填少量值时被正确识别。
+
     可选参数 example_rows：若调用方已算出，直接复用避免重复计算。
     """
     if num_rows == 0:
         return 0
     if example_rows is None:
         example_rows = _detect_example_rows(grid, num_rows, num_cols)
-    threshold = max(1, num_cols // 2)
+    threshold = max(1, (num_cols + 1) // 2)
     for r in range(num_rows):
         if _is_whole_row_merged(grid, r, num_cols):
             continue  # 整行合并说明行不算表头也不算数据
@@ -692,9 +773,11 @@ def _detect_excel_header_rows(
         has_blank = False
         for c in range(num_cols):
             origin = grid[r][c]["origin"]
-            if origin is not None and origin != (r, c):
-                continue  # 合并延续格跳过
-            text = grid[r][c]["text"]
+            # 横向合并的延续格（同行不同列）跳过，避免重复计数
+            if origin is not None and origin[0] == r and origin != (r, c):
+                continue
+            # 纵向合并的延续格溯源取 origin 文本（多级表头跨多行场景）
+            text = _resolve_excel_cell_text(grid, r, c)
             if not text or _is_fillable_template(text):
                 has_blank = True
             else:
@@ -892,8 +975,9 @@ def _extract_fields_from_excel_sheets(
             range_str_by_origin[origin] = str(mr)
             colspan_by_origin[origin] = mr.max_col - mr.min_col + 1
 
-        # 预识别序号列、表头行、下拉列（example_rows 已由调用方传入复用）
+        # 预识别序号列、表头行、下拉列、隐藏列（example_rows 已由调用方传入复用）
         serial_cols = _detect_serial_columns(grid, num_rows, num_cols)
+        hidden_cols = _get_hidden_cols(ws, num_cols)
         header_end = _detect_excel_header_rows(
             grid, num_rows, num_cols, example_rows=example_rows
         )
@@ -925,6 +1009,9 @@ def _extract_fields_from_excel_sheets(
         seen_origins: set[tuple[int, int]] = set()
         for r in range(num_rows):
             for c in range(num_cols):
+                # 隐藏列不当填写位
+                if c in hidden_cols:
+                    continue
                 # 逻辑合并组的子列直接跳过（只在主列输出 1 条）
                 if c in logical_groups:
                     continue
@@ -944,6 +1031,9 @@ def _extract_fields_from_excel_sheets(
                 # 整行跳过不算填写位（用户规则：示例行仅作填表演示，非真实填写位）
                 if r in example_rows:
                     continue
+                # 公式单元格（=SUM 等）不当填写位，避免写回覆盖公式
+                if grid[r][c].get("is_formula"):
+                    continue
                 text = grid[r][c]["text"]
                 # 整行合并的说明/签字行不当填写位
                 colspan = colspan_by_origin.get(origin, 1) if origin is not None else 1
@@ -961,6 +1051,13 @@ def _extract_fields_from_excel_sheets(
                     and not _is_fillable_template(text)
                 ):
                     continue
+                # 「标签：」形式（如「负责人签字：」）且右侧有可填写格 → 是标签不是填写位
+                if text and _is_fillable_template(text):
+                    right_text = (
+                        grid[r][c + 1]["text"] if c + 1 < num_cols else None
+                    )
+                    if _is_colon_label(text, right_text):
+                        continue
                 name = _scan_excel_label(
                     grid, r, c, num_cols, serial_cols, example_rows, header_rows
                 )
@@ -1061,17 +1158,21 @@ class FormStructureService(FormStructurePort):
         """Excel(.xlsx)：工作表 + 填写位。
 
         data_only=True 读取公式缓存值；待填表单空单元格为 None。
+        另加载一份 data_only=False 的工作簿用于检测公式单元格（=SUM 等），
+        公式单元格不当填写位，避免写回覆盖公式。
         每个工作表构建 0-based 网格，记录合并块 origin，复用 Word 的
         _is_fillable_template / _clean_label 判定与标签扫描逻辑。
         """
         wb = load_workbook(str(path), data_only=True)
+        wb_formulas = load_workbook(str(path), data_only=False)
 
         sheets_info: list[
             tuple[Worksheet, list[list[dict[str, Any]]], int, int, set[int]]
         ] = []
         sheets: list[dict[str, Any]] = []
         for i, ws in enumerate(wb.worksheets):
-            grid, num_rows, num_cols = _build_excel_grid(ws)
+            ws_formulas = wb_formulas.worksheets[i] if i < len(wb_formulas.worksheets) else None
+            grid, num_rows, num_cols = _build_excel_grid(ws, ws_formulas)
             # 跳过全空 sheet（如新建未填的 Sheet2/Sheet3）：不纳入结构、不解析填写位
             non_empty = sum(
                 1 for r in range(num_rows) for c in range(num_cols) if grid[r][c]["text"]
